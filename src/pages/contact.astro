@@ -1,0 +1,145 @@
+---
+import Layout from "../layouts/Layout.astro";
+import stats from "../data/stats.json";
+
+const contactLinks = [
+  {
+    label: "Email",
+    value: stats.email,
+    href: `mailto:${stats.email}`,
+    body: "Best for landowner questions, partnerships, volunteering, and anything that needs a thoughtful reply.",
+  },
+  {
+    label: "Instagram",
+    value: stats.instagramHandle,
+    href: stats.instagram,
+    body: "Follow planting days, student updates, and snapshots from work happening across Northeast Ohio.",
+  },
+];
+
+const topics = ["Volunteer days", "Land partnerships", "School or business projects", "General questions"];
+
+// Absolute URL FormSubmit redirects to after a successful submission.
+const thankYouUrl = new URL("/thank-you", Astro.site).href;
+---
+
+<Layout title="Contact | Roots of Tomorrow" description="Get in touch with Roots of Tomorrow." seamlessFooter={true}>
+  <section class="grid lg:grid-cols-2 lg:items-stretch">
+    <!-- Left: contactImage.jpg with the heading + contact info overlaid -->
+    <div class="relative flex items-center overflow-hidden">
+      <img
+        src="/images/contactImage.jpg"
+        alt="A Roots of Tomorrow planting day"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/80 via-canopy/70 to-canopy/85"></div>
+
+      <div class="relative w-full px-6 py-16 sm:px-10 lg:px-14 lg:py-24">
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-sprout">Contact</p>
+        <h1 class="mt-3 font-display text-5xl font-600 leading-tight text-paper drop-shadow-lg sm:text-6xl">
+          Let's talk.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-paper/80">
+          Questions, ideas, land to plant, or just want to help? We read every message.
+        </p>
+
+        <div class="mt-10 grid gap-4">
+          {contactLinks.map((link) => (
+            <a href={link.href} class="group rounded-3xl border border-paper/25 bg-paper/10 p-6 backdrop-blur-sm transition duration-200 hover:bg-paper/20">
+              <div class="flex items-start justify-between gap-6">
+                <div>
+                  <p class="text-xs font-600 uppercase tracking-[0.2em] text-sprout">{link.label}</p>
+                  <h2 class="mt-2 break-words font-display text-2xl font-600 text-paper">{link.value}</h2>
+                </div>
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-paper/15 text-paper transition-all duration-200 group-hover:translate-x-0.5 group-hover:bg-paper group-hover:text-canopy">
+                  &rarr;
+                </span>
+              </div>
+              <p class="mt-4 max-w-2xl leading-relaxed text-paper/70">{link.body}</p>
+            </a>
+          ))}
+        </div>
+
+        <div class="mt-6">
+          <p class="text-xs font-600 uppercase tracking-[0.2em] text-sprout">Reach out about...</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            {topics.map((topic) => (
+              <span class="rounded-full border border-paper/25 bg-paper/10 px-4 py-2 text-sm font-500 text-paper/80">
+                {topic}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: contact form (forwarded to stats.email via FormSubmit) -->
+    <div class="bg-cream/40 px-6 py-16 sm:px-10 lg:px-14 lg:py-24">
+      <div class="mx-auto max-w-xl">
+        <!-- Ghost eyebrow: mirrors the "Contact" label on the left so this
+             heading lines up with "Let's talk." on large screens. -->
+        <p class="invisible hidden text-sm font-600 uppercase tracking-[0.2em] lg:block" aria-hidden="true">Contact</p>
+        <h2 class="font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl lg:mt-3">
+          Send us a message
+        </h2>
+        <p class="mt-3 leading-relaxed text-soil/70">
+          Fill this out and it'll land straight in our inbox. We read every message and reply as soon as we can.
+        </p>
+
+        <form action={`https://formsubmit.co/${stats.email}`} method="POST" class="mt-8 grid gap-5">
+          <!-- FormSubmit settings: subject line, table-formatted email, no captcha redirect -->
+          <input type="hidden" name="_subject" value="New message from the Roots of Tomorrow site" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_next" value={thankYouUrl} />
+          <!-- Honeypot field to catch spam bots; real visitors leave it empty -->
+          <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div>
+            <label for="name" class="block text-sm font-600 text-canopy">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              autocomplete="name"
+              class="mt-2 w-full rounded-2xl border border-canopy/15 bg-paper px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:outline-none focus:ring-2 focus:ring-leaf/30"
+              placeholder="Your name"
+            />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-600 text-canopy">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              class="mt-2 w-full rounded-2xl border border-canopy/15 bg-paper px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:outline-none focus:ring-2 focus:ring-leaf/30"
+              placeholder="you@example.com"
+            />
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-600 text-canopy">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              required
+              class="mt-2 w-full rounded-2xl border border-canopy/15 bg-paper px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:outline-none focus:ring-2 focus:ring-leaf/30"
+              placeholder="Tell us what's on your mind."
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="justify-self-start rounded-full bg-canopy px-8 py-4 text-base font-600 text-paper shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-lg"
+          >
+            Send message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>

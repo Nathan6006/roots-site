@@ -1,0 +1,88 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const ways = [
+  {
+    title: "Join our Team",
+    body: "Volunteer at a planting day or help with logistics. No experience needed, you don't need to be in Northeast Ohio either, we're looking to expand with new chapters.",
+    cta: "Email us to join",
+  },
+  {
+    title: "Offer your land",
+    body: "Have unused acres in Northeast Ohio? We'll work with you to turn them into a thriving native forest, start to finish.",
+    cta: "Start a conversation",
+  },
+  {
+    title: "Partner with us",
+    body: "Schools, businesses, and local organizations help us reach further. Let's find a way to work together.",
+    cta: "Reach out",
+  },
+];
+---
+
+<Layout title="Get Involved | Roots of Tomorrow" description="Volunteer, offer your land, or partner with Roots of Tomorrow.">
+  <section class="relative flex min-h-[56vh] items-center overflow-hidden">
+    <img
+      id="hero-bg"
+      src="/images/involvedBanner.jpg"
+      alt="Volunteers planting trees"
+      class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
+      style="will-change: transform;"
+    />
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/70 via-canopy/60 to-canopy/80"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24" style="background: linear-gradient(to bottom, rgba(249,247,241,0) 0%, rgba(249,247,241,0.02) 45%, rgba(249,247,241,0.08) 65%, rgba(249,247,241,0.2) 80%, rgba(249,247,241,0.45) 90%, rgba(249,247,241,0.75) 96%, rgba(249,247,241,1) 100%);"></div>
+    <div class="relative mx-auto w-full max-w-6xl px-8 pb-16 pt-24">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">Get Involved</p>
+      <h1 class="max-w-3xl font-display text-5xl font-600 leading-tight text-paper drop-shadow-lg sm:text-7xl">
+        There's more than one way to grow a forest.
+      </h1>
+      <p class="mt-7 max-w-2xl text-xl leading-relaxed text-paper/80">
+        Every tree we plant takes people &mdash; students, landowners, and neighbors who
+        decide the place they live is worth caring for. Here's where you come in.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const bg = document.getElementById('hero-bg');
+    if (bg) {
+      window.addEventListener('scroll', () => {
+        bg.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+      }, { passive: true });
+    }
+  </script>
+
+  <section class="bg-cream/50 px-6 py-20">
+    <div class="mx-auto max-w-6xl">
+      <div class="max-w-2xl">
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Ways to help</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          Pick the path that fits where you are.
+        </h2>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {ways.map((w, index) => (
+          <article class="group flex min-h-[21rem] flex-col rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-leaf/40 hover:shadow-lg">
+            <div class="flex items-center justify-between gap-4">
+              <span class="flex h-12 w-12 items-center justify-center rounded-full bg-sprout/40 font-display text-lg font-600 text-canopy">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span class="h-px flex-1 bg-leaf/20"></span>
+            </div>
+            <h3 class="mt-7 font-display text-2xl font-600 text-canopy">{w.title}</h3>
+            <p class="mt-4 flex-1 leading-relaxed text-soil/75">{w.body}</p>
+            <a
+              href="/contact"
+              class="mt-8 inline-flex items-center justify-between rounded-full border border-canopy/15 px-5 py-3 text-sm font-600 text-leaf transition-colors group-hover:border-leaf group-hover:bg-leaf group-hover:text-paper"
+            >
+              {w.cta}
+              <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</Layout>

@@ -1,0 +1,131 @@
+---
+import Layout from "../layouts/Layout.astro";
+import StatBlock from "../components/StatBlock.astro";
+import EventCarousel from "../components/EventCarousel.astro";
+import stats from "../data/stats.json";
+
+const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
+---
+
+<Layout title="Roots of Tomorrow | Home">
+  <!-- Hero -->
+  <section class="relative flex h-[67vh] items-center overflow-hidden">
+    <!-- Parallax background -->
+    <img
+      id="hero-bg"
+      src="/images/homeHero.jpg"
+      alt="Volunteers planting trees"
+      class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
+      style="will-change: transform;"
+    />
+    <!-- Dark gradient overlay -->
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/70 via-canopy/60 to-canopy/80"></div>
+    <!-- Soft fade into the page below -->
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24" style="background: linear-gradient(to bottom, rgba(251,250,245,0) 0%, rgba(251,250,245,0.02) 45%, rgba(251,250,245,0.08) 65%, rgba(251,250,245,0.2) 80%, rgba(251,250,245,0.45) 90%, rgba(251,250,245,0.75) 96%, rgba(251,250,245,1) 100%);"></div>
+    <!-- Content -->
+    <div class="relative mx-auto w-full max-w-6xl px-8 pb-16 pt-24">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">Welcome to</p>
+      <h1 class="max-w-4xl font-display text-6xl font-600 leading-[1.02] text-paper drop-shadow-lg sm:text-8xl">
+        Roots of<br />Tomorrow
+      </h1>
+      <p class="mt-7 max-w-xl text-xl leading-relaxed text-paper/80">
+        A youth-led nonprofit planting native trees and restoring forests
+        across Northeast Ohio &mdash; built by the students who'll inherit them.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="/get-involved" class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg">
+          Get Involved
+        </a>
+        <a href="/donate" class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-paper/15">
+          Donate
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const bg = document.getElementById('hero-bg');
+    if (bg) {
+      window.addEventListener('scroll', () => {
+        bg.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+      }, { passive: true });
+    }
+  </script>
+
+  <!-- Stats -->
+  <section class="mx-auto max-w-6xl mt-8 px-6">
+    <StatBlock />
+  </section>
+
+  <!-- Mission -->
+  <section class="mx-auto max-w-4xl px-6 pt-24 text-center">
+    <p class="font-display text-2xl font-500 leading-snug text-canopy sm:text-3xl">
+      We're a <span class="text-leaf">501(c)(3) student-led nonprofit</span> based in
+      Northeast Ohio. We plant native trees to bring forests, clean air, and
+      healthy habitat back to {counties} counties &mdash; while giving our
+      generation a real way to shape the place we live.
+    </p>
+  </section>
+
+  <!-- Story: the why, made specific -->
+  <section class="mx-auto mt-24 max-w-6xl px-6">
+    <div class="grid items-center gap-12 md:grid-cols-2">
+      <img src="/images/homeImage1.jpg" alt="Local landscape" class="w-full rounded-3xl object-cover aspect-[4/3] shadow-xl ring-1 ring-canopy/10" />
+      <div>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Why we plant</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          The forests near home are thinning out.
+        </h2>
+        <p class="mt-5 leading-relaxed text-soil/75">
+          Across our corner of Ohio, woodlots are being cleared, fields sit bare,
+          and the native trees that once held the soil and cooled the summers are
+          disappearing faster than they're coming back. The wildlife that depends
+          on them goes with them.
+        </p>
+        <p class="mt-4 leading-relaxed text-soil/75">
+          It's a problem you can stand in &mdash; and one you can fix with your hands.
+          That's what drew us in.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-20 grid items-center gap-12 md:grid-cols-2">
+      <div class="md:order-2">
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">What we do</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          Native trees, in the ground, by students.
+        </h2>
+        <p class="mt-5 leading-relaxed text-soil/75">
+          We work directly with local landowners to turn unused acres into young
+          native forests &mdash; matching the right species to the land, planting
+          them, and looking after them as they take hold. Every project is run by
+          students, with guidance from professional foresters.
+        </p>
+        <p class="mt-4 leading-relaxed text-soil/75">
+          The result is land that does more for everyone: cleaner air, cooler
+          ground, returning wildlife, and a generation that knows it can change
+          something real.
+        </p>
+      </div>
+      <img src="/images/homeImage2.jpg" alt="Students planting" class="w-full rounded-3xl object-cover aspect-[4/3] shadow-xl ring-1 ring-canopy/10 md:order-1" />
+    </div>
+  </section>
+
+  <!-- Past Events -->
+  <EventCarousel />
+
+  <!-- Testimonial -->
+  <section class="mx-auto mt-24 max-w-4xl px-6">
+    <figure class="rounded-3xl bg-canopy px-8 py-14 text-center text-paper shadow-2xl ring-1 ring-canopy/20 sm:px-14">
+      <blockquote class="font-display text-2xl font-500 leading-snug sm:text-3xl">
+        &ldquo;Roots of Tomorrow made it easy to turn my land into something
+        meaningful. They were organized, professional, and genuinely passionate
+        about restoring nature. I'm proud to have partnered with them.&rdquo;
+      </blockquote>
+      <figcaption class="mt-6 text-sm font-500 text-sprout">
+        &mdash; Partner Landowner
+      </figcaption>
+    </figure>
+  </section>
+
+</Layout>

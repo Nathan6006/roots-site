@@ -1,0 +1,90 @@
+---
+import Layout from "../layouts/Layout.astro";
+import stats from "../data/stats.json";
+
+const givingDetails = [
+  {
+    label: "Seedlings",
+    body: "Native trees selected for the land, ordered in batches, and ready for planting days.",
+  },
+  {
+    label: "Supplies",
+    body: "Gloves, stakes, guards, mulch, and the practical gear that helps young trees survive.",
+  },
+  {
+    label: "Student work",
+    body: "The planning, outreach, and volunteer coordination behind every restored acre.",
+  },
+];
+---
+
+<Layout title="Donate | Roots of Tomorrow" description="Support native reforestation in Northeast Ohio." seamlessFooter={true}>
+  <section class="relative flex min-h-[60vh] items-center overflow-hidden">
+    <img
+      id="hero-bg"
+      src="/images/donateBanner.jpg"
+      alt="Volunteers planting native trees"
+      class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
+      style="will-change: transform;"
+    />
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/70 via-canopy/60 to-canopy/80"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24" style="background: linear-gradient(to bottom, rgba(251,250,245,0) 0%, rgba(251,250,245,0.02) 45%, rgba(251,250,245,0.08) 65%, rgba(251,250,245,0.2) 80%, rgba(251,250,245,0.45) 90%, rgba(251,250,245,0.75) 96%, rgba(251,250,245,1) 100%);"></div>
+    <div class="relative mx-auto w-full max-w-6xl px-8 pb-16 pt-24">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">Donate</p>
+      <h1 class="max-w-3xl font-display text-5xl font-600 leading-tight text-paper drop-shadow-lg sm:text-7xl">
+        Fund the next planting season.
+      </h1>
+      <p class="mt-7 max-w-2xl text-xl leading-relaxed text-paper/80">
+        Every dollar goes toward native seedlings, planting supplies, and the
+        students who put them in the ground. Roots of Tomorrow is a 501(c)(3)
+        nonprofit, so your gift is tax-deductible.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        <a href={stats.donateUrl} class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg">
+          Donate Now
+        </a>
+        <span class="text-sm font-500 text-paper/70">Fiscally sponsored by the Hack Foundation</span>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const bg = document.getElementById('hero-bg');
+    if (bg) {
+      window.addEventListener('scroll', () => {
+        bg.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+      }, { passive: true });
+    }
+  </script>
+
+  <section class="mx-auto max-w-6xl px-6 py-20">
+    <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Your gift supports</p>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      {givingDetails.map((item) => (
+        <article class="rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-leaf/40 hover:shadow-lg">
+          <h2 class="font-display text-xl font-600 text-canopy">{item.label}</h2>
+          <p class="mt-3 leading-relaxed text-soil/70">{item.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-cream/50 px-6 py-16">
+    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+      <div>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Impact so far</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy">
+          Small gifts become real forests.
+        </h2>
+      </div>
+      <div class="rounded-3xl border border-canopy/10 bg-paper p-6 shadow-sm">
+        <p class="font-display text-4xl font-600 text-canopy">{stats.treesPlanted}</p>
+        <p class="mt-2 text-sm text-soil/70">trees planted</p>
+      </div>
+      <div class="rounded-3xl border border-canopy/10 bg-paper p-6 shadow-sm">
+        <p class="font-display text-4xl font-600 text-canopy">{stats.volunteerHours}</p>
+        <p class="mt-2 text-sm text-soil/70">student volunteer hours</p>
+      </div>
+    </div>
+  </section>
+</Layout>

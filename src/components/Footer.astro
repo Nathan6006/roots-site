@@ -1,0 +1,48 @@
+---
+import stats from "../data/stats.json";
+
+const { seamless = false } = Astro.props;
+---
+
+<footer class:list={["bg-canopy text-paper", { "mt-24": !seamless }]}>
+  <div class="mx-auto max-w-6xl px-6 py-14">
+    <div class="grid gap-10 md:grid-cols-3">
+      <div>
+        <div class="flex items-center gap-2 font-display text-xl font-600">
+          <img src="/rootslogo.png" alt="Roots of Tomorrow logo" width="36" height="36" class="rounded-full" />
+          Roots of Tomorrow
+        </div>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-sprout">
+          A youth-led nonprofit restoring native forests across Northeast Ohio, one tree at a time.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-xs font-600 uppercase tracking-wider text-moss">Explore</h3>
+        <ul class="mt-4 space-y-2 text-sm">
+          <li><a href="/get-involved" class="text-paper/80 hover:text-paper">Get Involved</a></li>
+          <li><a href="/past-events" class="text-paper/80 hover:text-paper">Past Events</a></li>
+          <li><a href="/contact" class="text-paper/80 hover:text-paper">Contact</a></li>
+          <li><a href="/donate" class="text-paper/80 hover:text-paper">Donate</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-xs font-600 uppercase tracking-wider text-moss">Reach Us</h3>
+        <ul class="mt-4 space-y-2 text-sm">
+          <li><a href={`mailto:${stats.email}`} class="text-paper/80 hover:text-paper">{stats.email}</a></li>
+          <li><a href={stats.instagram} class="text-paper/80 hover:text-paper">{stats.instagramHandle}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 border-t border-leaf/40 pt-6 text-xs text-sprout">
+      <p>Roots of Tomorrow is fiscally sponsored by the Hack Foundation. EIN: {stats.ein}</p>
+      <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+        <span>© {new Date().getFullYear()} Roots of Tomorrow. All rights reserved.</span>
+        <a href="/legal/privacy-policy" class="hover:text-paper">Privacy Policy</a>
+        <a href="/legal/terms-of-service" class="hover:text-paper">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,6 @@
+---
+const { label = "Image", class: className = "", ratio = "aspect-[4/3]" } = Astro.props;
+---
+<div class={`placeholder-img overflow-hidden rounded-2xl ${ratio} ${className}`}>
+  <span>{label}</span>
+</div>

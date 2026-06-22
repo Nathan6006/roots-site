@@ -1,0 +1,19 @@
+---
+import stats from "../data/stats.json";
+const items = [
+  { value: stats.treesPlanted, label: "Trees Planted" },
+  { value: stats.co2AbsorbedYearly, label: "Projected CO\u2082 Absorbed Yearly*" },
+  { value: stats.volunteerHours, label: "Volunteer Hours Contributed" },
+];
+---
+<div class="overflow-hidden rounded-2xl bg-canopy shadow-2xl ring-1 ring-canopy/20">
+  <div class="grid divide-y divide-leaf/30 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+    {items.map((s) => (
+      <div class="px-8 py-9 text-center">
+        <div class="font-display text-5xl font-600 text-paper sm:text-6xl">{s.value}</div>
+        <div class="mt-2.5 text-sm font-500 uppercase tracking-wider text-sprout">{s.label}</div>
+      </div>
+    ))}
+  </div>
+</div>
+<p class="mt-3 text-center text-xs text-soil/40">*At maturity</p>
