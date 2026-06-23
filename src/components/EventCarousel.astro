@@ -1,9 +1,10 @@
 ---
-// Auto-scrolling, infinitely looping strip of past-event photos.
-// Images are listed in order (1 first, 7 last) and the list is duplicated once
-// so the track can translate by exactly -50% for a seamless CSS-only loop —
-// no JavaScript shipped. Each image carries its own right margin (rather than a
-// flex `gap`) so the halfway point lines up exactly with the start of the repeat.
+// Two presentations of the same past-event photos:
+//  - Mobile: a simple swipe / click-through slideshow (the marquee transform
+//    animation was unreliable on phones, so we avoid it there entirely).
+//  - Desktop: an auto-scrolling, infinitely looping marquee. The list is
+//    duplicated once so the track can translate by exactly -50% for a seamless
+//    CSS-only loop.
 const images = [
   "/images/events/event1.png",
   "/images/events/event2.png",
@@ -22,22 +23,69 @@ const track = [...images, ...images];
     Where we've put down roots.
   </h2>
 
-  <div class="carousel mt-8 overflow-hidden">
+  <!-- Mobile: swipe or tap the arrows to move through the photos. -->
+  <div class="relative mt-8 sm:hidden">
+    <div id="event-slides" class="slides flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-2xl">
+      {images.map((src) => (
+        <img
+          src={src}
+          alt="Roots of Tomorrow planting event"
+          class="aspect-[4/3] w-full shrink-0 snap-start object-cover ring-1 ring-canopy/10"
+        />
+      ))}
+    </div>
+    <button
+      type="button"
+      data-slide-prev
+      aria-label="Previous photo"
+      class="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-canopy/80 text-lg text-paper shadow-md backdrop-blur-sm transition-colors hover:bg-canopy"
+    >&larr;</button>
+    <button
+      type="button"
+      data-slide-next
+      aria-label="Next photo"
+      class="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-canopy/80 text-lg text-paper shadow-md backdrop-blur-sm transition-colors hover:bg-canopy"
+    >&rarr;</button>
+  </div>
+
+  <!-- Desktop: auto-scrolling, infinitely looping marquee. -->
+  <div class="carousel mt-8 hidden overflow-hidden sm:block">
     <div class="track flex w-max">
       {track.map((src, i) => (
         <img
           src={src}
           alt={i < images.length ? "Roots of Tomorrow planting event" : ""}
           aria-hidden={i >= images.length ? "true" : undefined}
-          class="mr-6 h-64 w-56 flex-none rounded-2xl object-cover shadow-md ring-1 ring-canopy/10 sm:h-80 sm:w-80"
+          class="mr-6 h-80 w-80 flex-none rounded-2xl object-cover shadow-md ring-1 ring-canopy/10"
         />
       ))}
     </div>
   </div>
 </section>
 
+<script>
+  const slides = document.getElementById("event-slides");
+  if (slides) {
+    document.querySelector("[data-slide-prev]")?.addEventListener("click", () => {
+      slides.scrollBy({ left: -slides.clientWidth, behavior: "smooth" });
+    });
+    document.querySelector("[data-slide-next]")?.addEventListener("click", () => {
+      slides.scrollBy({ left: slides.clientWidth, behavior: "smooth" });
+    });
+  }
+</script>
+
 <style>
-  /* Soft fade at both edges so photos ease in and out of view. */
+  /* Hide the scrollbar on the mobile slideshow (swipe/arrows drive it). */
+  .slides {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .slides::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Soft fade at both edges of the desktop marquee. */
   .carousel {
     -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
     mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
