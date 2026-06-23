@@ -25,8 +25,9 @@ const thankYouUrl = new URL("/thank-you", Astro.site).href;
 
 <Layout title="Contact | Roots of Tomorrow" description="Get in touch with Roots of Tomorrow." seamlessFooter={true}>
   <section class="grid lg:grid-cols-2 lg:items-stretch">
-    <!-- Left: contactImage.jpg with the heading + contact info overlaid -->
-    <div class="relative flex items-center overflow-hidden">
+    <!-- Left: contactImage.jpg with the heading + contact info overlaid.
+         Hidden on small screens, where we show just the form. -->
+    <div class="relative hidden items-center overflow-hidden lg:flex">
       <img
         src="/images/contactImage.jpg"
         alt="A Roots of Tomorrow planting day"
