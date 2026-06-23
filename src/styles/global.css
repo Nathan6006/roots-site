@@ -41,6 +41,34 @@ a {
   transition: color 0.15s ease;
 }
 
+/* Anchor jumps (e.g. the skip link) clear the sticky header. */
+#main {
+  scroll-margin-top: 5rem;
+}
+
+/* Scroll-linked 3D tilt for content imagery (angle driven by a small script
+   in the page). Sits flat when centered in the viewport. */
+.tilt-3d {
+  transform: perspective(900px) rotateX(0deg);
+  transform-origin: center;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* A gentle, staggered entrance for hero content on first paint. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise-in > * {
+  animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.rise-in > *:nth-child(1) { animation-delay: 0.05s; }
+.rise-in > *:nth-child(2) { animation-delay: 0.13s; }
+.rise-in > *:nth-child(3) { animation-delay: 0.21s; }
+.rise-in > *:nth-child(4) { animation-delay: 0.29s; }
+.rise-in > *:nth-child(5) { animation-delay: 0.37s; }
+
 /* Tidier line wrapping: balanced headings, no orphans in body copy. */
 h1, h2, h3, blockquote {
   text-wrap: balance;
@@ -73,6 +101,7 @@ select:focus-visible {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
 }

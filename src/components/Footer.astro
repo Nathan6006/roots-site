@@ -20,18 +20,18 @@ const { seamless = false } = Astro.props;
       <div>
         <h3 class="text-xs font-600 uppercase tracking-wider text-moss">Explore</h3>
         <ul class="mt-4 space-y-2 text-sm">
-          <li><a href="/get-involved" class="text-paper/80 hover:text-paper">Get Involved</a></li>
-          <li><a href="/past-events" class="text-paper/80 hover:text-paper">Past Events</a></li>
-          <li><a href="/contact" class="text-paper/80 hover:text-paper">Contact</a></li>
-          <li><a href="/donate" class="text-paper/80 hover:text-paper">Donate</a></li>
+          <li><a href="/get-involved" class="inline-block text-paper/80 transition-transform duration-200 hover:translate-x-0.5 hover:text-paper">Get Involved</a></li>
+          <li><a href="/past-events" class="inline-block text-paper/80 transition-transform duration-200 hover:translate-x-0.5 hover:text-paper">Past Events</a></li>
+          <li><a href="/contact" class="inline-block text-paper/80 transition-transform duration-200 hover:translate-x-0.5 hover:text-paper">Contact</a></li>
+          <li><a href="/donate" class="inline-block text-paper/80 transition-transform duration-200 hover:translate-x-0.5 hover:text-paper">Donate</a></li>
         </ul>
       </div>
 
       <div>
         <h3 class="text-xs font-600 uppercase tracking-wider text-moss">Reach Us</h3>
         <ul class="mt-4 space-y-2 text-sm">
-          <li><a href={`mailto:${stats.email}`} class="text-paper/80 hover:text-paper">{stats.email}</a></li>
-          <li><a href={stats.instagram} class="text-paper/80 hover:text-paper">{stats.instagramHandle}</a></li>
+          <li><a href={`mailto:${stats.email}`} class="inline-block text-paper/80 transition-transform duration-200 hover:translate-x-0.5 hover:text-paper">{stats.email}</a></li>
+          <li><a href={stats.instagram} class="inline-block text-paper/80 transition-transform duration-200 hover:translate-x-0.5 hover:text-paper">{stats.instagramHandle}</a></li>
         </ul>
       </div>
     </div>

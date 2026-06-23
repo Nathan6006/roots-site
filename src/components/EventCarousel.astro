@@ -49,14 +49,14 @@ const track = [...images, ...images];
   </div>
 
   <!-- Desktop: auto-scrolling, infinitely looping marquee. -->
-  <div class="carousel mt-8 hidden overflow-hidden sm:block">
+  <div class="carousel tilt-3d mt-8 hidden overflow-hidden sm:block" data-tilt="7">
     <div class="track flex w-max">
       {track.map((src, i) => (
         <img
           src={src}
           alt={i < images.length ? "Roots of Tomorrow planting event" : ""}
           aria-hidden={i >= images.length ? "true" : undefined}
-          class="mr-6 h-80 w-80 flex-none rounded-2xl object-cover shadow-md ring-1 ring-canopy/10"
+          class="mr-6 h-80 w-80 flex-none rounded-2xl object-cover shadow-md ring-1 ring-canopy/10 transition-all duration-500 ease-out hover:scale-[1.03] hover:shadow-xl"
         />
       ))}
     </div>
