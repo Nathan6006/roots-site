@@ -19,7 +19,9 @@ const path = Astro.url.pathname;
         <a
           href={l.href}
           class={`font-display text-base font-500 tracking-wide transition-colors hover:text-leaf ${
-            path === l.href ? "text-canopy" : "text-soil/60"
+            path === l.href
+              ? "text-canopy underline decoration-sprout decoration-2 underline-offset-[10px]"
+              : "text-soil/60"
           }`}
         >
           {l.label}

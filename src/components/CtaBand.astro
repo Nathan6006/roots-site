@@ -1,0 +1,43 @@
+---
+// A warm closing section so pages end with an invitation instead of dropping
+// straight into the dark footer. Copy and links are overridable per page.
+const {
+  eyebrow = "Join in",
+  heading = "The next forest starts with you.",
+  body = "Plant with us on a Saturday, or fund the seedlings that make it happen.",
+  primary = { href: "/get-involved", label: "Get Involved" },
+  secondary = { href: "/donate", label: "Donate" },
+} = Astro.props;
+---
+
+<section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
+  <div class="relative overflow-hidden rounded-3xl bg-canopy px-8 py-14 text-center shadow-2xl ring-1 ring-canopy/20 sm:px-14 sm:py-16">
+    <!-- Soft green glows so the dark panel feels like light through leaves. -->
+    <div class="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-leaf/40 blur-3xl" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-moss/30 blur-3xl" aria-hidden="true"></div>
+
+    <div class="relative">
+      <p class="text-xs font-600 uppercase tracking-[0.3em] text-sprout">{eyebrow}</p>
+      <h2 class="mx-auto mt-4 max-w-2xl font-display text-3xl font-600 leading-tight text-paper sm:text-5xl">
+        {heading}
+      </h2>
+      <p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-paper/75">{body}</p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4">
+        <a
+          href={primary.href}
+          class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg"
+        >
+          {primary.label}
+        </a>
+        {secondary && (
+          <a
+            href={secondary.href}
+            class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-paper/15"
+          >
+            {secondary.label}
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

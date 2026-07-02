@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import CtaBand from "../components/CtaBand.astro";
 import stats from "../data/stats.json";
 
 const givingDetails = [
@@ -18,7 +19,7 @@ const givingDetails = [
 ];
 ---
 
-<Layout title="Donate | Roots of Tomorrow" description="Support native reforestation in Northeast Ohio." seamlessFooter={true}>
+<Layout title="Donate | Roots of Tomorrow" description="Support native reforestation in Northeast Ohio.">
   <section class="relative flex min-h-[60vh] items-center overflow-hidden">
     <img
       id="hero-bg"
@@ -57,7 +58,7 @@ const givingDetails = [
     }
   </script>
 
-  <section class="mx-auto max-w-6xl px-6 py-20">
+  <section class="mx-auto max-w-6xl px-6 py-20" data-reveal>
     <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Your gift supports</p>
     <div class="mt-10 grid gap-6 md:grid-cols-3">
       {givingDetails.map((item) => (
@@ -70,7 +71,7 @@ const givingDetails = [
   </section>
 
   <section class="bg-cream/50 px-6 py-16">
-    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3" data-reveal>
       <div>
         <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Impact so far</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy">
@@ -78,13 +79,22 @@ const givingDetails = [
         </h2>
       </div>
       <div class="rounded-3xl border border-canopy/10 bg-paper p-6 shadow-sm">
-        <p class="font-display text-4xl font-600 text-canopy">{stats.treesPlanted}</p>
+        <p class="font-display text-4xl font-600 tabular-nums text-canopy" data-count={stats.treesPlanted}>{stats.treesPlanted}</p>
         <p class="mt-2 text-sm text-soil/70">trees planted</p>
       </div>
       <div class="rounded-3xl border border-canopy/10 bg-paper p-6 shadow-sm">
-        <p class="font-display text-4xl font-600 text-canopy">{stats.volunteerHours}</p>
+        <p class="font-display text-4xl font-600 tabular-nums text-canopy" data-count={stats.volunteerHours}>{stats.volunteerHours}</p>
         <p class="mt-2 text-sm text-soil/70">student volunteer hours</p>
       </div>
     </div>
   </section>
+
+  <!-- Closing invitation -->
+  <CtaBand
+    eyebrow="Another way to give"
+    heading="Can't give money right now?"
+    body="Give a Saturday instead. Planting days are open to everyone, no experience needed."
+    primary={{ href: "/get-involved", label: "Get Involved" }}
+    secondary={{ href: "/contact", label: "Contact us" }}
+  />
 </Layout>

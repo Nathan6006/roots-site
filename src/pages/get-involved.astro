@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import CtaBand from "../components/CtaBand.astro";
 
 const ways = [
   {
@@ -54,14 +55,14 @@ const ways = [
 
   <section class="bg-cream/50 px-6 py-20">
     <div class="mx-auto max-w-6xl">
-      <div class="max-w-2xl">
+      <div class="max-w-2xl" data-reveal>
         <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Ways to help</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
           Pick the path that fits where you are.
         </h2>
       </div>
 
-      <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="mt-10 grid gap-6 md:grid-cols-3" data-reveal>
         {ways.map((w, index) => (
           <article class="group flex min-h-[21rem] flex-col rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-leaf/40 hover:shadow-lg">
             <div class="flex items-center justify-between gap-4">
@@ -84,5 +85,14 @@ const ways = [
       </div>
     </div>
   </section>
+
+  <!-- Closing invitation -->
+  <CtaBand
+    eyebrow="Get in touch"
+    heading="Not sure where you fit yet?"
+    body="Send us a note and we'll figure it out together. There's room for every kind of help."
+    primary={{ href: "/contact", label: "Contact us" }}
+    secondary={{ href: "/donate", label: "Donate" }}
+  />
 
 </Layout>

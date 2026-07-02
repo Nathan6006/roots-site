@@ -10,7 +10,7 @@ const items = [
   <div class="grid divide-y divide-leaf/30 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
     {items.map((s) => (
       <div class="px-8 py-9 text-center transition-colors duration-300 hover:bg-leaf/15">
-        <div class="font-display text-5xl font-600 text-paper sm:text-6xl">{s.value}</div>
+        <div class="font-display text-5xl font-600 tabular-nums text-paper sm:text-6xl" data-count={s.value}>{s.value}</div>
         <div class="mt-2.5 text-sm font-500 uppercase tracking-wider text-sprout">{s.label}</div>
       </div>
     ))}
