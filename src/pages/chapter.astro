@@ -1,0 +1,268 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CtaBand from "../components/CtaBand.astro";
+import stats from "../data/stats.json";
+
+// The two kinds of chapter. Same application either way — the form asks which.
+const chapterTypes = [
+  {
+    label: "Tree planting",
+    title: "Put native trees in the ground.",
+    body: "Find land that needs trees, get native seedlings into it, and bring people out to help plant them. This is what the Northeast Ohio chapter has done since the start, so the process for it is well worn.",
+  },
+  {
+    label: "Education",
+    title: "Teach people why it matters.",
+    body: "Run workshops and talks — in classrooms, at libraries, anywhere people will listen — about the forests nearby, what's happening to them, and what actually helps. No land required, which makes it a good fit if you're somewhere dense.",
+  },
+];
+
+// What Roots of Tomorrow does for a new chapter.
+const weProvide = [
+  "A dedicated contact who walks you through the whole thing, from the first conversation to the events themselves.",
+  "Funding to help cover event supplies and the other costs of running a day.",
+  "Coverage under our 501(c)(3). Day to day, that means your chapter can take tax-deductible donations, and can grant and receive volunteer hours.",
+];
+
+// What the person starting a chapter is signing up for.
+const youBring = [
+  "At least four events a year. That's the one hard requirement.",
+  "Anyone in high school can join, and there's no minimum group size to get started — you can apply on your own.",
+  "As the local lead: recruiting members, finding land or arranging the education side, booking a venue, and running the event day.",
+];
+
+const steps = [
+  {
+    title: "Apply",
+    body: "Fill out the application. It asks where you are, which kind of chapter you want to run, and why you want to do it.",
+  },
+  {
+    title: "We talk it through",
+    body: "You'll hear back within 48 hours. It's a real conversation, not a review process.",
+  },
+  {
+    title: "You start",
+    body: "We train you and walk you through the process, and then you run your first event.",
+  },
+];
+---
+
+<Layout
+  title="Start a Chapter | Roots of Tomorrow"
+  description="Start a Roots of Tomorrow chapter where you live — plant native trees, run education events, or both."
+>
+  <!-- Hero -->
+  <section class="relative flex min-h-[56vh] items-center overflow-hidden">
+    <img
+      id="hero-bg"
+      src="/images/chapterBanner.jpg"
+      alt="A hand watering a young seedling"
+      class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
+      style="will-change: transform;"
+    />
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/70 via-canopy/60 to-canopy/80"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24" style="background: linear-gradient(to bottom, rgba(251,250,245,0) 0%, rgba(251,250,245,0.02) 45%, rgba(251,250,245,0.08) 65%, rgba(251,250,245,0.2) 80%, rgba(251,250,245,0.45) 90%, rgba(251,250,245,0.75) 96%, rgba(251,250,245,1) 100%);"></div>
+    <div class="rise-in relative mx-auto w-full max-w-6xl px-8 pb-16 pt-24">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">Chapters</p>
+      <h1 class="max-w-3xl font-display text-5xl font-600 leading-tight text-paper drop-shadow-lg sm:text-7xl">
+        Start a chapter where you live.
+      </h1>
+      <p class="mt-7 max-w-2xl text-xl leading-relaxed text-paper/80">
+        Roots of Tomorrow started with students in Northeast Ohio who wanted the woods
+        near them to look better than they found them. The same thing works anywhere
+        there's someone willing to start it.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          href={stats.chapterApplicationUrl}
+          target="_blank"
+          rel="noopener"
+          class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg"
+        >
+          Apply to start a chapter
+        </a>
+        <a
+          href="#how-it-works"
+          class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-paper/15"
+        >
+          How it works
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const bg = document.getElementById('hero-bg');
+    if (bg) {
+      window.addEventListener('scroll', () => {
+        bg.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+      }, { passive: true });
+    }
+  </script>
+
+  <!-- What a chapter is -->
+  <section class="px-6 py-20">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2" data-reveal>
+      <div>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">What a chapter is</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          A local group doing the same work, in its own town.
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-soil/75">
+          A chapter runs its own events under the Roots of Tomorrow name. You find the
+          people and the place. We handle the parts that are hard to work out from
+          scratch &mdash; the paperwork, the sourcing, and the process we already learned
+          the slow way.
+        </p>
+        <p class="mt-5 text-lg leading-relaxed text-soil/75">
+          In practice, that's a group of high schoolers running at least four events a
+          year. There's no minimum size to start &mdash; one person who's serious is
+          enough, and recruiting comes after. The local lead does the ground work:
+          finding members, finding land or arranging the education side, and running
+          the event day itself. You won't be doing that alone, though. Every chapter
+          gets a dedicated contact who has done this before and stays with you from
+          the first conversation onward.
+        </p>
+      </div>
+
+      <img
+        src="/images/chapterImage.png"
+        alt="A student tending plants in a raised garden bed"
+        width="1228"
+        height="974"
+        loading="lazy"
+        class="w-full rounded-3xl object-cover shadow-lg"
+      />
+    </div>
+  </section>
+
+  <!-- The two kinds of chapter -->
+  <section class="bg-cream/50 px-6 py-20">
+    <div class="mx-auto max-w-6xl">
+      <div class="max-w-2xl" data-reveal>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Two kinds of chapter</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          Plant, teach, or do both.
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-soil/75">
+          Run one or run both &mdash; tell us which when you apply.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2" data-reveal>
+        {chapterTypes.map((type) => (
+          <article class="rounded-3xl border border-canopy/10 bg-paper p-8 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-leaf/40 hover:shadow-lg">
+            <p class="text-xs font-600 uppercase tracking-[0.2em] text-moss">{type.label}</p>
+            <h3 class="mt-3 font-display text-2xl font-600 text-canopy">{type.title}</h3>
+            <p class="mt-4 leading-relaxed text-soil/75">{type.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- What we provide / what you bring -->
+  <section class="px-6 py-20">
+    <div class="mx-auto max-w-6xl">
+      <div class="max-w-2xl" data-reveal>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">The arrangement</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          What each side is on the hook for.
+        </h2>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2" data-reveal>
+        <article class="rounded-3xl border border-canopy/10 bg-paper p-8 shadow-sm">
+          <h3 class="font-display text-2xl font-600 text-canopy">What we help with</h3>
+          <ul class="mt-6 space-y-4">
+            {weProvide.map((item) => (
+              <li class="flex gap-3 leading-relaxed text-soil/75">
+                <span aria-hidden="true" class="mt-1 shrink-0 text-leaf">&rarr;</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+
+        <article class="rounded-3xl border border-canopy/10 bg-paper p-8 shadow-sm">
+          <h3 class="font-display text-2xl font-600 text-canopy">What you bring</h3>
+          <ul class="mt-6 space-y-4">
+            {youBring.map((item) => (
+              <li class="flex gap-3 leading-relaxed text-soil/75">
+                <span aria-hidden="true" class="mt-1 shrink-0 text-leaf">&rarr;</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="scroll-mt-24 bg-cream/50 px-6 py-20">
+    <div class="mx-auto max-w-6xl">
+      <div class="max-w-2xl" data-reveal>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">How it works</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          Three steps, and none of them are hard.
+        </h2>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-3" data-reveal>
+        {steps.map((step, index) => (
+          <article class="flex min-h-[17rem] flex-col rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm">
+            <div class="flex items-center justify-between gap-4">
+              <span class="flex h-12 w-12 items-center justify-center rounded-full bg-sprout/40 font-display text-lg font-600 text-canopy">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span class="h-px flex-1 bg-leaf/20"></span>
+            </div>
+            <h3 class="mt-7 font-display text-2xl font-600 text-canopy">{step.title}</h3>
+            <p class="mt-4 leading-relaxed text-soil/75">{step.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Apply. Light panel on purpose: the CtaBand below is dark canopy, and two
+       dark panels back to back flattens the end of the page. -->
+  <section class="px-6 pt-20" data-reveal>
+    <div class="mx-auto max-w-6xl rounded-3xl border border-canopy/10 bg-cream/60 px-8 py-14 text-center shadow-sm sm:px-14">
+      <p class="text-xs font-600 uppercase tracking-[0.3em] text-moss">Apply</p>
+      <h2 class="mx-auto mt-4 max-w-2xl font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+        Tell us where you'd start.
+      </h2>
+      <p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-soil/75">
+        The application is short, and it's the same one for both kinds of chapter. If
+        you're not sure whether your area makes sense for this, send it anyway and
+        we'll talk.
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4">
+        <a
+          href={stats.chapterApplicationUrl}
+          target="_blank"
+          rel="noopener"
+          class="rounded-full bg-canopy px-8 py-3.5 text-base font-600 text-paper shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-lg"
+        >
+          Start the application
+        </a>
+        <a
+          href="/contact"
+          class="rounded-full border border-canopy/25 px-8 py-3.5 text-base font-600 text-canopy transition-all duration-200 hover:-translate-y-0.5 hover:bg-canopy/5"
+        >
+          Ask a question first
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    eyebrow="Closer to home"
+    heading="Already in Northeast Ohio?"
+    body="No chapter needed &mdash; come plant with the one that's already here."
+    primary={{ href: "/get-involved", label: "Get Involved" }}
+    secondary={{ href: "/donate", label: "Donate" }}
+  />
+</Layout>

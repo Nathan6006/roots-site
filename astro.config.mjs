@@ -8,6 +8,11 @@ export default defineConfig({
   // Production URL. Used for canonical links and the contact form's
   // post-submit redirect. Change this if the site deploys to a different domain.
   site: 'https://rootsoftomorrow.org',
+  // The chapter page gets shared as a spoken/printed link, so catch the plural
+  // people will inevitably type.
+  redirects: {
+    '/chapters': '/chapter',
+  },
   vite: {
     plugins: [tailwindcss()]
   }
