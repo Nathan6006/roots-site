@@ -12,9 +12,30 @@ const {
 
 <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
   <div class="relative overflow-hidden rounded-3xl bg-canopy px-8 py-14 text-center shadow-2xl ring-1 ring-canopy/20 sm:px-14 sm:py-16">
-    <!-- Soft green glows so the dark panel feels like light through leaves. -->
-    <div class="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-leaf/40 blur-3xl" aria-hidden="true"></div>
-    <div class="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-moss/30 blur-3xl" aria-hidden="true"></div>
+    <!-- Topographic contour lines, like the corner of a USGS map. Two nests of
+         rings sit where the old glow blobs were: top right and bottom left. -->
+    <svg
+      class="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 800 420"
+      preserveAspectRatio="xMidYMid slice"
+      fill="none"
+      stroke="var(--color-sprout)"
+      stroke-opacity="0.13"
+      stroke-width="1.2"
+      aria-hidden="true"
+    >
+      <path d="M 746 -30 C 746 -7.4 720.9 11 690 11 C 656.3 11 629 -7.4 629 -30 C 629 -54.9 656.3 -75 690 -75 C 720.9 -75 746 -54.9 746 -30 Z" />
+      <path d="M 787 -30 C 787 34.6 743.6 87 690 87 C 635.3 87 591 34.6 591 -30 C 591 -93 635.3 -144 690 -144 C 743.6 -144 787 -93 787 -30 Z" />
+      <path d="M 860 -30 C 860 55.1 783.9 124 690 124 C 597.2 124 522 55.1 522 -30 C 522 -111.7 597.2 -178 690 -178 C 783.9 -178 860 -111.7 860 -30 Z" />
+      <path d="M 903 -30 C 903 94.6 815.9 196 690 196 C 566.9 196 461 94.6 461 -30 C 461 -148.3 566.9 -244 690 -244 C 815.9 -244 903 -148.3 903 -30 Z" />
+      <path d="M 977 -30 C 977 116.9 848.4 236 690 236 C 534.3 236 407 116.9 407 -30 C 407 -184.5 534.3 -308 690 -308 C 848.4 -308 977 -184.5 977 -30 Z" />
+      <path d="M 1019 -30 C 1019 160.3 871.5 315 690 315 C 512.5 315 349 160.3 349 -30 C 349 -221 512.5 -376 690 -376 C 871.5 -376 1019 -221 1019 -30 Z" />
+      <path d="M 105 420 C 105 442.6 84.9 461 60 461 C 32.3 461 9 442.6 9 420 C 9 395.1 32.3 375 60 375 C 84.9 375 105 395.1 105 420 Z" />
+      <path d="M 147 420 C 147 479.6 108.6 527 60 527 C 10.3 527 -34 479.6 -34 420 C -34 362 10.3 315 60 315 C 108.6 315 147 362 147 420 Z" />
+      <path d="M 220 420 C 220 500.1 148.9 564 60 564 C -27.8 564 -98 500.1 -98 420 C -98 343.3 -27.8 281 60 281 C 148.9 281 220 343.3 220 420 Z" />
+      <path d="M 263 420 C 263 534.6 172.9 626 60 626 C -50.1 626 -148 534.6 -148 420 C -148 313.7 -50.1 226 60 226 C 172.9 226 263 313.7 263 420 Z" />
+      <path d="M 337 420 C 337 561.9 216.4 676 60 676 C -93.7 676 -223 561.9 -223 420 C -223 270.5 -93.7 152 60 152 C 216.4 152 337 270.5 337 420 Z" />
+    </svg>
 
     <div class="relative">
       <p class="text-xs font-600 uppercase tracking-[0.3em] text-sprout">{eyebrow}</p>
