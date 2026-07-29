@@ -100,10 +100,11 @@ introducing new colors or fonts. Match the spacing and rounding already in use
   wherever an image will go, with a descriptive `label`. When real images arrive,
   replace `<Placeholder>` with a standard `<img>` (or Astro's `<Image>`) pointing
   at a file in `/public`. Don't invent image paths that don't exist.
-- **Em dashes and special characters**: inside an Astro `.astro` template's plain
-  text, use HTML entities (`&mdash;`, `&rarr;`, `&ldquo;`). Inside JavaScript
-  strings in the frontmatter (between the `---` fences), use the real character
-  (—) or a unicode escape (`\u2014`) — an HTML entity there would render literally.
+- **Special characters**: inside an Astro `.astro` template's plain text, use
+  HTML entities (`&rarr;`, `&ldquo;`). Inside JavaScript strings in the
+  frontmatter (between the `---` fences), use the real character or a unicode
+  escape; an HTML entity there would render literally. Em dashes are banned
+  outright (see writing guidelines above).
 - **Adding a past event**: copy an existing file in `src/content/events/`, change
   the frontmatter (`title`, `date`, `location`, `summary`), and write the body.
   The fields are validated by the schema in `content.config.ts`; keep them.
@@ -123,6 +124,8 @@ The copy on this site matters as much as the code. Follow these:
   passionate, and dedicated"), false ranges, hollow significance inflation,
   negative parallelisms ("not just X, but Y"), and promotional filler. Write
   plainly and like a real person.
+- **No em dashes, anywhere on the site.** They read as AI-written. Rewrite the
+  sentence with a comma, colon, period, or parentheses instead.
 - **Do not mention awards.** The org has not won the awards being applied for;
   don't reference any awards anywhere on the site.
 - Keep a warm, direct, grounded register. Sentence case. Active voice.
@@ -133,6 +136,15 @@ The copy on this site matters as much as the code. Follow these:
 2. If you changed a stat or contact detail, confirm it came from / went into
    `stats.json`, not a hardcoded value.
 3. If you added copy, re-read it against the writing guidelines above.
+
+## Parked pages
+
+`/past-events` and `/log` are hidden on purpose (each redirects to home, with
+the original markup preserved in a comment in its page file). The Planting Log
+is parked until the event tree-counts are reconciled with the headline stat;
+see the "Parked features" section of README.md for the restore steps. Don't
+delete these files or their data (`src/data/planting-log.json`), and don't
+resurface the pages unless asked.
 
 ## Things to leave alone unless asked
 

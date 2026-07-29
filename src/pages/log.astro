@@ -1,0 +1,103 @@
+---
+// The Planting Log is PARKED, not deleted, while the event numbers get
+// reconciled with Nathan (the logged events summed to 9,800 against the
+// rounded "10,000" headline stat, and the site shouldn't publish both).
+// The data is intact in src/data/planting-log.json.
+//
+// To bring it back:
+//  1. Fix the numbers in src/data/planting-log.json (and stats.json if needed).
+//  2. Delete the redirect below and uncomment the original markup.
+//  3. Re-add the nav link in src/components/Nav.astro
+//     ({ href: "/log", label: "Planting Log" }), the footer link in
+//     src/components/Footer.astro, and the "Read the full planting log" link
+//     under <EventCarousel /> in src/pages/index.astro (see README).
+return Astro.redirect("/");
+---
+
+{/*
+ORIGINAL PAGE, preserved for when the log comes back.
+
+---
+import Layout from "../layouts/Layout.astro";
+import CtaBand from "../components/CtaBand.astro";
+import plantingLog from "../data/planting-log.json";
+
+// One line per event day, newest first. To add an event, prepend an object to
+// src/data/planting-log.json (year, date, trees, host, note, optional link).
+// Hosts are first names or first name + initial on purpose; don't add full
+// names without asking the landowner.
+const years = [...new Set(plantingLog.map((row) => row.year))];
+
+const asNumber = (s: string) => parseInt(s.replace(/,/g, ""), 10);
+const yearRows = years.map((year) => {
+  const rows = plantingLog.filter((row) => row.year === year);
+  const total = rows.reduce((sum, row) => sum + asNumber(row.trees), 0);
+  return { year, rows, total: total.toLocaleString("en-US"), days: rows.length };
+});
+---
+
+<Layout
+  title="Planting Log | Roots of Tomorrow"
+  description="A running record of every Roots of Tomorrow planting day: when, where, and how many trees went in the ground."
+>
+  <section class="mx-auto max-w-6xl px-6 pt-20 sm:pt-28">
+    <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">The log</p>
+    <h1 class="mt-3 max-w-2xl font-display text-5xl font-600 leading-tight text-canopy sm:text-6xl">
+      Every planting, on the record.
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-soil/75">
+      One line per event day since the first planting in March 2025. Dates,
+      counts, and the properties that hosted us.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 pb-4 pt-14">
+    {yearRows.map(({ year, rows, total, days }) => (
+      <div class="mt-16 grid gap-x-14 gap-y-6 first:mt-0 lg:grid-cols-[13rem_1fr]" data-reveal>
+        <div>
+          <h2 class="font-display text-6xl font-600 leading-none text-canopy sm:text-7xl">{year}</h2>
+          <p class="mt-3 text-sm font-600 uppercase tracking-wider text-moss">
+            {total} trees &middot; {days} event days
+          </p>
+        </div>
+
+        <div class="divide-y divide-canopy/10 border-y border-canopy/10">
+          {rows.map((row) => (
+            <div class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1.5 py-5">
+              <div class="min-w-0">
+                <p class="text-xs font-600 uppercase tracking-wider text-moss">{row.date}</p>
+                <p class="mt-1 font-display text-xl font-600 text-canopy">{row.host}</p>
+                {(row.note || row.link) && (
+                  <p class="mt-1 text-sm leading-relaxed text-soil/60">
+                    {row.note}
+                    {row.link && (
+                      <a
+                        href={row.link}
+                        target="_blank"
+                        rel="noopener"
+                        class="ml-1.5 font-600 text-leaf underline decoration-sprout decoration-2 underline-offset-4 hover:text-canopy"
+                      >Read the article&thinsp;&nearr;</a>
+                    )}
+                  </p>
+                )}
+              </div>
+              <p class="font-display text-3xl font-600 tabular-nums text-canopy">
+                {row.trees}
+                <span class="ml-1.5 font-body text-sm font-500 text-soil/50">trees</span>
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <CtaBand
+    eyebrow="Add to it"
+    heading="The next line is an event day."
+    body="Come plant at the next one, or start a chapter and open a log of your own."
+    primary={{ href: "/get-involved", label: "Get Involved" }}
+    secondary={{ href: "/chapter", label: "Start a Chapter" }}
+  />
+</Layout>
+*/}

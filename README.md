@@ -30,6 +30,18 @@ Needs Node 22.12+.
 - Replace the four placeholder events in src/content/events/.
 - Confirm the Donate URL in src/data/stats.json.
 
+## Parked features (kept on disk, easy to restore)
+
+- **Planting Log** (`/log`): parked until the per-event tree counts are
+  reconciled with Nathan. The logged events sum to 9,800; the headline stat
+  says 10,000 (rounded), and the site shouldn't publish both. The page markup
+  is preserved in a comment in `src/pages/log.astro` (it currently redirects
+  to home) and all the event data is intact in `src/data/planting-log.json`.
+  To restore: fix the numbers, uncomment the page, then re-add the three links
+  (nav in `Nav.astro`, footer in `Footer.astro`, and the "Read the full
+  planting log" link under the carousel in `index.astro`).
+- **Past Events** (`/past-events`): same pattern, parked earlier.
+
 ## Deploying (free)
 
 Push to a GitHub repo, connect it to Cloudflare Pages (or Netlify / Vercel).
