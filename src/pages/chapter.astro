@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import CtaBand from "../components/CtaBand.astro";
 import stats from "../data/stats.json";
 
-// The two kinds of chapter. Same application either way — the form asks which.
+// The two kinds of chapter. Same application either way; the form asks which.
 const chapterTypes = [
   {
     label: "Tree planting",
@@ -13,7 +13,7 @@ const chapterTypes = [
   {
     label: "Education",
     title: "Teach people why it matters.",
-    body: "Run workshops and talks — in classrooms, at libraries, anywhere people will listen — about the forests nearby, what's happening to them, and what actually helps. No land required, which makes it a good fit if you're somewhere dense.",
+    body: "Run workshops and talks about the forests nearby, what's happening to them, and what actually helps. Classrooms, libraries, anywhere people will listen. No land required, which makes it a good fit if you're somewhere dense.",
   },
 ];
 
@@ -26,9 +26,28 @@ const weProvide = [
 
 // What the person starting a chapter is signing up for.
 const youBring = [
-  "At least four events a year.",
-  "Anyone in high school can join, and there's no minimum group size to get started — you can apply on your own.",
+  "At least one event a year, and more whenever you're up for it.",
+  "Anyone in high school can join, and there's no minimum group size to get started. You can apply on your own.",
   "As the local lead: recruiting members, finding land or arranging the education side, booking a venue, and running the event day.",
+];
+
+// A dot-grid silhouette of the lower 48 for the chapters map. "#" is land,
+// "O" is Ohio (where we started), "." is empty. It's an abstraction, dots
+// rather than borders, so it reads as a map without pretending to be
+// survey-accurate.
+const mapRows = [
+  "############.......#",
+  "#############.#.####",
+  "#############.######",
+  "###############O###.",
+  "###################.",
+  ".##################.",
+  ".#################..",
+  "..###############...",
+  "...##############...",
+  "...######......##...",
+  "....###.........#...",
+  "................##..",
 ];
 
 const steps = [
@@ -49,7 +68,7 @@ const steps = [
 
 <Layout
   title="Start a Chapter | Roots of Tomorrow"
-  description="Start a Roots of Tomorrow chapter where you live — plant native trees, run education events, or both."
+  description="Start a Roots of Tomorrow chapter where you live: plant native trees, run education events, or both."
 >
   <!-- Hero -->
   <section class="relative flex min-h-[56vh] items-center overflow-hidden">
@@ -111,13 +130,13 @@ const steps = [
         <p class="mt-6 text-lg leading-relaxed text-soil/75">
           A chapter runs its own events under the Roots of Tomorrow name. You find the
           people and the place. We handle the parts that are hard to work out from
-          scratch &mdash; the paperwork, the sourcing, and the process we already learned
+          scratch: the paperwork, the sourcing, and the process we already learned
           the slow way.
         </p>
         <p class="mt-5 text-lg leading-relaxed text-soil/75">
-          In practice, that's a group of high schoolers running at least four events a
-          year. There's no minimum size to start &mdash; one person who's serious is
-          enough, and recruiting comes after. The local lead does the ground work:
+          In practice, that's a group of high schoolers running at least one event a
+          year, and more when they're up for it. There's no minimum size to start.
+          One person who's serious is enough, and recruiting comes after. The local lead does the ground work:
           finding members, finding land or arranging the education side, and running
           the event day itself. You won't be doing that alone, though. Every chapter
           gets a dedicated contact who has done this before and stays with you from
@@ -145,7 +164,7 @@ const steps = [
           Plant, teach, or do both.
         </h2>
         <p class="mt-5 text-lg leading-relaxed text-soil/75">
-          Run one or run both &mdash; tell us which when you apply.
+          Run one or run both. Tell us which when you apply.
         </p>
       </div>
 
@@ -226,6 +245,62 @@ const steps = [
     </div>
   </section>
 
+  <!-- The chapters map. One green dot on purpose: the empty map is the pitch,
+       since every unclaimed state is an argument for applying. -->
+  <section class="px-6 py-20">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2" data-reveal>
+      <div>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">The map so far</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          One state down. Forty-nine open.
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-soil/75">
+          Everything Roots of Tomorrow has done so far happened in one corner of
+          Ohio. The founding chapters beyond it are forming now, which means the
+          first chapter in your state hasn't been claimed yet.
+        </p>
+        <p class="mt-5 text-lg leading-relaxed text-soil/75">
+          Being first matters. Your chapter is the one the rest of your state
+          finds later, and the dot on this map with your town under it.
+        </p>
+      </div>
+
+      <div class="flex flex-col items-center gap-6 lg:justify-self-center">
+        <div class="flex flex-col gap-[7px]" role="img" aria-label="Dot map of the United States with Ohio marked as the founding chapter">
+          {mapRows.map((row) => (
+            <div class="flex gap-[7px]">
+              {row.split("").map((cell) =>
+                cell === "O" ? (
+                  <span class="relative block h-2.5 w-2.5">
+                    <span class="absolute -inset-1 animate-ping rounded-full bg-leaf/50" aria-hidden="true"></span>
+                    <span class="relative block h-2.5 w-2.5 rounded-full bg-leaf"></span>
+                  </span>
+                ) : (
+                  <span
+                    class:list={[
+                      "block h-2.5 w-2.5 rounded-full",
+                      cell === "#" ? "bg-canopy/15" : "bg-transparent",
+                    ]}
+                  ></span>
+                )
+              )}
+            </div>
+          ))}
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-600 uppercase tracking-[0.18em] text-moss">
+          <span class="flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-leaf" aria-hidden="true"></span>
+            Ohio, where we started
+          </span>
+          <span class="flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-canopy/15" aria-hidden="true"></span>
+            Still open
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Apply. Light panel on purpose: the CtaBand below is dark canopy, and two
        dark panels back to back flattens the end of the page. -->
   <section class="px-6 pt-20" data-reveal>
@@ -261,7 +336,7 @@ const steps = [
   <CtaBand
     eyebrow="Closer to home"
     heading="Already in Northeast Ohio?"
-    body="No chapter needed &mdash; come plant with the one that's already here."
+    body="No chapter needed. Come plant with the one that's already here."
     primary={{ href: "/get-involved", label: "Get Involved" }}
     secondary={{ href: "/donate", label: "Donate" }}
   />
