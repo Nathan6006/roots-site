@@ -31,7 +31,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
       </h1>
       <p class="mt-7 max-w-xl text-xl leading-relaxed text-paper/80">
         A youth-led nonprofit planting native trees and restoring forests
-        across Northeast Ohio &mdash; built by the students who'll inherit them.
+        across Northeast Ohio, built by the students who'll inherit them.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="/get-involved" class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg">
@@ -85,8 +85,36 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
     <StatBlock />
   </section>
 
+  <!-- Who stands behind the work. The relationship labels are deliberate:
+       "partnership" only where it's a real partnership, "guidance" for ODNR. -->
+  <section class="mx-auto mt-14 max-w-6xl px-6" data-reveal>
+    <div class="flex flex-col items-center gap-10 text-center sm:flex-row sm:flex-wrap sm:items-start sm:justify-center sm:gap-x-12 sm:gap-y-8">
+      <div>
+        <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">In partnership with</p>
+        <p class="mt-2 font-display text-xl font-600 text-canopy">Holden Forests &amp; Gardens</p>
+      </div>
+      <div>
+        <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">With guidance from</p>
+        <p class="mt-2 font-display text-xl font-600 text-canopy">ODNR Service Foresters</p>
+      </div>
+      <div>
+        <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">Fiscally sponsored by</p>
+        <p class="mt-2 font-display text-xl font-600 text-canopy">The Hack Foundation</p>
+      </div>
+      <div>
+        <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">Covered by</p>
+        <a
+          href="https://www.geaugamapleleaf.com/news/roots-of-tomorrow-takes-burton-farm-back-to-nature/"
+          target="_blank"
+          rel="noopener"
+          class="mt-2 inline-block font-display text-xl font-600 text-canopy underline decoration-sprout decoration-2 underline-offset-4 transition-colors hover:text-leaf"
+        >Geauga County Maple Leaf&thinsp;&nearr;</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Mission -->
-  <section class="mt-24 bg-cream/60 px-6 py-16 sm:py-20" data-reveal>
+  <section class="mt-16 bg-cream/60 px-6 py-16 sm:py-20" data-reveal>
     <div class="mx-auto max-w-3xl text-center">
       <svg
         viewBox="0 0 24 24"
@@ -104,7 +132,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
       <p class="mt-6 font-display text-2xl font-500 leading-snug text-canopy sm:text-[2rem]">
         We're a <span class="text-leaf underline decoration-sprout/70 decoration-2 underline-offset-[6px]">501(c)(3) student-led nonprofit</span> based in
         Northeast Ohio. We plant native trees to bring forests, clean air, and
-        healthy habitat back to {counties} counties &mdash; while giving our
+        healthy habitat back to {counties} counties, while giving our
         generation a real way to shape the place we live.
       </p>
     </div>
@@ -128,7 +156,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           on them goes with them.
         </p>
         <p class="mt-4 leading-relaxed text-soil/75">
-          It's a problem you can stand in &mdash; and one you can fix with your hands.
+          It's a problem you can stand in, and one you can fix with your hands.
           That's what drew us in.
         </p>
       </div>
@@ -142,8 +170,8 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         </h2>
         <p class="mt-5 leading-relaxed text-soil/75">
           We work directly with local landowners to turn unused acres into young
-          native forests &mdash; matching the right species to the land, planting
-          them, and looking after them as they take hold. Every project is run by
+          native forests. That means matching the right species to the land,
+          planting them, and looking after them as they take hold. Every project is run by
           students, with guidance from professional foresters.
         </p>
         <p class="mt-4 leading-relaxed text-soil/75">
@@ -158,26 +186,69 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
     </div>
   </section>
 
-  <!-- Past Events -->
+  <!-- Past Events. (When the Planting Log comes back, restore the
+       "Read the full planting log" link here; see src/pages/log.astro.) -->
   <EventCarousel />
 
-  <!-- Testimonial -->
-  <section class="mx-auto mt-24 max-w-4xl px-6" data-reveal>
-    <figure class="relative overflow-hidden rounded-3xl bg-cream/70 px-8 pb-12 pt-16 ring-1 ring-canopy/10 sm:px-14 sm:pt-20">
+  <!-- What the landowners say. VERBATIM ONLY inside quotation marks: these are
+       exact sentences from landowners' recommendation letters and the Maple
+       Leaf article. Trim with an ellipsis if you must; never reword quoted
+       text, and never use a quote that names a student inside the quote. -->
+  <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
+    <div class="max-w-2xl">
+      <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">From the landowners</p>
+      <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+        In their words.
+      </h2>
+    </div>
+
+    <figure class="relative mt-10 overflow-hidden rounded-3xl bg-cream/70 px-8 pb-12 pt-16 ring-1 ring-canopy/10 sm:px-14 sm:pt-20">
       <span
         aria-hidden="true"
-        class="pointer-events-none absolute -top-7 left-5 font-display text-[9rem] font-600 leading-none text-sprout/60 sm:left-9"
+        class="pointer-events-none absolute left-6 top-4 font-display text-7xl font-600 leading-none text-sprout/60 sm:left-8 sm:text-9xl"
       >&ldquo;</span>
       <blockquote class="relative font-display text-2xl font-500 leading-snug text-canopy sm:text-3xl">
-        Roots of Tomorrow made it easy to turn my land into something
-        meaningful. They were organized, professional, and genuinely passionate
-        about restoring nature. I'm proud to have partnered with them.
+        Out of the 2,110 trees and shrubs they planted, 2,093 survived. This is
+        remarkable due to the poor summer weather conditions and the fact that
+        they did the job correctly.
       </blockquote>
-      <figcaption class="mt-8 flex items-center gap-4 text-xs font-600 uppercase tracking-[0.18em] text-moss">
-        <span class="h-px w-10 bg-bark/40" aria-hidden="true"></span>
-        Partner Landowner
+      <figcaption class="mt-8 text-xs font-600 uppercase tracking-[0.18em] text-moss">
+        Chris Rea &amp; Dr. Renee Lambert &middot; Chestnut Ridge Farm, Burton Township
       </figcaption>
     </figure>
+
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      <figure class="flex flex-col justify-between rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm">
+        <blockquote class="font-display text-lg font-500 leading-snug text-canopy">
+          &ldquo;When these kids showed up, I thought, &lsquo;Oh no!&rsquo; But
+          the forester worked with them before. Once they get going, they
+          go!&rdquo;
+        </blockquote>
+        <figcaption class="mt-5 text-xs font-600 uppercase tracking-[0.18em] text-moss">
+          Chris Rea
+          <span class="mt-1 block">
+            <a
+              href="https://www.geaugamapleleaf.com/news/roots-of-tomorrow-takes-burton-farm-back-to-nature/"
+              target="_blank"
+              rel="noopener"
+              class="font-body font-600 normal-case tracking-normal text-leaf underline decoration-sprout decoration-2 underline-offset-4 hover:text-canopy"
+            >In the Geauga County Maple Leaf&thinsp;&nearr;</a>
+          </span>
+        </figcaption>
+      </figure>
+
+      <figure class="flex flex-col justify-between rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm">
+        <blockquote class="font-display text-lg font-500 leading-snug text-canopy">
+          &ldquo;I reached out and, without hesitation, the needed volunteers
+          were mobilized to help us keep our planting on track.&rdquo;
+        </blockquote>
+        <figcaption class="mt-5 text-xs font-600 uppercase tracking-[0.18em] text-moss">
+          Jennifer Villwock
+          <span class="mt-1 block text-soil/50">Happy Suns Farm, Vermillion</span>
+        </figcaption>
+      </figure>
+
+    </div>
   </section>
 
   <!-- Closing invitation -->

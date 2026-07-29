@@ -5,16 +5,20 @@
 //  - Desktop: an auto-scrolling, infinitely looping marquee. The list is
 //    duplicated once so the track can translate by exactly -50% for a seamless
 //    CSS-only loop.
-const images = [
-  "/images/events/event1.png",
-  "/images/events/event2.png",
-  "/images/events/event3.jpg",
-  "/images/events/event4.png",
-  "/images/events/event5.png",
-  "/images/events/event6.png",
-  "/images/events/event7.jpg",
+// Captions turn the photo wall into evidence: date, place, what went in the
+// ground. Keep them short: "Apr 2025 · Burton Township · 700 seedlings".
+// A photo with an empty caption renders exactly as before, so fill these in
+// as you match photos to events.
+const photos = [
+  { src: "/images/events/event1.png", caption: "" },
+  { src: "/images/events/event2.png", caption: "" },
+  { src: "/images/events/event3.jpg", caption: "" },
+  { src: "/images/events/event4.png", caption: "" },
+  { src: "/images/events/event5.png", caption: "" },
+  { src: "/images/events/event6.png", caption: "" },
+  { src: "/images/events/event7.jpg", caption: "" },
 ];
-const track = [...images, ...images];
+const track = [...photos, ...photos];
 ---
 
 <section class="mx-auto max-w-6xl px-6 pt-24" data-reveal>
@@ -26,12 +30,19 @@ const track = [...images, ...images];
   <!-- Mobile: swipe or tap the arrows to move through the photos. -->
   <div class="relative mt-8 sm:hidden">
     <div id="event-slides" class="slides flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-2xl">
-      {images.map((src) => (
-        <img
-          src={src}
-          alt="Roots of Tomorrow planting event"
-          class="aspect-[4/3] w-full shrink-0 snap-start object-cover ring-1 ring-canopy/10"
-        />
+      {photos.map((p) => (
+        <figure class="relative w-full shrink-0 snap-start overflow-hidden ring-1 ring-canopy/10">
+          <img
+            src={p.src}
+            alt={p.caption || "Roots of Tomorrow planting event"}
+            class="aspect-[4/3] w-full object-cover"
+          />
+          {p.caption && (
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-canopy/85 to-transparent px-4 pb-3 pt-10 text-xs font-500 text-paper">
+              {p.caption}
+            </figcaption>
+          )}
+        </figure>
       ))}
     </div>
     <button
@@ -51,13 +62,22 @@ const track = [...images, ...images];
   <!-- Desktop: auto-scrolling, infinitely looping marquee. -->
   <div class="carousel tilt-3d mt-8 hidden overflow-hidden sm:block" data-tilt="7">
     <div class="track flex w-max">
-      {track.map((src, i) => (
-        <img
-          src={src}
-          alt={i < images.length ? "Roots of Tomorrow planting event" : ""}
-          aria-hidden={i >= images.length ? "true" : undefined}
-          class="mr-6 h-80 w-80 flex-none rounded-2xl object-cover shadow-md ring-1 ring-canopy/10 transition-all duration-500 ease-out hover:scale-[1.03] hover:shadow-xl"
-        />
+      {track.map((p, i) => (
+        <figure
+          aria-hidden={i >= photos.length ? "true" : undefined}
+          class="relative mr-6 h-80 w-80 flex-none overflow-hidden rounded-2xl shadow-md ring-1 ring-canopy/10 transition-all duration-500 ease-out hover:scale-[1.03] hover:shadow-xl"
+        >
+          <img
+            src={p.src}
+            alt={i < photos.length ? p.caption || "Roots of Tomorrow planting event" : ""}
+            class="h-full w-full object-cover"
+          />
+          {p.caption && (
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-canopy/85 to-transparent px-4 pb-3 pt-10 text-xs font-500 text-paper">
+              {p.caption}
+            </figcaption>
+          )}
+        </figure>
       ))}
     </div>
   </div>
