@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Page not found | Roots of Tomorrow"
+  description="That page doesn't exist. The trees are fine, though."
+>
+  <section class="mx-auto flex min-h-[72vh] max-w-6xl flex-col items-start justify-center px-6 py-16">
+    <p class="font-display text-[7rem] font-600 leading-none tracking-tight text-sprout/60 sm:text-[11rem]">404</p>
+    <h1 class="mt-4 max-w-3xl font-display text-5xl font-600 leading-tight text-canopy sm:text-7xl">
+      This page got cleared.
+    </h1>
+    <p class="mt-7 max-w-xl text-xl leading-relaxed text-soil/75">
+      Unlike our forests, it isn't growing back. The good news: everything else
+      is right where it should be.
+    </p>
+    <div class="mt-9 flex flex-wrap gap-4">
+      <a
+        href="/"
+        class="rounded-full bg-canopy px-8 py-3.5 text-base font-600 text-paper shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-lg"
+      >
+        Back to home
+      </a>
+      <a
+        href="/get-involved"
+        class="rounded-full border border-canopy/25 px-8 py-3.5 text-base font-600 text-canopy transition-all duration-200 hover:-translate-y-0.5 hover:bg-canopy/5"
+      >
+        Get Involved
+      </a>
+    </div>
+  </section>
+</Layout>
