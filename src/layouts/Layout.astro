@@ -8,6 +8,10 @@ const {
   description = "A youth-led 501(c)(3) nonprofit restoring native forests across Northeast Ohio.",
   seamlessFooter = false,
 } = Astro.props;
+
+// Absolute URLs for link previews. Scrapers ignore relative og: values.
+const ogImage = new URL("/images/og-card.jpg", Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -19,7 +23,13 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Roots of Tomorrow: 10,000+ trees planted. Planting native trees and restoring forests." />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/png" href="/rootslogo.png" />
     <title>{title}</title>
     <!-- Runs during parse so the reveal styles only hide content when JS is on. -->
