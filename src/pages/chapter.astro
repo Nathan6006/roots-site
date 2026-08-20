@@ -32,9 +32,9 @@ const youBring = [
 ];
 
 // A dot-grid silhouette of the lower 48 for the chapters map. "#" is land,
-// "O" is Ohio (where we started), "." is empty. It's an abstraction, dots
-// rather than borders, so it reads as a map without pretending to be
-// survey-accurate.
+// "O" is Ohio (where we started), "C" is a chapter that came after, "." is
+// empty. It's an abstraction, dots rather than borders, so it reads as a map
+// without pretending to be survey-accurate.
 const mapRows = [
   "############.......#",
   "#############.#.####",
@@ -45,8 +45,8 @@ const mapRows = [
   ".#################..",
   "..###############...",
   "...##############...",
-  "...######......##...",
-  "....###.........#...",
+  "...###C##......##...",
+  "....###.........C...",
   "................##..",
 ];
 
@@ -245,19 +245,20 @@ const steps = [
     </div>
   </section>
 
-  <!-- The chapters map. One green dot on purpose: the empty map is the pitch,
-       since every unclaimed state is an argument for applying. -->
+  <!-- The chapters map. Three green dots against forty-seven grey ones: the
+       mostly empty map is the pitch, since every unclaimed state is an
+       argument for applying. -->
   <section class="px-6 py-20">
     <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2" data-reveal>
       <div>
         <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">The map so far</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
-          One state down. Forty-nine open.
+          Three states down. Forty-seven open.
         </h2>
         <p class="mt-6 text-lg leading-relaxed text-soil/75">
-          Everything Roots of Tomorrow has done so far happened in one corner of
-          Ohio. The founding chapters beyond it are forming now, which means the
-          first chapter in your state hasn't been claimed yet.
+          Everything Roots of Tomorrow has done so far started in one corner of
+          Ohio. Chapters in Florida and Texas came next, run by students who
+          applied the same way you would. Every other state is still open.
         </p>
         <p class="mt-5 text-lg leading-relaxed text-soil/75">
           Being first matters. Your chapter is the one the rest of your state
@@ -266,7 +267,7 @@ const steps = [
       </div>
 
       <div class="flex flex-col items-center gap-6 lg:justify-self-center">
-        <div class="flex flex-col gap-[7px]" role="img" aria-label="Dot map of the United States with Ohio marked as the founding chapter">
+        <div class="flex flex-col gap-[7px]" role="img" aria-label="Dot map of the United States with Ohio, Florida, and Texas marked as chapters">
           {mapRows.map((row) => (
             <div class="flex gap-[7px]">
               {row.split("").map((cell) =>
@@ -279,7 +280,7 @@ const steps = [
                   <span
                     class:list={[
                       "block h-2.5 w-2.5 rounded-full",
-                      cell === "#" ? "bg-canopy/15" : "bg-transparent",
+                      cell === "C" ? "bg-leaf" : cell === "#" ? "bg-canopy/15" : "bg-transparent",
                     ]}
                   ></span>
                 )
@@ -289,8 +290,12 @@ const steps = [
         </div>
         <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-600 uppercase tracking-[0.18em] text-moss">
           <span class="flex items-center gap-2">
-            <span class="h-2.5 w-2.5 rounded-full bg-leaf" aria-hidden="true"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-leaf ring-4 ring-leaf/25" aria-hidden="true"></span>
             Ohio, where we started
+          </span>
+          <span class="flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-leaf" aria-hidden="true"></span>
+            Florida and Texas
           </span>
           <span class="flex items-center gap-2">
             <span class="h-2.5 w-2.5 rounded-full bg-canopy/15" aria-hidden="true"></span>
