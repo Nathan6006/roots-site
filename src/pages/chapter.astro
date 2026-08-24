@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CtaBand from "../components/CtaBand.astro";
+import ChapterMap from "../components/ChapterMap.astro";
 import stats from "../data/stats.json";
 
 // The two kinds of chapter. Same application either way; the form asks which.
@@ -31,24 +32,26 @@ const youBring = [
   "As the local lead: recruiting members, finding land or arranging the education side, booking a venue, and running the event day.",
 ];
 
-// A dot-grid silhouette of the lower 48 for the chapters map. "#" is land,
-// "O" is Ohio (where we started), "C" is a chapter that came after, "." is
-// empty. It's an abstraction, dots rather than borders, so it reads as a map
-// without pretending to be survey-accurate.
-const mapRows = [
-  "############.......#",
-  "#############.#.####",
-  "#############.######",
-  "###############O###.",
-  "###################.",
-  ".##################.",
-  ".#################..",
-  "..###############...",
-  "...##############...",
-  "...###C##......##...",
-  "....###.........C...",
-  "................##..",
+// The map copy counts states, so it reads off the chapter list in stats.json
+// rather than repeating the number. Fifty states, no territories.
+const STATE_COUNT = 50;
+const ONES = [
+  "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+  "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+  "sixteen", "seventeen", "eighteen", "nineteen",
 ];
+const TENS = ["", "", "twenty", "thirty", "forty", "fifty"];
+function spell(n: number): string {
+  if (n < 20) return ONES[n];
+  const ones = n % 10;
+  return ones ? `${TENS[Math.floor(n / 10)]}-${ONES[ones]}` : TENS[Math.floor(n / 10)];
+}
+const capitalize = (word: string) => word[0].toUpperCase() + word.slice(1);
+
+const chapterCount = stats.chapters.length;
+const mapHeadline = `${capitalize(spell(chapterCount))} ${chapterCount === 1 ? "state" : "states"} down. ${capitalize(spell(STATE_COUNT - chapterCount))} open.`;
+const [foundingState, ...laterChapters] = stats.chapters;
+const laterChapterList = new Intl.ListFormat("en", { type: "conjunction" }).format(laterChapters);
 
 const steps = [
   {
@@ -245,7 +248,7 @@ const steps = [
     </div>
   </section>
 
-  <!-- The chapters map. Three green dots against forty-seven grey ones: the
+  <!-- The chapters map. Four states filled against forty-six empty ones: the
        mostly empty map is the pitch, since every unclaimed state is an
        argument for applying. -->
   <section class="px-6 py-20">
@@ -253,55 +256,22 @@ const steps = [
       <div>
         <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">The map so far</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
-          Three states down. Forty-seven open.
+          {mapHeadline}
         </h2>
         <p class="mt-6 text-lg leading-relaxed text-soil/75">
           Everything Roots of Tomorrow has done so far started in one corner of
-          Ohio. Chapters in Florida and Texas came next, run by students who
-          applied the same way you would. Every other state is still open.
+          {foundingState}. Chapters in {laterChapterList} came next, run by
+          students who applied the same way you would. Every other state is
+          still open.
         </p>
         <p class="mt-5 text-lg leading-relaxed text-soil/75">
           Being first matters. Your chapter is the one the rest of your state
-          finds later, and the dot on this map with your town under it.
+          finds later, and your state is the next one to fill in on this map.
         </p>
       </div>
 
-      <div class="flex flex-col items-center gap-6 lg:justify-self-center">
-        <div class="flex flex-col gap-[7px]" role="img" aria-label="Dot map of the United States with Ohio, Florida, and Texas marked as chapters">
-          {mapRows.map((row) => (
-            <div class="flex gap-[7px]">
-              {row.split("").map((cell) =>
-                cell === "O" ? (
-                  <span class="relative block h-2.5 w-2.5">
-                    <span class="absolute -inset-1 animate-ping rounded-full bg-leaf/50" aria-hidden="true"></span>
-                    <span class="relative block h-2.5 w-2.5 rounded-full bg-leaf"></span>
-                  </span>
-                ) : (
-                  <span
-                    class:list={[
-                      "block h-2.5 w-2.5 rounded-full",
-                      cell === "C" ? "bg-leaf" : cell === "#" ? "bg-canopy/15" : "bg-transparent",
-                    ]}
-                  ></span>
-                )
-              )}
-            </div>
-          ))}
-        </div>
-        <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-600 uppercase tracking-[0.18em] text-moss">
-          <span class="flex items-center gap-2">
-            <span class="h-2.5 w-2.5 rounded-full bg-leaf ring-4 ring-leaf/25" aria-hidden="true"></span>
-            Ohio, where we started
-          </span>
-          <span class="flex items-center gap-2">
-            <span class="h-2.5 w-2.5 rounded-full bg-leaf" aria-hidden="true"></span>
-            Florida and Texas
-          </span>
-          <span class="flex items-center gap-2">
-            <span class="h-2.5 w-2.5 rounded-full bg-canopy/15" aria-hidden="true"></span>
-            Still open
-          </span>
-        </div>
+      <div class="flex justify-center lg:justify-self-center">
+        <ChapterMap chapters={stats.chapters} />
       </div>
     </div>
   </section>

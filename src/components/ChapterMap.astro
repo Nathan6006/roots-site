@@ -1,0 +1,40 @@
+---
+import statePaths from "../data/us-states.json";
+
+// Real state outlines rather than a dot grid, so Ohio reads as Ohio without a
+// label beside it. The paths come from US Census boundaries (via us-atlas),
+// projected with Albers USA and simplified until the file was small enough to
+// inline: enough detail to recognise a state, not enough to survey one. Alaska
+// and Hawaii sit in the usual insets at the bottom left.
+interface Props {
+  chapters: string[];
+}
+
+const { chapters } = Astro.props;
+
+const paths: Record<string, string> = statePaths;
+const claimed = new Set(chapters);
+const open = Object.keys(paths).filter((name) => !claimed.has(name));
+const active = chapters.filter((name) => name in paths);
+---
+
+<svg
+  viewBox="12 8 951 601"
+  class="h-auto w-full max-w-xl"
+  role="img"
+  aria-label={`Map of the United States. ${chapters.join(", ")} are filled in as Roots of Tomorrow chapters. Every other state is open.`}
+  fill="none"
+  stroke-linejoin="round"
+  stroke-linecap="round"
+>
+  <!-- Open states first, so a chapter's halo always sits over its neighbours. -->
+  <g class="fill-canopy/12 stroke-paper" stroke-width="1.6">
+    {open.map((name) => <path d={paths[name]} />)}
+  </g>
+  <g class="animate-pulse stroke-leaf/25" stroke-width="9" aria-hidden="true">
+    {active.map((name) => <path d={paths[name]} />)}
+  </g>
+  <g class="fill-leaf stroke-paper" stroke-width="1.6">
+    {active.map((name) => <path d={paths[name]} />)}
+  </g>
+</svg>
