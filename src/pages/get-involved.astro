@@ -21,12 +21,16 @@ const ways = [
 ];
 ---
 
-<Layout title="Get Involved | Roots of Tomorrow" description="Volunteer, offer your land, partner with us, or start a Roots of Tomorrow chapter where you live.">
+<Layout title="Get Involved | Roots of Tomorrow" description="Volunteer at a planting day, offer unused acres in Northeast Ohio, partner with us, or start a chapter where you live.">
   <section class="relative flex min-h-[56vh] items-center overflow-hidden">
     <img
       id="hero-bg"
       src="/images/involvedBanner.jpg"
-      alt="Volunteers planting trees"
+      alt="Sunlight coming through the canopy of a mature hardwood forest with ferns below"
+      width="1200"
+      height="800"
+      fetchpriority="high"
+      decoding="sync"
       class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
       style="will-change: transform;"
     />
@@ -74,7 +78,7 @@ const ways = [
             <h3 class="mt-7 font-display text-2xl font-600 text-canopy">{w.title}</h3>
             <p class="mt-4 flex-1 leading-relaxed text-soil/75">{w.body}</p>
             <a
-              href="/contact"
+              href="/contact/"
               class="mt-8 inline-flex items-center justify-between rounded-full border border-canopy/15 px-5 py-3 text-sm font-600 text-leaf transition-colors group-hover:border-leaf group-hover:bg-leaf group-hover:text-paper"
             >
               {w.cta}
@@ -92,7 +96,11 @@ const ways = [
     <div class="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-leaf/25 bg-paper shadow-sm md:grid-cols-2">
       <img
         src="/images/homeImage1.jpg"
-        alt="Volunteers planting trees"
+        alt="A cleared woodlot left as bare stumps and fallen branches, with standing trees behind it"
+        width="1050"
+        height="825"
+        loading="lazy"
+        decoding="async"
         class="h-64 w-full object-cover md:h-full"
       />
       <div class="px-8 py-12 sm:px-12">
@@ -105,7 +113,7 @@ const ways = [
           planting trees, teaching, or both, and we'll help you get it off the ground.
         </p>
         <a
-          href="/chapter"
+          href="/chapter/"
           class="group mt-8 inline-flex items-center gap-2 rounded-full bg-canopy px-7 py-3.5 text-base font-600 text-paper shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-md"
         >
           Start a chapter

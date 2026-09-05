@@ -8,14 +8,21 @@ import stats from "../data/stats.json";
 const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
 ---
 
-<Layout title="Roots of Tomorrow | Home">
+<Layout
+  title="Youth-led native tree planting in Northeast Ohio | Roots of Tomorrow"
+  description={`Student-led 501(c)(3) planting native trees across ${counties} counties in Northeast Ohio. ${stats.treesPlanted} in the ground so far.`}
+>
   <!-- Hero -->
   <section class="relative flex h-[67vh] items-center overflow-hidden">
     <!-- Parallax background -->
     <img
       id="hero-bg"
       src="/images/homeHero.jpg"
-      alt="Volunteers planting trees"
+      alt="Hands settling a young native seedling into dark soil"
+      width="1600"
+      height="900"
+      fetchpriority="high"
+      decoding="sync"
       class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
       style="will-change: transform;"
     />
@@ -34,10 +41,10 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         across Northeast Ohio, built by the students who'll inherit them.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="/get-involved" class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg">
+        <a href="/get-involved/" class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg">
           Get Involved
         </a>
-        <a href="/donate" class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-paper/15">
+        <a href="/donate/" class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-paper/15">
           Donate
         </a>
       </div>
@@ -142,7 +149,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   <section class="mx-auto mt-24 max-w-6xl px-6">
     <div class="grid items-center gap-12 md:grid-cols-2" data-reveal>
       <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
-        <img src="/images/homeImage1.jpg" alt="Local landscape" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+        <img src="/images/homeImage1.jpg" alt="A cleared woodlot left as bare stumps and fallen branches, with standing trees behind it" width="1050" height="825" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
       </div>
       <div>
         <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Why we plant</p>
@@ -181,7 +188,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         </p>
       </div>
       <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10 md:order-1">
-        <img src="/images/homeImage2.jpg" alt="Students planting" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+        <img src="/images/homeImage2.jpg" alt="Two students marking planting spots with flags in an open field at the edge of the woods" width="1152" height="863" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
       </div>
     </div>
   </section>

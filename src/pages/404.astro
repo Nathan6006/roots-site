@@ -5,6 +5,7 @@ import Layout from "../layouts/Layout.astro";
 <Layout
   title="Page not found | Roots of Tomorrow"
   description="That page doesn't exist. The trees are fine, though."
+  noindex={true}
 >
   <section class="mx-auto flex min-h-[72vh] max-w-6xl flex-col items-start justify-center px-6 py-16">
     <p class="font-display text-[7rem] font-600 leading-none tracking-tight text-sprout/60 sm:text-[11rem]">404</p>
@@ -23,7 +24,7 @@ import Layout from "../layouts/Layout.astro";
         Back to home
       </a>
       <a
-        href="/get-involved"
+        href="/get-involved/"
         class="rounded-full border border-canopy/25 px-8 py-3.5 text-base font-600 text-canopy transition-all duration-200 hover:-translate-y-0.5 hover:bg-canopy/5"
       >
         Get Involved

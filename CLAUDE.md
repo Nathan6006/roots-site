@@ -92,6 +92,41 @@ When adding UI, reuse these tokens and the existing patterns rather than
 introducing new colors or fonts. Match the spacing and rounding already in use
 (`rounded-2xl` / `rounded-3xl`, generous section padding, `max-w-6xl` containers).
 
+## SEO conventions
+
+The `<head>` is built entirely in `Layout.astro`. Don't add meta tags to a page
+directly; pass props instead.
+
+- **Every page passes a `title` and a `description`.** Titles are
+  `Page | Roots of Tomorrow`, sentence-cased, unique. Descriptions are one or
+  two plain sentences, unique per page, roughly 120 to 155 characters, written
+  to the copy guidelines above. Never reuse a description across two pages.
+- **Utility pages pass `noindex={true}`** (`thank-you.astro`, `404.astro`).
+  The layout then emits a robots noindex and skips the canonical, because a
+  noindex page and a canonical are contradictory signals. Don't also disallow
+  those paths in robots.txt: a crawler has to fetch the page to read the
+  noindex.
+- **Internal links end with a trailing slash** (`/chapter/`, not `/chapter`).
+  Pages are served at `/page/`, so a slashless link costs a redirect hop. This
+  matches `trailingSlash: 'always'` in the config, the canonical, `og:url`, and
+  the sitemap.
+- **Structured data** (schema.org NGO + WebSite, JSON-LD) renders on the home
+  page only, from `stats.json`. Google does not want it on every page. Every
+  value must be backed by something visible on the site. Note the EIN is the
+  Hack Foundation's, so it is the sponsor's `taxID`, never ours.
+- **Images need `alt`, `width`, and `height`.** The one hero per page gets
+  `fetchpriority="high"` and `decoding="sync"` and must never be lazy;
+  everything below the fold gets `loading="lazy" decoding="async"`. Alt text
+  describes what is in the photo. In `EventCarousel.astro`, `alt` and `caption`
+  are separate fields: `caption` is visible on the page, `alt` is not.
+- **New pages** are picked up by the sitemap automatically. To keep one out,
+  add its URL to `excludedFromSitemap` in `astro.config.mjs`.
+- `public/robots.txt`, `public/_redirects`, and `public/_headers` are served
+  as-is. `_redirects` gives the parked and alias routes real HTTP redirects on
+  Cloudflare Pages and Netlify.
+- Don't add `<meta name="keywords">`, sitemap `priority`/`changefreq`, or a
+  build-time `lastmod`. Google ignores all of them.
+
 ## Conventions
 
 - **Every page** imports and wraps its content in `Layout.astro`, passing a

@@ -1,0 +1,20 @@
+# Real HTTP redirects for Cloudflare Pages and Netlify. Astro's static build
+# also emits meta-refresh stubs for these paths as a fallback for hosts that
+# ignore this file, but a server-side redirect is what search engines prefer,
+# and it is instant for visitors.
+#
+# Format: [source] [destination] [code]. The default code is 302, so a
+# permanent redirect has to say 301. Sources are matched literally, hence both
+# slash variants.
+
+# /chapters is the plural people type for the chapter page. Permanent.
+/chapters      /chapter/   301
+/chapters/     /chapter/   301
+
+# The Planting Log and Past Events pages are parked, not retired: they are
+# expected back once the event tree counts are reconciled. Temporary (302) on
+# purpose, so search engines do not fold these URLs into the home page.
+/past-events   /           302
+/past-events/  /           302
+/log           /           302
+/log/          /           302

@@ -20,17 +20,19 @@ const contactLinks = [
 const topics = ["Volunteer days", "Land partnerships", "School or business projects", "General questions"];
 
 // Absolute URL FormSubmit redirects to after a successful submission.
-const thankYouUrl = new URL("/thank-you", Astro.site).href;
+const thankYouUrl = new URL("/thank-you/", Astro.site).href;
 ---
 
-<Layout title="Contact | Roots of Tomorrow" description="Get in touch with Roots of Tomorrow." seamlessFooter={true}>
+<Layout title="Contact | Roots of Tomorrow" description="Send a message or email Roots of Tomorrow directly. Landowner questions and volunteer sign-ups reach the same inbox, and we read every one." seamlessFooter={true}>
   <section class="grid lg:grid-cols-2 lg:items-stretch">
     <!-- Left: contactImage.jpg with the heading + contact info overlaid.
          Hidden on small screens, where we show just the form. -->
     <div class="relative hidden items-center overflow-hidden lg:flex">
       <img
         src="/images/contactImage.jpg"
-        alt="A Roots of Tomorrow planting day"
+        alt="A footpath running through green summer woods"
+        width="624"
+        height="900"
         class="absolute inset-0 h-full w-full object-cover"
       />
       <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/80 via-canopy/70 to-canopy/85"></div>

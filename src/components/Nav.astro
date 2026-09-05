@@ -1,17 +1,21 @@
 ---
 const links = [
   { href: "/", label: "Home" },
-  { href: "/get-involved", label: "Get Involved" },
-  { href: "/chapter", label: "Start a Chapter" },
-  { href: "/contact", label: "Contact" },
+  { href: "/get-involved/", label: "Get Involved" },
+  { href: "/chapter/", label: "Start a Chapter" },
+  { href: "/contact/", label: "Contact" },
 ];
-const path = Astro.url.pathname;
+// Pages are served at /page/, so internal hrefs carry the trailing slash and a
+// link never costs a redirect hop. Compare on the same normalised form so the
+// current-page underline survives either spelling.
+const withSlash = (p: string) => (p.endsWith("/") ? p : `${p}/`);
+const path = withSlash(Astro.url.pathname);
 ---
 
 <header class="sticky top-0 z-50 border-b border-canopy/10 bg-paper/70 shadow-sm backdrop-blur-xl">
   <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
     <a href="/" class="group flex items-center gap-2 font-display text-xl font-600 text-canopy sm:gap-3 sm:text-2xl">
-      <img src="/rootslogo.png" alt="Roots of Tomorrow logo" width="52" height="52" class="h-10 w-10 rounded-full drop-shadow-sm transition-transform duration-200 group-hover:scale-105 sm:h-13 sm:w-13" />
+      <img src="/rootslogo-128.png" alt="Roots of Tomorrow logo" width="52" height="52" decoding="async" class="h-10 w-10 rounded-full drop-shadow-sm transition-transform duration-200 group-hover:scale-105 sm:h-13 sm:w-13" />
       Roots of Tomorrow
     </a>
 
@@ -20,7 +24,7 @@ const path = Astro.url.pathname;
         <a
           href={l.href}
           class={`font-display text-base font-500 tracking-wide transition-colors hover:text-leaf ${
-            path === l.href
+            path === withSlash(l.href)
               ? "text-canopy underline decoration-sprout decoration-2 underline-offset-[10px]"
               : "text-soil/60"
           }`}
@@ -29,7 +33,7 @@ const path = Astro.url.pathname;
         </a>
       ))}
       <a
-        href="/donate"
+        href="/donate/"
         class="rounded-full bg-canopy px-6 py-2 font-display text-base font-600 text-paper shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-md"
       >
         Donate
@@ -44,7 +48,7 @@ const path = Astro.url.pathname;
         {links.map((l) => (
           <a href={l.href} class="rounded-lg px-3 py-2 font-display text-sm text-soil/80 hover:bg-cream">{l.label}</a>
         ))}
-        <a href="/donate" class="mt-1 rounded-lg bg-canopy px-3 py-2 text-center font-display text-sm font-600 text-paper">Donate</a>
+        <a href="/donate/" class="mt-1 rounded-lg bg-canopy px-3 py-2 text-center font-display text-sm font-600 text-paper">Donate</a>
       </div>
     </details>
   </nav>

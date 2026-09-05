@@ -9,14 +9,22 @@
 // ground. Keep them short: "Apr 2025 · Burton Township · 700 seedlings".
 // A photo with an empty caption renders exactly as before, so fill these in
 // as you match photos to events.
+// width/height are the files' real pixel dimensions. They let the browser
+// reserve the right box before the photo arrives, which keeps the section
+// from shifting as it loads.
+//
+// `alt` describes what is in the photo, for screen readers and for Google
+// Images. It is never shown on screen. `caption` is the visible label; filling
+// one in makes the caption appear over the photo, so leave it empty until you
+// have the real date, place, and count for that day.
 const photos = [
-  { src: "/images/events/event1.png", caption: "" },
-  { src: "/images/events/event2.png", caption: "" },
-  { src: "/images/events/event3.jpg", caption: "" },
-  { src: "/images/events/event4.png", caption: "" },
-  { src: "/images/events/event5.png", caption: "" },
-  { src: "/images/events/event6.png", caption: "" },
-  { src: "/images/events/event7.jpg", caption: "" },
+  { src: "/images/events/event1.jpg", alt: "A student digging a planting hole with a spade in a grassy field", width: 1000, height: 869, caption: "" },
+  { src: "/images/events/event2.jpg", alt: "Volunteers in rain gear spread along a line of orange marker flags at the edge of the woods", width: 1000, height: 749, caption: "" },
+  { src: "/images/events/event3.jpg", alt: "Three students standing on a fallen log in a field staked out for planting", width: 1000, height: 750, caption: "" },
+  { src: "/images/events/event4.jpg", alt: "An orange marker flag along the tree line of a green field on a rainy spring day", width: 1000, height: 823, caption: "" },
+  { src: "/images/events/event5.jpg", alt: "Students and adult volunteers standing with shovels on freshly turned ground", width: 1000, height: 926, caption: "" },
+  { src: "/images/events/event6.jpg", alt: "Students and volunteers with muddy shovels and boots at the end of a rainy planting day", width: 1000, height: 629, caption: "" },
+  { src: "/images/events/event7.jpg", alt: "A student breaking ground with a spade in a bare field in front of a winter treeline", width: 1000, height: 750, caption: "" },
 ];
 const track = [...photos, ...photos];
 ---
@@ -34,7 +42,11 @@ const track = [...photos, ...photos];
         <figure class="relative w-full shrink-0 snap-start overflow-hidden ring-1 ring-canopy/10">
           <img
             src={p.src}
-            alt={p.caption || "Roots of Tomorrow planting event"}
+            alt={p.alt}
+            width={p.width}
+            height={p.height}
+            loading="lazy"
+            decoding="async"
             class="aspect-[4/3] w-full object-cover"
           />
           {p.caption && (
@@ -69,7 +81,11 @@ const track = [...photos, ...photos];
         >
           <img
             src={p.src}
-            alt={i < photos.length ? p.caption || "Roots of Tomorrow planting event" : ""}
+            alt={i < photos.length ? p.alt : ""}
+            width={p.width}
+            height={p.height}
+            loading="lazy"
+            decoding="async"
             class="h-full w-full object-cover"
           />
           {p.caption && (

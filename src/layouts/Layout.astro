@@ -2,16 +2,82 @@
 import "../styles/global.css";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import stats from "../data/stats.json";
+
+const SITE_NAME = "Roots of Tomorrow";
+const DEFAULT_DESCRIPTION =
+  "A youth-led 501(c)(3) nonprofit restoring native forests across Northeast Ohio.";
 
 const {
-  title = "Roots of Tomorrow",
-  description = "A youth-led 501(c)(3) nonprofit restoring native forests across Northeast Ohio.",
+  title = SITE_NAME,
+  description = DEFAULT_DESCRIPTION,
   seamlessFooter = false,
+  // Utility pages (the form's thank-you page, the 404) should not be indexed.
+  // A noindex page gets no canonical: the two are contradictory signals.
+  noindex = false,
 } = Astro.props;
 
 // Absolute URLs for link previews. Scrapers ignore relative og: values.
 const ogImage = new URL("/images/og-card.jpg", Astro.site).href;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const siteUrl = new URL("/", Astro.site).href;
+const isHome = Astro.url.pathname === "/";
+
+// The share card shows the tree count, so the alt repeats it. The number comes
+// from stats.json like every other number on the site.
+const ogImageAlt = `${SITE_NAME}: ${stats.treesPlanted}+ trees planted. Planting native trees and restoring forests.`;
+
+// Structured data, home page only. Google does not need site-wide markup, and
+// every value below is backed by something visible on the site: the name and
+// logo in the nav and footer, the email and social links in the footer, the
+// 501(c)(3) status on the home and donate pages, the counties on the home page,
+// and the chapter states on the chapter page.
+//
+// The EIN belongs to the Hack Foundation, which fiscally sponsors us (the
+// footer says exactly that), so it is modelled as the sponsor's taxID and not
+// as ours.
+const organizationId = `${siteUrl}#organization`;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "NGO",
+      "@id": organizationId,
+      name: SITE_NAME,
+      url: siteUrl,
+      logo: new URL("/rootslogo.png", Astro.site).href,
+      image: ogImage,
+      description: DEFAULT_DESCRIPTION,
+      email: stats.email,
+      sameAs: [stats.instagram, stats.linkedin],
+      nonprofitStatus: "https://schema.org/Nonprofit501c3",
+      foundingLocation: { "@type": "Place", name: "Northeast Ohio" },
+      sponsor: {
+        "@type": "Organization",
+        name: "The Hack Foundation",
+        taxID: stats.ein,
+      },
+      areaServed: [
+        ...stats.counties.map((county) => ({
+          "@type": "AdministrativeArea",
+          name: `${county} County, Ohio`,
+        })),
+        ...stats.chapters.map((state) => ({
+          "@type": "AdministrativeArea",
+          name: state,
+        })),
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}#website`,
+      name: SITE_NAME,
+      url: siteUrl,
+      inLanguage: "en-US",
+      publisher: { "@id": organizationId },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -19,19 +85,48 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex
+      ? <meta name="robots" content="noindex, follow" />
+      : <meta name="robots" content="max-image-preview:large" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content="#1f3d2b" />
+
+    <!-- The font CSS is a third-party request, so warm both origins up front
+         rather than waiting for the stylesheet to be parsed to discover it. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
+    />
+
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Roots of Tomorrow: 10,000+ trees planted. Planting native trees and restoring forests." />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <link rel="icon" type="image/png" href="/rootslogo.png" />
-    <title>{title}</title>
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    {isHome && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
     <!-- Runs during parse so the reveal styles only hide content when JS is on. -->
     <script is:inline>document.documentElement.classList.add("js");</script>
   </head>

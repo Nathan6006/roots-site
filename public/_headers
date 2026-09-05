@@ -1,0 +1,11 @@
+# Cache headers for Cloudflare Pages and Netlify. HTML is deliberately not
+# listed: pages must stay revalidated so an edit shows up immediately.
+
+# Astro fingerprints these filenames, so a changed file gets a new URL and an
+# old URL can safely be cached forever.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images keep stable names, so cache them for a week rather than forever.
+/images/*
+  Cache-Control: public, max-age=604800

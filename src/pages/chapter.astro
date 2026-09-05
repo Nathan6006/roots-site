@@ -71,14 +71,18 @@ const steps = [
 
 <Layout
   title="Start a Chapter | Roots of Tomorrow"
-  description="Start a Roots of Tomorrow chapter where you live: plant native trees, run education events, or both."
+  description="Start a Roots of Tomorrow chapter where you live: plant native trees, run education events, or both. One event a year, and we help you run it."
 >
   <!-- Hero -->
   <section class="relative flex min-h-[56vh] items-center overflow-hidden">
     <img
       id="hero-bg"
       src="/images/chapterBanner.jpg"
-      alt="A hand watering a young seedling"
+      alt="A hand watering a young seedling growing in dark soil"
+      width="800"
+      height="600"
+      fetchpriority="high"
+      decoding="sync"
       class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
       style="will-change: transform;"
     />
@@ -148,11 +152,12 @@ const steps = [
       </div>
 
       <img
-        src="/images/chapterImage.png"
+        src="/images/chapterImage.jpg"
         alt="A student tending plants in a raised garden bed"
         width="1228"
         height="974"
         loading="lazy"
+        decoding="async"
         class="w-full rounded-3xl object-cover shadow-lg"
       />
     </div>
@@ -299,7 +304,7 @@ const steps = [
           Start the application
         </a>
         <a
-          href="/contact"
+          href="/contact/"
           class="rounded-full border border-canopy/25 px-8 py-3.5 text-base font-600 text-canopy transition-all duration-200 hover:-translate-y-0.5 hover:bg-canopy/5"
         >
           Ask a question first

@@ -22,8 +22,25 @@ Needs Node 22.12+.
   existing one as a template). No code needed.
 - src/styles/global.css — colors and fonts (design tokens).
 
+- public/robots.txt, public/_redirects, public/_headers — crawler and host
+  config, copied into dist as-is.
+- The sitemap is generated at build time into dist/sitemap-index.xml by
+  @astrojs/sitemap; the exclusion list lives in astro.config.mjs.
+
 ## To do before launch
 
+- Point Google Search Console at the site: verify rootsoftomorrow.org (a DNS
+  TXT record in Cloudflare covers every subdomain) and submit
+  https://rootsoftomorrow.org/sitemap-index.xml.
+- Redirect www.rootsoftomorrow.org to the apex with a 301. This is a Cloudflare
+  dashboard setting (Bulk Redirects or a Single Redirect rule), not something
+  the repo can do.
+- Shrink the photos. The home page currently ships about 28 MB of images: the
+  event photos are 2 to 6 MB PNGs and JPEGs displayed in a 320 px tile, and
+  chapterImage.png is 2.7 MB. Lazy loading keeps them from blocking first
+  paint, but re-exporting each at roughly its displayed size (and PNG photos
+  as JPEG or WebP) is the real fix. Keep the same crops so the width and height
+  attributes stay correct, and leave og-card.jpg as a 1200x630 JPEG.
 - Replace placeholder images: every <Placeholder> marks a spot needing a real
   photo. Swap each for an <img> pointing at a file in /public.
 - Fill in real Privacy Policy and Terms of Service (src/pages/legal/).

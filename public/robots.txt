@@ -1,0 +1,10 @@
+# https://rootsoftomorrow.org/
+# Everything on this site is meant to be found. The pages that should not be
+# indexed (the contact form's thank-you page and the 404) say so with a robots
+# meta tag, which only works if crawlers are allowed to fetch them, so nothing
+# is disallowed here.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://rootsoftomorrow.org/sitemap-index.xml
