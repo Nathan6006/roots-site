@@ -1,40 +1,130 @@
 ---
 import statePaths from "../data/us-states.json";
+import { chapters, chapterStates } from "../lib/chapters";
 
 // Real state outlines rather than a dot grid, so Ohio reads as Ohio without a
 // label beside it. The paths come from US Census boundaries (via us-atlas),
 // projected with Albers USA and simplified until the file was small enough to
 // inline: enough detail to recognise a state, not enough to survey one. Alaska
 // and Hawaii sit in the usual insets at the bottom left.
-interface Props {
-  chapters: string[];
+//
+// Each chapter gets a pin at its city. The pins are placed by projecting the
+// city's lat/lon from stats.json with the same Albers projection the outlines
+// use (d3's geoAlbers defaults at scale 1300, translate 487.5,305), so a new
+// chapter only needs its coordinates. This covers the lower 48; a chapter in
+// Alaska or Hawaii would need the inset math added.
+const VIEW = { x: 12, y: 8, width: 951, height: 601 };
+
+const toRadians = (degrees: number) => (degrees * Math.PI) / 180;
+const sinPhi0 = Math.sin(toRadians(29.5));
+const n = (sinPhi0 + Math.sin(toRadians(45.5))) / 2;
+const c = 1 + sinPhi0 * (2 * n - sinPhi0);
+const r0 = Math.sqrt(c) / n;
+function conic(lambda: number, phi: number): [number, number] {
+  const r = Math.sqrt(c - 2 * n * Math.sin(phi)) / n;
+  return [r * Math.sin(lambda * n), r0 - r * Math.cos(lambda * n)];
+}
+const [centerX, centerY] = conic(toRadians(-0.6), toRadians(38.7));
+function project(lon: number, lat: number): [number, number] {
+  const [x, y] = conic(toRadians(lon + 96), toRadians(lat));
+  return [487.5 + 1300 * (x - centerX), 305 - 1300 * (y - centerY)];
 }
 
-const { chapters } = Astro.props;
+const pins = chapters.map((chapter, index) => {
+  const [x, y] = project(chapter.lon, chapter.lat);
+  const left = ((x - VIEW.x) / VIEW.width) * 100;
+  const top = ((y - VIEW.y) / VIEW.height) * 100;
+  // Near the right edge the label opens leftward so it never runs off the
+  // map (and off a phone screen).
+  const align = left > 80 ? "right" : "center";
+  return { ...chapter, left, top, align, delay: `${(index * 0.45).toFixed(2)}s` };
+});
 
 const paths: Record<string, string> = statePaths;
-const claimed = new Set(chapters);
+const claimed = new Set(chapterStates);
 const open = Object.keys(paths).filter((name) => !claimed.has(name));
-const active = chapters.filter((name) => name in paths);
+const active = chapterStates.filter((name) => name in paths);
 ---
 
-<svg
-  viewBox="12 8 951 601"
-  class="h-auto w-full max-w-xl"
-  role="img"
-  aria-label={`Map of the United States. ${chapters.join(", ")} are filled in as Roots of Tomorrow chapters. Every other state is open.`}
-  fill="none"
-  stroke-linejoin="round"
-  stroke-linecap="round"
->
-  <!-- Open states first, so a chapter's halo always sits over its neighbours. -->
-  <g class="fill-canopy/12 stroke-paper" stroke-width="1.6">
-    {open.map((name) => <path d={paths[name]} />)}
-  </g>
-  <g class="animate-pulse stroke-leaf/25" stroke-width="9" aria-hidden="true">
-    {active.map((name) => <path d={paths[name]} />)}
-  </g>
-  <g class="fill-leaf stroke-paper" stroke-width="1.6">
-    {active.map((name) => <path d={paths[name]} />)}
-  </g>
-</svg>
+<div class="relative w-full max-w-xl">
+  <svg
+    viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.width} ${VIEW.height}`}
+    class="h-auto w-full"
+    role="img"
+    aria-label={`Map of the United States. ${active.join(", ")} are filled in as states with a Roots of Tomorrow chapter. Every other state is open.`}
+    fill="none"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  >
+    <!-- Open states first, so a chapter's halo always sits over its neighbours. -->
+    <g class="fill-canopy/12 stroke-paper" stroke-width="1.6">
+      {open.map((name) => <path d={paths[name]} />)}
+    </g>
+    <g class="stroke-leaf/20" stroke-width="9" aria-hidden="true">
+      {active.map((name) => <path d={paths[name]} />)}
+    </g>
+    <g class="fill-leaf/70 stroke-paper" stroke-width="1.6">
+      {active.map((name) => <path d={paths[name]} />)}
+    </g>
+  </svg>
+
+  <ul class="absolute inset-0" aria-label="Chapter locations">
+    {pins.map((pin) => (
+      <li
+        class="absolute hover:z-10 focus-within:z-10"
+        style={`left: ${pin.left.toFixed(2)}%; top: ${pin.top.toFixed(2)}%;`}
+      >
+        <!-- A slow ring spreading out from the city, like water soaking in. -->
+        <span
+          aria-hidden="true"
+          class="pin-ring pointer-events-none absolute left-0 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sprout motion-reduce:hidden"
+          style={`animation-delay: ${pin.delay};`}
+        ></span>
+        <button
+          type="button"
+          class="group/pin absolute bottom-0 left-0 block -translate-x-1/2 cursor-pointer rounded-full"
+        >
+          <svg
+            viewBox="0 0 24 32"
+            class="h-[21px] w-4 origin-bottom drop-shadow-md transition-transform duration-200 ease-out group-hover/pin:-translate-y-0.5 group-hover/pin:scale-125 group-focus-visible/pin:scale-125 sm:h-[27px] sm:w-5"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 30.5S21.5 19.6 21.5 12a9.5 9.5 0 0 0-19 0c0 7.6 9.5 18.5 9.5 18.5Z"
+              class="fill-canopy stroke-paper transition-colors duration-200 group-hover/pin:fill-leaf"
+              stroke-width="2"
+            />
+            <circle cx="12" cy="12" r="3.75" class="fill-sprout" />
+          </svg>
+          <span
+            class:list={[
+              "pointer-events-none absolute bottom-full mb-2.5 whitespace-nowrap rounded-full bg-canopy px-3.5 py-1.5 text-left text-xs font-500 text-sprout opacity-0 shadow-lg ring-1 ring-paper/10 transition duration-200 ease-out",
+              "translate-y-1 group-hover/pin:translate-y-0 group-hover/pin:opacity-100 group-focus-visible/pin:translate-y-0 group-focus-visible/pin:opacity-100",
+              pin.align === "right" ? "-right-2" : "left-1/2 -translate-x-1/2",
+            ]}
+          >
+            <span class="font-display text-sm font-600 text-paper">{pin.city}</span>, {pin.state}
+            <span
+              aria-hidden="true"
+              class:list={[
+                "absolute top-full -mt-1 h-2 w-2 rotate-45 bg-canopy",
+                pin.align === "right" ? "right-3" : "left-1/2 -translate-x-1/2",
+              ]}
+            ></span>
+          </span>
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .pin-ring {
+    opacity: 0;
+    animation: pin-ring 3.2s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+  }
+  @keyframes pin-ring {
+    0% { opacity: 0.7; transform: scale(0.4); }
+    80%, 100% { opacity: 0; transform: scale(3.2); }
+  }
+</style>

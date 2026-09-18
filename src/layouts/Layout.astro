@@ -31,7 +31,7 @@ const ogImageAlt = `${SITE_NAME}: ${stats.treesPlanted}+ trees planted. Planting
 // every value below is backed by something visible on the site: the name and
 // logo in the nav and footer, the email and social links in the footer, the
 // 501(c)(3) status on the home and donate pages, the counties on the home page,
-// and the chapter states on the chapter page.
+// and the chapter cities on the chapter map (home and chapter pages).
 //
 // The EIN belongs to the Hack Foundation, which fiscally sponsors us (the
 // footer says exactly that), so it is modelled as the sponsor's taxID and not
@@ -62,9 +62,9 @@ const structuredData = {
           "@type": "AdministrativeArea",
           name: `${county} County, Ohio`,
         })),
-        ...stats.chapters.map((state) => ({
-          "@type": "AdministrativeArea",
-          name: state,
+        ...stats.chapters.map((chapter) => ({
+          "@type": "City",
+          name: `${chapter.city}, ${chapter.state}`,
         })),
       ],
     },

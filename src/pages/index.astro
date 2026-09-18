@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import StatBlock from "../components/StatBlock.astro";
 import EventCarousel from "../components/EventCarousel.astro";
 import CtaBand from "../components/CtaBand.astro";
+import ChapterMap from "../components/ChapterMap.astro";
+import { chapterCount, stateCount, spell } from "../lib/chapters";
 import stats from "../data/stats.json";
 
 const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
@@ -37,8 +39,8 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         Roots of<br />Tomorrow
       </h1>
       <p class="mt-7 max-w-xl text-xl leading-relaxed text-paper/80">
-        A youth-led nonprofit planting native trees and restoring forests
-        across Northeast Ohio, built by the students who'll inherit them.
+        A youth-led nonprofit planting native trees and bringing forests back
+        in Northeast Ohio.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="/get-involved/" class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg">
@@ -138,9 +140,8 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
       </svg>
       <p class="mt-6 font-display text-2xl font-500 leading-snug text-canopy sm:text-[2rem]">
         We're a <span class="text-leaf underline decoration-sprout/70 decoration-2 underline-offset-[6px]">501(c)(3) student-led nonprofit</span> based in
-        Northeast Ohio. We plant native trees to bring forests, clean air, and
-        healthy habitat back to {counties} counties, while giving our
-        generation a real way to shape the place we live.
+        Northeast Ohio. We plant native trees across {counties} counties to bring back
+        the forests that used to grow there.
       </p>
     </div>
   </section>
@@ -163,8 +164,8 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           on them goes with them.
         </p>
         <p class="mt-4 leading-relaxed text-soil/75">
-          It's a problem you can stand in, and one you can fix with your hands.
-          That's what drew us in.
+          You can see it from the road, and it's something a group of students
+          with shovels can actually help fix. That's why we started.
         </p>
       </div>
     </div>
@@ -182,9 +183,8 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           students, with guidance from professional foresters.
         </p>
         <p class="mt-4 leading-relaxed text-soil/75">
-          The result is land that does more for everyone: cleaner air, cooler
-          ground, returning wildlife, and a generation that knows it can change
-          something real.
+          Over the years those acres fill back in with trees, and the birds and
+          animals that left start coming back.
         </p>
       </div>
       <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10 md:order-1">
@@ -255,6 +255,47 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         </figcaption>
       </figure>
 
+    </div>
+  </section>
+
+  <!-- Chapters. Numbers only on the home page; the list of cities lives on
+       the map pins and on /chapter/. -->
+  <section class="mt-24 bg-cream/60 px-6 py-20">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2" data-reveal>
+      <div>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Beyond Northeast Ohio</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          It started here. Now it's in {spell(stateCount)} states.
+        </h2>
+        <p class="mt-5 leading-relaxed text-soil/75">
+          High schoolers in other states now run Roots of Tomorrow chapters of
+          their own, planting trees or teaching in their towns. We help each
+          one with funding and coverage under our 501(c)(3).
+        </p>
+
+        <dl class="mt-8 flex gap-10">
+          <div class="flex flex-col-reverse">
+            <dt class="mt-1 text-sm font-500 uppercase tracking-wider text-moss">Chapters</dt>
+            <dd class="font-display text-5xl font-600 tabular-nums text-canopy" data-count={String(chapterCount)}>{chapterCount}</dd>
+          </div>
+          <div class="flex flex-col-reverse border-l border-canopy/15 pl-10">
+            <dt class="mt-1 text-sm font-500 uppercase tracking-wider text-moss">States</dt>
+            <dd class="font-display text-5xl font-600 tabular-nums text-canopy" data-count={String(stateCount)}>{stateCount}</dd>
+          </div>
+        </dl>
+
+        <a
+          href="/chapter/"
+          class="group mt-9 inline-flex items-center gap-2 rounded-full bg-canopy px-7 py-3.5 text-base font-600 text-paper shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-md"
+        >
+          Start a chapter
+          <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
+        </a>
+      </div>
+
+      <div class="flex justify-center lg:justify-self-center">
+        <ChapterMap />
+      </div>
     </div>
   </section>
 

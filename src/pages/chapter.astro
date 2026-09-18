@@ -3,55 +3,40 @@ import Layout from "../layouts/Layout.astro";
 import CtaBand from "../components/CtaBand.astro";
 import ChapterMap from "../components/ChapterMap.astro";
 import stats from "../data/stats.json";
+import { chapters, stateCount, STATE_COUNT, spell, capitalize, listFormat } from "../lib/chapters";
 
 // The two kinds of chapter. Same application either way; the form asks which.
 const chapterTypes = [
   {
     label: "Tree planting",
     title: "Put native trees in the ground.",
-    body: "Find land that needs trees, get native seedlings into it, and bring people out to help plant them. This is what the Northeast Ohio chapter has done since the start, so the process for it is well worn.",
+    body: "Find land that needs trees, get native seedlings into it, and bring people out to help plant them. It's what we've done in Northeast Ohio from the start, so we can walk you through all of it.",
   },
   {
     label: "Education",
-    title: "Teach people why it matters.",
-    body: "Run workshops and talks about the forests nearby, what's happening to them, and what actually helps. Classrooms, libraries, anywhere people will listen. No land required, which makes it a good fit if you're somewhere dense.",
+    title: "Teach people about the woods near them.",
+    body: "Run workshops and talks about local forests and how to help them, in classrooms, libraries, or anywhere people will listen. You don't need land, so this works well if you live in a city.",
   },
 ];
 
 // What Roots of Tomorrow does for a new chapter.
 const weProvide = [
-  "A dedicated contact who walks you through the whole thing, from the first conversation to the events themselves.",
+  "Someone on our team who helps you plan, from your first call to your first event.",
   "Funding to help cover event supplies and the other costs of running a day.",
-  "Coverage under our 501(c)(3). Day to day, that means your chapter can take tax-deductible donations, and can grant and receive volunteer hours.",
+  "Coverage under our 501(c)(3), so your chapter can take tax-deductible donations and give and earn volunteer hours.",
 ];
 
 // What the person starting a chapter is signing up for.
 const youBring = [
   "At least one event a year, and more whenever you're up for it.",
   "Anyone in high school can join, and there's no minimum group size to get started. You can apply on your own.",
-  "As the local lead: recruiting members, finding land or arranging the education side, booking a venue, and running the event day.",
+  "Leading it locally. That means recruiting members, finding land or setting up the education side, booking a place, and running the event.",
 ];
 
-// The map copy counts states, so it reads off the chapter list in stats.json
-// rather than repeating the number. Fifty states, no territories.
-const STATE_COUNT = 50;
-const ONES = [
-  "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
-  "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-  "sixteen", "seventeen", "eighteen", "nineteen",
-];
-const TENS = ["", "", "twenty", "thirty", "forty", "fifty"];
-function spell(n: number): string {
-  if (n < 20) return ONES[n];
-  const ones = n % 10;
-  return ones ? `${TENS[Math.floor(n / 10)]}-${ONES[ones]}` : TENS[Math.floor(n / 10)];
-}
-const capitalize = (word: string) => word[0].toUpperCase() + word.slice(1);
-
-const chapterCount = stats.chapters.length;
-const mapHeadline = `${capitalize(spell(chapterCount))} ${chapterCount === 1 ? "state" : "states"} down. ${capitalize(spell(STATE_COUNT - chapterCount))} open.`;
-const [foundingState, ...laterChapters] = stats.chapters;
-const laterChapterList = new Intl.ListFormat("en", { type: "conjunction" }).format(laterChapters);
+// The map copy reads its numbers off the chapter list in stats.json.
+const mapHeadline = `${capitalize(spell(stateCount))} ${stateCount === 1 ? "state" : "states"} down. ${capitalize(spell(STATE_COUNT - stateCount))} open.`;
+const [, ...laterChapters] = chapters;
+const laterChapterList = listFormat(laterChapters.map((chapter) => chapter.city));
 
 const steps = [
   {
@@ -60,7 +45,7 @@ const steps = [
   },
   {
     title: "We talk it through",
-    body: "You'll hear back within 48 hours. It's a real conversation, not a review process.",
+    body: "You'll hear back within 48 hours, and we'll set up a call to talk about your plans.",
   },
   {
     title: "You start",
@@ -94,9 +79,7 @@ const steps = [
         Start a chapter where you live.
       </h1>
       <p class="mt-7 max-w-2xl text-xl leading-relaxed text-paper/80">
-        Roots of Tomorrow started with students in Northeast Ohio who wanted the woods
-        near them to look better than they found them. The same thing works anywhere
-        there's someone willing to start it.
+        Roots of Tomorrow started with students in Northeast Ohio who wanted more trees in the woods near them. It works anywhere someone is willing to start it.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a
@@ -136,18 +119,14 @@ const steps = [
         </h2>
         <p class="mt-6 text-lg leading-relaxed text-soil/75">
           A chapter runs its own events under the Roots of Tomorrow name. You find the
-          people and the place. We handle the parts that are hard to work out from
-          scratch: the paperwork, the sourcing, and the process we already learned
-          the slow way.
+          people and the place. We help with the parts that are hard to figure out on your own, like the paperwork and getting seedlings.
         </p>
         <p class="mt-5 text-lg leading-relaxed text-soil/75">
           In practice, that's a group of high schoolers running at least one event a
           year, and more when they're up for it. There's no minimum size to start.
-          One person who's serious is enough, and recruiting comes after. The local lead does the ground work:
+          You can start on your own and recruit later. The local lead does the ground work:
           finding members, finding land or arranging the education side, and running
-          the event day itself. You won't be doing that alone, though. Every chapter
-          gets a dedicated contact who has done this before and stays with you from
-          the first conversation onward.
+          the event day itself. You won't be doing it alone, though. Every chapter has a contact on our team who has done this before and can help when you get stuck.
         </p>
       </div>
 
@@ -192,9 +171,9 @@ const steps = [
   <section class="px-6 py-20">
     <div class="mx-auto max-w-6xl">
       <div class="max-w-2xl" data-reveal>
-        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">The arrangement</p>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Who does what</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
-          What each side is on the hook for.
+          Our part and your part.
         </h2>
       </div>
 
@@ -232,7 +211,7 @@ const steps = [
       <div class="max-w-2xl" data-reveal>
         <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">How it works</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
-          Three steps, and none of them are hard.
+          Three steps to get started.
         </h2>
       </div>
 
@@ -253,9 +232,9 @@ const steps = [
     </div>
   </section>
 
-  <!-- The chapters map. Four states filled against forty-six empty ones: the
-       mostly empty map is the pitch, since every unclaimed state is an
-       argument for applying. -->
+  <!-- The chapters map. A handful of states filled in against a mostly empty
+       map is the pitch, since every unclaimed state is an argument for
+       applying. Hovering a pin shows the chapter's city. -->
   <section class="px-6 py-20">
     <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2" data-reveal>
       <div>
@@ -264,19 +243,18 @@ const steps = [
           {mapHeadline}
         </h2>
         <p class="mt-6 text-lg leading-relaxed text-soil/75">
-          Everything Roots of Tomorrow has done so far started in one corner of
-          {foundingState}. Chapters in {laterChapterList} came next, run by
-          students who applied the same way you would. Every other state is
-          still open.
+          Roots of Tomorrow started in Northeast Ohio. Since then, students in
+          {laterChapterList} have started chapters of their own, and they
+          applied the same way you would. Each pin on the map is a chapter.
         </p>
         <p class="mt-5 text-lg leading-relaxed text-soil/75">
-          Being first matters. Your chapter is the one the rest of your state
-          finds later, and your state is the next one to fill in on this map.
+          If your state is still empty, your chapter would be the first one
+          there.
         </p>
       </div>
 
       <div class="flex justify-center lg:justify-self-center">
-        <ChapterMap chapters={stats.chapters} />
+        <ChapterMap />
       </div>
     </div>
   </section>

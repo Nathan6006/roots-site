@@ -144,6 +144,11 @@ directly; pass props instead.
   the frontmatter (`title`, `date`, `location`, `summary`), and write the body.
   The fields are validated by the schema in `content.config.ts`; keep them.
   Don't touch `past-events.astro` just to add an event.
+- **Adding a chapter**: add `{ city, state, lat, lon }` to `chapters` in
+  `stats.json`. The map pin (placed by projecting lat/lon in
+  `ChapterMap.astro`), the filled-in state, and every chapter/state count on
+  the home and chapter pages update from that. Lower 48 only; Alaska and
+  Hawaii would need the inset math added.
 - Keep components small and reusable. If the same markup appears on two pages,
   pull it into `src/components/`.
 
