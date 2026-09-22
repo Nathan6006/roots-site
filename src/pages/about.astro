@@ -1,0 +1,251 @@
+---
+import Layout from "../layouts/Layout.astro";
+import StatBlock from "../components/StatBlock.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { chapterCount, stateCount, spell } from "../lib/chapters";
+import stats from "../data/stats.json";
+
+const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
+// "2024-08" -> "August 2024". Derived so the month and the year both still
+// come from stats.json rather than being retyped into the copy.
+const foundedLabel = new Date(`${stats.founded}-01T00:00:00Z`).toLocaleDateString("en-US", {
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+// How the work actually runs, in the order it happens. Everything here is
+// already stated somewhere on the site; this page is the one place it is
+// written down in sequence.
+const howItWorks = [
+  {
+    step: "Finding the land",
+    body: "Most of what we plant goes onto private property: farms, cleared woodlots, and unused acres whose owners would rather see trees on them. Service foresters at the Ohio Department of Natural Resources advise on which sites suit which species.",
+  },
+  {
+    step: "Choosing the trees",
+    body: "Species are picked for the site and ordered ahead of the planting day. Native trees only, because a tree that belongs here keeps going without anyone tending it once it takes.",
+  },
+  {
+    step: "Putting them in the ground",
+    body: "Students run the planting days and do the planting. Anyone can come, and nobody needs experience or their own tools. That is the part we can offer a landowner that is hard to buy.",
+  },
+];
+
+const whoWeWorkWith = [
+  {
+    relation: "In partnership with",
+    name: "Holden Forests &amp; Gardens",
+    body: "A public garden and arboretum in Northeast Ohio.",
+  },
+  {
+    relation: "With guidance from",
+    name: "ODNR Service Foresters",
+    body: "State foresters who advise on site conditions, species, and planting method.",
+  },
+  {
+    relation: "Fiscally sponsored by",
+    name: "The Hack Foundation",
+    body: `A 501(c)(3) that holds our funds and handles the financial and legal side. EIN ${stats.ein}.`,
+  },
+];
+
+// Describes this page, and points at the organization node the home page
+// publishes, so the two are understood as the same entity.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "About Roots of Tomorrow",
+  url: new URL("/about/", Astro.site).href,
+  about: { "@id": new URL("/", Astro.site).href + "#organization" },
+  primaryImageOfPage: new URL("/images/og-card.jpg", Astro.site).href,
+};
+---
+
+<Layout
+  title="About | Roots of Tomorrow"
+  description="Roots of Tomorrow is a student-run nonprofit planting native trees in Northeast Ohio. How the planting works, and where donations go."
+  jsonLd={jsonLd}
+>
+  <!-- Typographic hero. The other pages open on a photograph; this one opens on
+       the plainest possible statement of what the organization is, which is
+       what somebody landing on an about page came for. -->
+  <section class="relative overflow-hidden bg-canopy">
+    <svg
+      class="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 800 420"
+      preserveAspectRatio="xMidYMid slice"
+      fill="none"
+      stroke="var(--color-sprout)"
+      stroke-opacity="0.12"
+      stroke-width="1.2"
+      aria-hidden="true"
+    >
+      <circle cx="690" cy="70" r="40" /><circle cx="690" cy="70" r="72" />
+      <circle cx="690" cy="70" r="106" /><circle cx="690" cy="70" r="142" />
+      <circle cx="90" cy="380" r="46" /><circle cx="90" cy="380" r="80" />
+      <circle cx="90" cy="380" r="116" />
+    </svg>
+    <div class="rise-in relative mx-auto max-w-6xl px-8 pb-20 pt-24 sm:pb-24 sm:pt-28">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">About</p>
+      <h1 class="max-w-4xl font-display text-4xl font-600 leading-[1.08] text-paper sm:text-6xl">
+        A student-run nonprofit putting native forests back in Northeast Ohio.
+      </h1>
+      <p class="mt-7 max-w-2xl text-xl leading-relaxed text-paper/80">
+        Roots of Tomorrow started in {foundedLabel}. We work with landowners
+        across {counties} counties to plant native trees on ground that was
+        cleared, and students do the planting.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-14 max-w-6xl px-6" data-reveal>
+    <StatBlock />
+  </section>
+
+  <!-- Why it exists. Local and concrete, not a climate essay. -->
+  <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
+    <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Why we started</p>
+    <h2 class="mt-3 max-w-3xl font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+      There is more cleared land around here than anyone is replanting.
+    </h2>
+    <div class="mt-8 grid gap-8 text-lg leading-relaxed text-soil/75 md:grid-cols-2">
+      <p>
+        Woodlots in this part of Ohio get cut and then left. The stumps stay,
+        the brush comes in, and the land sits that way for years, because
+        replanting it is slow work that nobody is being paid to do. Landowners
+        are often willing. What they lack is the labor to get several hundred
+        seedlings into the ground over a weekend.
+      </p>
+      <p>
+        That is the gap we fill. Students have time, they can turn out in
+        numbers, and planting a tree is something a person learns in about five
+        minutes. Put fifty of them on a property for a morning and a stretch of
+        bare ground becomes a young forest that will still be there long after
+        any of us have graduated.
+      </p>
+    </div>
+  </section>
+
+  <!-- How the work runs. -->
+  <section class="mt-24 bg-cream/50 px-6 py-20">
+    <div class="mx-auto max-w-6xl">
+      <div class="max-w-2xl" data-reveal>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">How it works</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          From an empty field to a planted one.
+        </h2>
+      </div>
+      <div class="mt-10 grid gap-6 md:grid-cols-3" data-reveal>
+        {howItWorks.map((item, i) => (
+          <article class="flex flex-col rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-leaf/40 hover:shadow-lg">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-sprout/40 font-display text-lg font-600 text-canopy">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3 class="mt-7 font-display text-2xl font-600 text-canopy">{item.step}</h3>
+            <p class="mt-4 leading-relaxed text-soil/75">{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Where. -->
+  <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
+    <div class="grid gap-10 md:grid-cols-2 md:items-center">
+      <div>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Where we work</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          Four counties, and {spell(stateCount)} states.
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-soil/75">
+          The planting happens in {counties} counties. Everything we run
+          ourselves is within driving distance of the people doing it, which is
+          deliberate: it keeps the work checkable, and it means we can go back
+          and see how a site is doing a year later.
+        </p>
+        <p class="mt-4 text-lg leading-relaxed text-soil/75">
+          Students elsewhere asked to do the same thing where they live, so
+          there are now {spell(chapterCount)} chapters across {spell(stateCount)} states.
+        </p>
+        <a
+          href="/chapter/"
+          class="mt-7 inline-flex items-center gap-2 rounded-full border border-canopy/15 px-6 py-3 text-sm font-600 text-leaf transition-colors hover:border-leaf hover:bg-leaf hover:text-paper"
+        >
+          How chapters work
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+      <div class="rounded-3xl border border-canopy/10 bg-paper p-8 shadow-sm">
+        <p class="text-xs font-600 uppercase tracking-[0.2em] text-moss">Counties we plant in</p>
+        <ul class="mt-5 space-y-3">
+          {stats.counties.map((county) => (
+            <li class="flex items-center gap-3 font-display text-xl font-600 text-canopy">
+              <span class="h-2 w-2 rounded-full bg-sprout" aria-hidden="true"></span>
+              {county} County, Ohio
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- The legitimacy section: status, money, and who vouches for the work. -->
+  <section class="mt-24 bg-cream/50 px-6 py-20">
+    <div class="mx-auto max-w-6xl">
+      <div class="max-w-2xl" data-reveal>
+        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">How we are set up</p>
+        <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+          Where the money sits, and who handles it.
+        </h2>
+      </div>
+      <div class="mt-8 grid gap-8 text-lg leading-relaxed text-soil/75 md:grid-cols-2" data-reveal>
+        <p>
+          Roots of Tomorrow is a 501(c)(3) nonprofit through fiscal sponsorship
+          by The Hack Foundation. Donations are tax-deductible and are received
+          under the Hack Foundation&rsquo;s EIN, {stats.ein}. If you are checking
+          us against a registry, that is the number you will find, and it is
+          theirs rather than ours.
+        </p>
+        <p>
+          Fiscal sponsorship means the Hack Foundation holds the funds and takes
+          care of the financial and legal side, and we run the planting. Money
+          that comes in goes to seedlings, to the supplies that keep young trees
+          alive through their first winters, and to the cost of running planting
+          days.
+        </p>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-3" data-reveal>
+        {whoWeWorkWith.map((org) => (
+          <article class="rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm">
+            <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">{org.relation}</p>
+            <h3 class="mt-2 font-display text-xl font-600 text-canopy" set:html={org.name} />
+            <p class="mt-3 text-base leading-relaxed text-soil/70">{org.body}</p>
+          </article>
+        ))}
+      </div>
+      <p class="mt-10 text-base leading-relaxed text-soil/70" data-reveal>
+        Our work in Burton Township was covered by the
+        <a
+          href="https://www.geaugamapleleaf.com/news/roots-of-tomorrow-takes-burton-farm-back-to-nature/"
+          target="_blank"
+          rel="noopener"
+          class="font-600 text-leaf underline decoration-sprout decoration-2 underline-offset-4 transition-colors hover:text-canopy"
+        >Geauga County Maple Leaf&thinsp;&nearr;</a>. Anything we could not fit
+        here is answered on the
+        <a
+          href="/faq/"
+          class="font-600 text-leaf underline decoration-sprout decoration-2 underline-offset-4 transition-colors hover:text-canopy"
+        >FAQ</a>.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand
+    eyebrow="Join in"
+    heading="Come out to a planting day."
+    body="Planting days are open to anyone. No experience, no tools of your own, and no commitment past the morning."
+    primary={{ href: "/get-involved/", label: "Get Involved" }}
+    secondary={{ href: "/donate/", label: "Donate" }}
+  />
+</Layout>

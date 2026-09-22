@@ -2,6 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import CtaBand from "../components/CtaBand.astro";
 import stats from "../data/stats.json";
+import { Image } from "astro:assets";
+import canopyBanner from "../assets/images/canopyBanner.jpg";
 
 const givingDetails = [
   {
@@ -21,12 +23,14 @@ const givingDetails = [
 
 <Layout title="Donate | Roots of Tomorrow" description="Your gift buys native seedlings and planting supplies for student-run plantings in Northeast Ohio. Roots of Tomorrow is a 501(c)(3), so it is tax-deductible.">
   <section class="relative flex min-h-[60vh] items-center overflow-hidden">
-    <img
+    <Image
       id="hero-bg"
-      src="/images/donateBanner.jpg"
+      src={canopyBanner}
       alt="Sunlight coming through the canopy of a mature hardwood forest with ferns below"
-      width="1200"
-      height="800"
+      widths={[640, 828, 1200]}
+      sizes="100vw"
+      quality={45}
+      loading="eager"
       fetchpriority="high"
       decoding="sync"
       class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
@@ -98,7 +102,7 @@ const givingDetails = [
     eyebrow="Another way to give"
     heading="Can't give money right now?"
     body="Give a Saturday instead. Planting days are open to everyone, no experience needed."
-    primary={{ href: "/get-involved", label: "Get Involved" }}
-    secondary={{ href: "/contact", label: "Contact us" }}
+    primary={{ href: "/get-involved/", label: "Get Involved" }}
+    secondary={{ href: "/contact/", label: "Contact us" }}
   />
 </Layout>

@@ -1,6 +1,10 @@
 ---
+import { Image } from "astro:assets";
+import logo from "../assets/rootslogo-128.png";
+
 const links = [
   { href: "/", label: "Home" },
+  { href: "/about/", label: "About" },
   { href: "/get-involved/", label: "Get Involved" },
   { href: "/chapter/", label: "Start a Chapter" },
   { href: "/contact/", label: "Contact" },
@@ -15,11 +19,11 @@ const path = withSlash(Astro.url.pathname);
 <header class="sticky top-0 z-50 border-b border-canopy/10 bg-paper/70 shadow-sm backdrop-blur-xl">
   <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
     <a href="/" class="group flex items-center gap-2 font-display text-xl font-600 text-canopy sm:gap-3 sm:text-2xl">
-      <img src="/rootslogo-128.png" alt="Roots of Tomorrow logo" width="52" height="52" decoding="async" class="h-10 w-10 rounded-full drop-shadow-sm transition-transform duration-200 group-hover:scale-105 sm:h-13 sm:w-13" />
+      <Image src={logo} alt="Roots of Tomorrow logo" width={52} height={52} widths={[52, 104]} sizes="52px" loading="eager" decoding="async" class="h-10 w-10 rounded-full drop-shadow-sm transition-transform duration-200 group-hover:scale-105 sm:h-13 sm:w-13" />
       Roots of Tomorrow
     </a>
 
-    <div class="hidden items-center gap-8 md:flex">
+    <div class="hidden items-center gap-6 md:flex lg:gap-8">
       {links.map((l) => (
         <a
           href={l.href}

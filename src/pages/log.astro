@@ -8,7 +8,7 @@
 //  1. Fix the numbers in src/data/planting-log.json (and stats.json if needed).
 //  2. Delete the redirect below and uncomment the original markup.
 //  3. Re-add the nav link in src/components/Nav.astro
-//     ({ href: "/log", label: "Planting Log" }), the footer link in
+//     ({ href: "/log/", label: "Planting Log" }), the footer link in
 //     src/components/Footer.astro, and the "Read the full planting log" link
 //     under <EventCarousel /> in src/pages/index.astro (see README).
 return Astro.redirect("/");
@@ -96,8 +96,8 @@ const yearRows = years.map((year) => {
     eyebrow="Add to it"
     heading="The next line is an event day."
     body="Come plant at the next one, or start a chapter and open a log of your own."
-    primary={{ href: "/get-involved", label: "Get Involved" }}
-    secondary={{ href: "/chapter", label: "Start a Chapter" }}
+    primary={{ href: "/get-involved/", label: "Get Involved" }}
+    secondary={{ href: "/chapter/", label: "Start a Chapter" }}
   />
 </Layout>
 */}
