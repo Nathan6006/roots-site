@@ -1,0 +1,90 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import { guides, guideUrl } from "../../data/guides";
+
+// CollectionPage plus an ItemList of the guides, so the hub is understood as
+// an index rather than as another article competing with the guides under it.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Guides",
+  url: new URL("/guides/", Astro.site).href,
+  isPartOf: { "@id": new URL("/", Astro.site).href + "#website" },
+  publisher: { "@id": new URL("/", Astro.site).href + "#organization" },
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: guides.map((guide, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: guide.title,
+      url: new URL(guideUrl(guide.slug), Astro.site).href,
+    })),
+  },
+};
+---
+
+<Layout
+  title="Guides | Roots of Tomorrow"
+  description="Practical guides for Ohio landowners and anyone trying to get native trees back into the ground, written from what we run into on actual planting days."
+  jsonLd={jsonLd}
+>
+  <section class="relative overflow-hidden bg-canopy">
+    <svg
+      class="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 800 300"
+      preserveAspectRatio="xMidYMid slice"
+      fill="none"
+      stroke="var(--color-sprout)"
+      stroke-opacity="0.12"
+      stroke-width="1.2"
+      aria-hidden="true"
+    >
+      <circle cx="700" cy="50" r="36" /><circle cx="700" cy="50" r="68" />
+      <circle cx="700" cy="50" r="100" /><circle cx="70" cy="270" r="44" />
+      <circle cx="70" cy="270" r="78" />
+    </svg>
+    <div class="rise-in relative mx-auto max-w-6xl px-8 pb-20 pt-24">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">Guides</p>
+      <h1 class="max-w-3xl font-display text-4xl font-600 leading-[1.08] text-paper sm:text-6xl">
+        What we have learned doing this.
+      </h1>
+      <p class="mt-7 max-w-2xl text-xl leading-relaxed text-paper/80">
+        Plain guides for landowners and anyone else trying to get native trees
+        back into the ground in Ohio. Written from planting days, not from a
+        brochure.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20" data-reveal>
+    <ul class="space-y-6">
+      {guides.map((guide) => (
+        <li>
+          <a
+            href={guideUrl(guide.slug)}
+            class="group block rounded-3xl border border-canopy/10 bg-paper p-8 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-leaf/40 hover:shadow-lg"
+          >
+            <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">{guide.audience}</p>
+            <h2 class="mt-3 font-display text-2xl font-600 leading-snug text-canopy transition-colors group-hover:text-leaf sm:text-3xl">
+              {guide.title}
+            </h2>
+            <p class="mt-4 text-lg leading-relaxed text-soil/75">{guide.blurb}</p>
+            <span class="mt-6 inline-flex items-center gap-2 text-base font-600 text-leaf">
+              Read the guide
+              <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <CtaBand
+    eyebrow="Join in"
+    heading="Want to help?"
+    body="Come out to a planting day, or chip in for seedlings."
+    primary={{ href: "/get-involved/", label: "Get Involved" }}
+    secondary={{ href: "/donate/", label: "Donate" }}
+  />
+</Layout>

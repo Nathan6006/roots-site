@@ -1,0 +1,195 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import stats from "../../data/stats.json";
+
+const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
+
+// Technical specifics stay with the people who set them. Anything numeric
+// about spacing, density, or eligibility is linked to ODNR rather than
+// restated here, because a number that goes stale on this page is worse than
+// no number, and a landowner acting on it has real money at stake.
+const ODNR_FORESTER =
+  "https://ohiodnr.gov/discover-and-learn/safety-conservation/about-odnr/forestry/contact-us/aab-service-foresters";
+const ODNR_NURSERY =
+  "https://ohiodnr.gov/discover-and-learn/safety-conservation/about-ODNR/forestry/buckeyestatetreenursery";
+const ODNR_FORESTRY = "https://forestry.ohiodnr.gov/";
+
+const steps = [
+  {
+    n: "01",
+    title: "Get a forester out to look at it",
+    body: "Before anything else, have someone who knows Ohio woodland walk the site. The ODNR Division of Forestry keeps service foresters across the state, and their technical assistance to private woodland owners is free. They will tell you what your ground can actually support, which is not always what you were picturing.",
+    link: { href: ODNR_FORESTER, label: "Find your service forester" },
+  },
+  {
+    n: "02",
+    title: "Match the species to the ground",
+    body: "Soil and drainage decide the species list, not preference. On favorable sites in Ohio that usually means oaks and hickories, along with tuliptree and black cherry. Wet ground and dry ridges each want something different. This is the step where a planting either takes or slowly fails, and it is worth getting right rather than fast.",
+  },
+  {
+    n: "03",
+    title: "Order seedlings early",
+    body: "Bare-root seedlings are ordered months ahead of the season they go in. Ohio runs its own nursery, the Buckeye State Tree Nursery, growing stock that is genetically adapted to the state, which matters more than it sounds: a seedling raised from local genetics is already suited to the winters it has to survive.",
+    link: { href: ODNR_NURSERY, label: "Buckeye State Tree Nursery" },
+  },
+  {
+    n: "04",
+    title: "Plant in spring, and keep the roots wet",
+    body: "Bare-root stock goes in during spring, while the seedlings are still dormant. Most of the ones that die do so before they ever reach the ground, because the roots dried out in a truck bed on a windy afternoon. Keep them covered, keep them damp, and get them planted the day they arrive if you can.",
+  },
+  {
+    n: "05",
+    title: "Plan for the first three years",
+    body: "Putting the trees in is the short part. Competing grass and brush will outgrow a seedling easily, and deer will browse what survives. Whatever the plan is for controlling competition and protecting the stems, decide it before planting day rather than the following summer, when it is already a bigger job.",
+  },
+];
+---
+
+<Layout
+  title="How to reforest your land in Ohio | Roots of Tomorrow"
+  description="A practical guide for Ohio landowners with cleared or unused acres: getting a forester out, matching species to your soil, ordering seedlings, and what the first three years take."
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "How to reforest your land in Ohio",
+    description:
+      "A practical guide for Ohio landowners with cleared or unused acres, covering site assessment, species selection, seedling sourcing, planting season, and early aftercare.",
+    url: new URL("/guides/reforesting-your-land-in-ohio/", Astro.site).href,
+    author: { "@id": new URL("/", Astro.site).href + "#organization" },
+    publisher: { "@id": new URL("/", Astro.site).href + "#organization" },
+    isPartOf: { "@id": new URL("/", Astro.site).href + "#website" },
+    about: "Reforestation of private land in Ohio",
+  }}
+>
+  <section class="relative overflow-hidden bg-canopy">
+    <svg
+      class="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 800 340"
+      preserveAspectRatio="xMidYMid slice"
+      fill="none"
+      stroke="var(--color-sprout)"
+      stroke-opacity="0.12"
+      stroke-width="1.2"
+      aria-hidden="true"
+    >
+      <circle cx="710" cy="55" r="38" /><circle cx="710" cy="55" r="70" />
+      <circle cx="710" cy="55" r="104" /><circle cx="710" cy="55" r="140" />
+      <circle cx="80" cy="300" r="44" /><circle cx="80" cy="300" r="78" />
+    </svg>
+    <div class="rise-in relative mx-auto max-w-6xl px-8 pb-20 pt-24">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">Guide</p>
+      <h1 class="max-w-3xl font-display text-4xl font-600 leading-[1.08] text-paper sm:text-6xl">
+        How to reforest your land in Ohio.
+      </h1>
+      <p class="mt-7 max-w-2xl text-xl leading-relaxed text-paper/80">
+        If you own cleared or unused acres and want trees back on them, this is
+        the order the work actually happens in, and where to get the parts of it
+        we cannot do for you.
+      </p>
+    </div>
+  </section>
+
+  <article class="mx-auto max-w-3xl px-6 py-20">
+    <div data-reveal>
+      <p class="text-lg leading-relaxed text-soil/80">
+        Plenty of ground in Northeast Ohio is sitting in the same state: cut
+        some years ago, never replanted, now holding brush and stumps. Bringing
+        it back is not complicated work, but the order matters, and most of the
+        decisions that determine whether a planting survives get made before
+        anyone picks up a shovel.
+      </p>
+      <p class="mt-5 text-lg leading-relaxed text-soil/80">
+        We plant across {counties} counties, so this is written for Ohio ground
+        and Ohio programs specifically. The technical calls, spacing, density,
+        and which species suit your soil, belong to a forester who has stood on
+        the site. What follows is the shape of the process, so you know what you
+        are agreeing to before you start.
+      </p>
+    </div>
+
+    <ol class="mt-14 space-y-10" data-reveal>
+      {steps.map((step) => (
+        <li class="border-t border-canopy/10 pt-8">
+          <div class="flex items-baseline gap-4">
+            <span class="font-display text-sm font-600 tracking-widest text-moss">{step.n}</span>
+            <h2 class="font-display text-2xl font-600 leading-snug text-canopy sm:text-3xl">
+              {step.title}
+            </h2>
+          </div>
+          <p class="mt-4 text-lg leading-relaxed text-soil/75">{step.body}</p>
+          {step.link && (
+            <a
+              href={step.link.href}
+              target="_blank"
+              rel="noopener"
+              class="mt-4 inline-flex items-center gap-2 text-base font-600 text-leaf underline decoration-sprout decoration-2 underline-offset-4 transition-colors hover:text-canopy"
+            >
+              {step.link.label}
+              <span aria-hidden="true">&nearr;</span>
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
+
+    <div class="mt-16 rounded-3xl border border-canopy/10 bg-cream/60 p-8" data-reveal>
+      <h2 class="font-display text-2xl font-600 text-canopy">What this costs</h2>
+      <p class="mt-4 text-lg leading-relaxed text-soil/75">
+        Seedlings are usually the smaller number. Labor is the one that stops
+        people, because several hundred trees is a lot of bending over and most
+        landowners are doing it alone or paying a crew. Ohio also runs cost-share
+        and tax programs for woodland owners, and eligibility depends on acreage
+        and on how the land is managed, so ask your service forester what applies
+        to you rather than assuming it does not.
+      </p>
+      <a
+        href={ODNR_FORESTRY}
+        target="_blank"
+        rel="noopener"
+        class="mt-5 inline-flex items-center gap-2 text-base font-600 text-leaf underline decoration-sprout decoration-2 underline-offset-4 transition-colors hover:text-canopy"
+      >
+        ODNR Division of Forestry
+        <span aria-hidden="true">&nearr;</span>
+      </a>
+    </div>
+
+    <div class="mt-16" data-reveal>
+      <h2 class="font-display text-2xl font-600 text-canopy sm:text-3xl">
+        Where we come in.
+      </h2>
+      <p class="mt-4 text-lg leading-relaxed text-soil/75">
+        The labor. If your land is in {counties} counties, students will come out
+        and plant it. We have put roughly {stats.treesPlanted} trees in the ground
+        this way, on farms and cleared woodlots whose owners wanted them back in
+        trees and did not have fifty people to make it happen in a morning.
+      </p>
+      <p class="mt-4 text-lg leading-relaxed text-soil/75">
+        If that is your situation, tell us about the site. We will talk through
+        what it could take, and what a planting day on it would look like.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a
+          href="/contact/"
+          class="rounded-full bg-canopy px-7 py-3 text-base font-600 text-paper shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-md"
+        >
+          Tell us about your land
+        </a>
+        <a
+          href="/faq/"
+          class="rounded-full border border-canopy/15 px-7 py-3 text-base font-600 text-leaf transition-colors hover:border-leaf hover:bg-leaf hover:text-paper"
+        >
+          Common questions
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <CtaBand
+    eyebrow="Join in"
+    heading="Want to help plant one?"
+    body="Planting days are open to anyone. No experience, and no tools of your own."
+    primary={{ href: "/get-involved/", label: "Get Involved" }}
+    secondary={{ href: "/donate/", label: "Donate" }}
+  />
+</Layout>
