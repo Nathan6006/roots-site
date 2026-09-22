@@ -11,15 +11,16 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
 // no number, and a landowner acting on it has real money at stake.
 const ODNR_FORESTER =
   "https://ohiodnr.gov/discover-and-learn/safety-conservation/about-odnr/forestry/contact-us/aab-service-foresters";
-const ODNR_NURSERY =
-  "https://ohiodnr.gov/discover-and-learn/safety-conservation/about-ODNR/forestry/buckeyestatetreenursery";
-const ODNR_FORESTRY = "https://forestry.ohiodnr.gov/";
+const ODNR_NURSERY = "https://nursery.ohiodnr.gov/";
+// forestry.ohiodnr.gov redirects here, so link the destination and skip the hop.
+const ODNR_FORESTRY =
+  "https://ohiodnr.gov/discover-and-learn/safety-conservation/about-ODNR/forestry";
 
 const steps = [
   {
     n: "01",
     title: "Get a forester out to look at it",
-    body: "Before anything else, have someone who knows Ohio woodland walk the site. The ODNR Division of Forestry keeps service foresters across the state, and their technical assistance to private woodland owners is free. They will tell you what your ground can actually support, which is not always what you were picturing.",
+    body: "Before anything else, have someone who knows Ohio woodland walk the site. The state employs service foresters through the ODNR Division of Forestry, spread across the counties, and advising private woodland owners on tree planting is part of the job. They will tell you what your ground can actually support, which is not always what you were picturing. Ask what their help covers when you call.",
     link: { href: ODNR_FORESTER, label: "Find your service forester" },
   },
   {
@@ -30,13 +31,13 @@ const steps = [
   {
     n: "03",
     title: "Order seedlings early",
-    body: "Bare-root seedlings are ordered months ahead of the season they go in. Ohio runs its own nursery, the Buckeye State Tree Nursery, growing stock that is genetically adapted to the state, which matters more than it sounds: a seedling raised from local genetics is already suited to the winters it has to survive.",
+    body: "Seedlings get ordered a season ahead, not the week you want to plant. Ohio runs its own nursery, the Buckeye State Tree Nursery, which sells native trees and shrubs grown from Ohio seed and is open to landowners. Seed is collected by region and the stock is sent back to ground that matches it, so a seedling arrives already suited to the winters it has to survive.",
     link: { href: ODNR_NURSERY, label: "Buckeye State Tree Nursery" },
   },
   {
     n: "04",
     title: "Plant in spring, and keep the roots wet",
-    body: "Bare-root stock goes in during spring, while the seedlings are still dormant. Most of the ones that die do so before they ever reach the ground, because the roots dried out in a truck bed on a windy afternoon. Keep them covered, keep them damp, and get them planted the day they arrive if you can.",
+    body: "Bare-root stock goes in during spring, while the trees are still dormant. Container-grown seedlings give you a longer window, so ask what you are getting when you order. Either way, a lot of the seedlings that die do so before they ever reach the ground, because the roots dried out in the back of a truck. Keep them covered, keep them damp, and plant them the day they arrive if you can.",
   },
   {
     n: "05",
