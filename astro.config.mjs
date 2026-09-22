@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -34,6 +34,33 @@ export default defineConfig({
   redirects: {
     '/chapters': '/chapter/',
   },
+  // Fraunces and Inter are downloaded at build time and served from our own
+  // origin as woff2. Previously they came from fonts.googleapis.com, which put
+  // a render-blocking stylesheet on a third-party origin in front of first
+  // paint: two extra DNS lookups and TLS handshakes before any text could be
+  // styled. Self-hosting removes both round trips, lets the files be preloaded,
+  // and drops a third party from the critical path.
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: 'Fraunces',
+      cssVariable: '--font-fraunces',
+      // Variable font: one file covers the whole 400-700 range the site uses.
+      weights: ['400 700'],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['Georgia', 'serif'],
+    },
+    {
+      provider: fontProviders.google(),
+      name: 'Inter',
+      cssVariable: '--font-inter',
+      weights: ['400 700'],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['system-ui', 'sans-serif'],
+    },
+  ],
   integrations: [
     sitemap({
       filter: (page) => !excludedFromSitemap.has(page),

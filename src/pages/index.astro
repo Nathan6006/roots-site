@@ -6,6 +6,10 @@ import CtaBand from "../components/CtaBand.astro";
 import ChapterMap from "../components/ChapterMap.astro";
 import { chapterCount, stateCount, spell } from "../lib/chapters";
 import stats from "../data/stats.json";
+import { Image } from "astro:assets";
+import homeHero from "../assets/images/homeHero.jpg";
+import homeImage1 from "../assets/images/homeImage1.jpg";
+import homeImage2 from "../assets/images/homeImage2.jpg";
 
 const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
 ---
@@ -17,12 +21,14 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   <!-- Hero -->
   <section class="relative flex h-[67vh] items-center overflow-hidden">
     <!-- Parallax background -->
-    <img
+    <Image
       id="hero-bg"
-      src="/images/homeHero.jpg"
+      src={homeHero}
       alt="Hands settling a young native seedling into dark soil"
-      width="1600"
-      height="900"
+      widths={[640, 1024, 1600]}
+      sizes="100vw"
+      quality={50}
+      loading="eager"
       fetchpriority="high"
       decoding="sync"
       class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
@@ -150,7 +156,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   <section class="mx-auto mt-24 max-w-6xl px-6">
     <div class="grid items-center gap-12 md:grid-cols-2" data-reveal>
       <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
-        <img src="/images/homeImage1.jpg" alt="A cleared woodlot left as bare stumps and fallen branches, with standing trees behind it" width="1050" height="825" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+        <Image src={homeImage1} alt="A cleared woodlot left as bare stumps and fallen branches, with standing trees behind it" widths={[480, 768, 1050]} sizes="(min-width: 768px) 50vw, 100vw" quality={65} loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
       </div>
       <div>
         <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Why we plant</p>
@@ -188,7 +194,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         </p>
       </div>
       <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10 md:order-1">
-        <img src="/images/homeImage2.jpg" alt="Two students marking planting spots with flags in an open field at the edge of the woods" width="1152" height="863" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+        <Image src={homeImage2} alt="Two students marking planting spots with flags in an open field at the edge of the woods" widths={[480, 768, 1152]} sizes="(min-width: 768px) 50vw, 100vw" quality={65} loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
       </div>
     </div>
   </section>

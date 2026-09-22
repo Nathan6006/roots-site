@@ -1,0 +1,147 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { chapterCount, spell } from "../lib/chapters";
+import stats from "../data/stats.json";
+
+const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
+
+// One array drives both the visible accordion and the FAQPage structured data
+// below. Google requires the marked-up answer to be the answer actually shown
+// on the page, so they are generated from the same source and cannot drift.
+// Answers are plain text: no markup, because the JSON-LD copy has to match.
+const faqs = [
+  {
+    q: "Is Roots of Tomorrow a registered nonprofit?",
+    a: `Yes. Roots of Tomorrow is a 501(c)(3) nonprofit through fiscal sponsorship by The Hack Foundation. That means the Hack Foundation holds our funds and handles the financial and legal side, and donations to us are received under their EIN, ${stats.ein}. If you look that number up you will find the Hack Foundation, because the EIN is theirs rather than ours. This is a normal arrangement for young and student-run organizations.`,
+  },
+  {
+    q: "Are donations tax-deductible?",
+    a: "Yes. Donations are tax-deductible to the extent allowed by law, because they are received by The Hack Foundation, our fiscal sponsor, which is a registered 501(c)(3).",
+  },
+  {
+    q: "Where does my donation actually go?",
+    a: "To native seedlings chosen for each planting site, to the supplies that keep young trees alive through their first winters (gloves, stakes, tree guards, and mulch), and to the cost of running planting days. Nobody here is paid a salary.",
+  },
+  {
+    q: "Where do you plant trees?",
+    a: `Our own planting happens in ${counties} counties in Northeast Ohio. Most of it is on private land: farms, cleared woodlots, and unused acres whose owners want trees back on them.`,
+  },
+  {
+    q: "Who does the planting?",
+    a: "Students, along with anyone else who turns up. Planting days are organized and run by students, and Ohio Department of Natural Resources service foresters advise on site conditions, species, and planting method.",
+  },
+  {
+    q: "Do I need experience to volunteer?",
+    a: "No. You do not need experience, and you do not need your own tools. We show you what to do when you get there, and planting a tree takes about five minutes to learn.",
+  },
+  {
+    q: "I own land in Northeast Ohio. Can you plant on it?",
+    a: "Very likely, and we would like to hear from you. If you have unused acres or a cleared woodlot, get in touch and we will talk through what the site could take and what a planting day on it would look like.",
+  },
+  {
+    q: "What kind of trees do you plant?",
+    a: "Native species, picked for the particular site and ordered ahead of the planting day. A tree that belongs in this soil and climate keeps going once it takes, without anyone going back to tend it.",
+  },
+  {
+    q: "Can I start a chapter where I live?",
+    a: `Yes. There are ${spell(chapterCount)} chapters so far, and the bar to run one is a single event a year, either a planting or an education event. Every chapter has a contact on our team who has done it before and can help when you get stuck.`,
+  },
+  {
+    q: "How do I get in touch?",
+    a: `Email ${stats.email}. Landowner questions, volunteer sign-ups, and partnership offers all reach the same inbox, and we read every one.`,
+  },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  url: new URL("/faq/", Astro.site).href,
+  isPartOf: { "@id": new URL("/", Astro.site).href + "#website" },
+  about: { "@id": new URL("/", Astro.site).href + "#organization" },
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+---
+
+<Layout
+  title="Questions and answers | Roots of Tomorrow"
+  description="How Roots of Tomorrow is set up, whether donations are tax-deductible, where the money goes, who does the planting, and how to offer land or volunteer."
+  jsonLd={jsonLd}
+>
+  <section class="relative overflow-hidden bg-canopy">
+    <svg
+      class="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 800 340"
+      preserveAspectRatio="xMidYMid slice"
+      fill="none"
+      stroke="var(--color-sprout)"
+      stroke-opacity="0.12"
+      stroke-width="1.2"
+      aria-hidden="true"
+    >
+      <circle cx="720" cy="60" r="36" /><circle cx="720" cy="60" r="66" />
+      <circle cx="720" cy="60" r="98" /><circle cx="720" cy="60" r="132" />
+      <circle cx="70" cy="300" r="42" /><circle cx="70" cy="300" r="74" />
+    </svg>
+    <div class="rise-in relative mx-auto max-w-6xl px-8 pb-20 pt-24">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">Questions</p>
+      <h1 class="max-w-3xl font-display text-4xl font-600 leading-[1.08] text-paper sm:text-6xl">
+        The things people ask us first.
+      </h1>
+      <p class="mt-7 max-w-2xl text-xl leading-relaxed text-paper/80">
+        Mostly about how we are set up, what happens to a donation, and what a
+        planting day is actually like. If yours is not here, email us.
+      </p>
+    </div>
+  </section>
+
+  <!-- Plain details/summary: it is keyboard accessible, it works with
+       JavaScript off, and the answer text stays in the DOM for crawlers even
+       while it is collapsed. -->
+  <section class="mx-auto max-w-3xl px-6 py-20" data-reveal>
+    <dl class="divide-y divide-canopy/10 border-y border-canopy/10">
+      {faqs.map((item) => (
+        <div>
+          <details class="group">
+            <summary
+              class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-left transition-colors hover:text-leaf"
+            >
+              <dt class="font-display text-lg font-600 leading-snug text-canopy group-hover:text-leaf sm:text-xl">
+                {item.q}
+              </dt>
+              <span
+                aria-hidden="true"
+                class="mt-1 flex h-7 w-7 flex-none items-center justify-center rounded-full border border-canopy/15 text-leaf transition-transform duration-200 group-open:rotate-45"
+              >+</span>
+            </summary>
+            <dd class="pb-7 pr-12 text-base leading-relaxed text-soil/75">{item.a}</dd>
+          </details>
+        </div>
+      ))}
+    </dl>
+
+    <p class="mt-10 text-base leading-relaxed text-soil/70">
+      Still stuck? Email
+      <a
+        href={`mailto:${stats.email}`}
+        class="font-600 text-leaf underline decoration-sprout decoration-2 underline-offset-4 transition-colors hover:text-canopy"
+      >{stats.email}</a>, or read more about
+      <a
+        href="/about/"
+        class="font-600 text-leaf underline decoration-sprout decoration-2 underline-offset-4 transition-colors hover:text-canopy"
+      >how we work</a>.
+    </p>
+  </section>
+
+  <CtaBand
+    eyebrow="Join in"
+    heading="Want to help?"
+    body="Come out to a planting day, or chip in for seedlings."
+    primary={{ href: "/get-involved/", label: "Get Involved" }}
+    secondary={{ href: "/donate/", label: "Donate" }}
+  />
+</Layout>

@@ -1,8 +1,8 @@
-/* Fraunces and Inter are requested with <link rel="preconnect"> + <link
-   rel="stylesheet"> in src/layouts/Layout.astro instead of an @import here.
-   An @import is only discovered after this file has been downloaded and
-   parsed, which puts the font request at the end of a serial chain and
-   delays first paint. Keep the two in sync if the families ever change. */
+/* Fraunces and Inter are self-hosted. They are declared in the `fonts` block
+   of astro.config.mjs and rendered by the two <Font> components in
+   src/layouts/Layout.astro, which emit the @font-face rules and the preload
+   links. The --font-fraunces and --font-inter variables below come from there,
+   and each already carries its configured fallback stack. */
 @import "tailwindcss";
 
 @theme {
@@ -15,8 +15,8 @@
   --color-cream: #f6f4ec;
   --color-paper: #fbfaf5;
 
-  --font-display: "Fraunces", Georgia, serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-inter);
 }
 
 html {

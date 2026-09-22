@@ -1,4 +1,12 @@
 ---
+import { Image } from "astro:assets";
+import event1 from "../assets/images/events/event1.jpg";
+import event2 from "../assets/images/events/event2.jpg";
+import event3 from "../assets/images/events/event3.jpg";
+import event4 from "../assets/images/events/event4.jpg";
+import event5 from "../assets/images/events/event5.jpg";
+import event6 from "../assets/images/events/event6.jpg";
+import event7 from "../assets/images/events/event7.jpg";
 // Two presentations of the same past-event photos:
 //  - Mobile: a simple swipe / click-through slideshow (the marquee transform
 //    animation was unreliable on phones, so we avoid it there entirely).
@@ -9,22 +17,23 @@
 // ground. Keep them short: "Apr 2025 · Burton Township · 700 seedlings".
 // A photo with an empty caption renders exactly as before, so fill these in
 // as you match photos to events.
-// width/height are the files' real pixel dimensions. They let the browser
-// reserve the right box before the photo arrives, which keeps the section
-// from shifting as it loads.
+// The photos are imported from src/assets so Astro processes them: it emits
+// resized WebP variants and a srcset, and stamps the real width/height onto
+// the tag so the browser reserves the right box and the section never shifts
+// as the photos load.
 //
 // `alt` describes what is in the photo, for screen readers and for Google
 // Images. It is never shown on screen. `caption` is the visible label; filling
 // one in makes the caption appear over the photo, so leave it empty until you
 // have the real date, place, and count for that day.
 const photos = [
-  { src: "/images/events/event1.jpg", alt: "A student digging a planting hole with a spade in a grassy field", width: 1000, height: 869, caption: "" },
-  { src: "/images/events/event2.jpg", alt: "Volunteers in rain gear spread along a line of orange marker flags at the edge of the woods", width: 1000, height: 749, caption: "" },
-  { src: "/images/events/event3.jpg", alt: "Three students standing on a fallen log in a field staked out for planting", width: 1000, height: 750, caption: "" },
-  { src: "/images/events/event4.jpg", alt: "An orange marker flag along the tree line of a green field on a rainy spring day", width: 1000, height: 823, caption: "" },
-  { src: "/images/events/event5.jpg", alt: "Students and adult volunteers standing with shovels on freshly turned ground", width: 1000, height: 926, caption: "" },
-  { src: "/images/events/event6.jpg", alt: "Students and volunteers with muddy shovels and boots at the end of a rainy planting day", width: 1000, height: 629, caption: "" },
-  { src: "/images/events/event7.jpg", alt: "A student breaking ground with a spade in a bare field in front of a winter treeline", width: 1000, height: 750, caption: "" },
+  { src: event1, alt: "A student digging a planting hole with a spade in a grassy field", caption: "" },
+  { src: event2, alt: "Volunteers in rain gear spread along a line of orange marker flags at the edge of the woods", caption: "" },
+  { src: event3, alt: "Three students standing on a fallen log in a field staked out for planting", caption: "" },
+  { src: event4, alt: "An orange marker flag along the tree line of a green field on a rainy spring day", caption: "" },
+  { src: event5, alt: "Students and adult volunteers standing with shovels on freshly turned ground", caption: "" },
+  { src: event6, alt: "Students and volunteers with muddy shovels and boots at the end of a rainy planting day", caption: "" },
+  { src: event7, alt: "A student breaking ground with a spade in a bare field in front of a winter treeline", caption: "" },
 ];
 const track = [...photos, ...photos];
 ---
@@ -40,11 +49,12 @@ const track = [...photos, ...photos];
     <div id="event-slides" class="slides flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-2xl">
       {photos.map((p) => (
         <figure class="relative w-full shrink-0 snap-start overflow-hidden ring-1 ring-canopy/10">
-          <img
+          <Image
             src={p.src}
             alt={p.alt}
-            width={p.width}
-            height={p.height}
+            widths={[400, 800]}
+            sizes="100vw"
+            quality={55}
             loading="lazy"
             decoding="async"
             class="aspect-[4/3] w-full object-cover"
@@ -79,11 +89,12 @@ const track = [...photos, ...photos];
           aria-hidden={i >= photos.length ? "true" : undefined}
           class="relative mr-6 h-80 w-80 flex-none overflow-hidden rounded-2xl shadow-md ring-1 ring-canopy/10 transition-all duration-500 ease-out hover:scale-[1.03] hover:shadow-xl"
         >
-          <img
+          <Image
             src={p.src}
             alt={i < photos.length ? p.alt : ""}
-            width={p.width}
-            height={p.height}
+            widths={[320, 640]}
+            sizes="320px"
+            quality={55}
             loading="lazy"
             decoding="async"
             class="h-full w-full object-cover"

@@ -33,6 +33,8 @@ before considering a task done.
     src/
       pages/           one file = one page/route
         index.astro          home
+        about.astro          what the org is, how it is set up, who backs it
+        faq.astro            questions + FAQPage structured data
         get-involved.astro
         past-events.astro
         contact.astro
@@ -47,6 +49,8 @@ before considering a task done.
         Placeholder.astro    labeled placeholder for images not yet added
       layouts/
         Layout.astro         shared shell: nav + footer + <head>. Every page wraps in this.
+      assets/
+        images/              photos Astro processes (resized, WebP, srcset)
       data/
         stats.json           SINGLE SOURCE OF TRUTH (see below)
       content/
@@ -59,8 +63,11 @@ before considering a task done.
 ## Single source of truth: stats.json
 
 `src/data/stats.json` holds every canonical number and piece of contact info:
-trees planted, CO2 absorbed, volunteer hours, the four counties, EIN, email,
-Instagram, donate URL. Components import from it.
+trees planted, CO2 absorbed, volunteer hours, the four counties, the founding
+date, the state and region, EIN, email, Instagram, LinkedIn, donate URL, and
+the chapter list. Components import from it. `founded`, `state` and `region`
+exist so the organization's structured data reads from the same place as the
+page copy rather than hardcoding a second copy in `Layout.astro`.
 
 **Never hardcode these values into a page.** If a stat needs to appear somewhere,
 import it from `stats.json`. If a number changes, it changes in exactly one place
@@ -85,8 +92,13 @@ Palette (forest/soil, warm and green — not the generic AI cream-and-terracotta
 - `paper` #fbfaf5 — page background
 
 Type: **Fraunces** (display, via `font-display`) for headings; **Inter** (body,
-via `font-body`) for everything else. Both load from Google Fonts at the top of
-`global.css`. Headings are typically `font-display font-600 text-canopy`.
+via `font-body`) for everything else. Both are **self-hosted**: they are declared
+in the `fonts` block of `astro.config.mjs`, downloaded at build time, and
+rendered by the two `<Font>` components in `Layout.astro`, which emit the
+`@font-face` rules and the `<link rel=preload>`. Nothing is fetched from
+fonts.googleapis.com. The `--font-display` / `--font-body` tokens in
+`global.css` point at the `--font-fraunces` / `--font-inter` variables the
+config generates, each of which already carries its fallback stack. Headings are typically `font-display font-600 text-canopy`.
 
 When adding UI, reuse these tokens and the existing patterns rather than
 introducing new colors or fonts. Match the spacing and rounding already in use
@@ -107,18 +119,44 @@ directly; pass props instead.
   those paths in robots.txt: a crawler has to fetch the page to read the
   noindex.
 - **Internal links end with a trailing slash** (`/chapter/`, not `/chapter`).
+  This applies to hrefs inside JavaScript objects too, such as the `primary`
+  and `secondary` props on `CtaBand`, which is where a slashless link is
+  easiest to miss and costs every page that renders the band a redirect.
   Pages are served at `/page/`, so a slashless link costs a redirect hop. This
   matches `trailingSlash: 'always'` in the config, the canonical, `og:url`, and
   the sitemap.
-- **Structured data** (schema.org NGO + WebSite, JSON-LD) renders on the home
-  page only, from `stats.json`. Google does not want it on every page. Every
+- **Structured data.** The schema.org NGO + WebSite graph renders on the home
+  page only, from `stats.json`. A page that needs schema describing *itself*
+  (`about.astro` passes an `AboutPage`, `faq.astro` an `FAQPage`) passes a
+  `jsonLd` prop to `Layout`, which renders it in addition. On `faq.astro` the
+  visible accordion and the `FAQPage` markup are generated from the same
+  `faqs` array, because Google requires the marked-up answer to be the answer
+  actually shown; keep it that way rather than maintaining two copies. Google does not want it on every page. Every
   value must be backed by something visible on the site. Note the EIN is the
   Hack Foundation's, so it is the sponsor's `taxID`, never ours.
-- **Images need `alt`, `width`, and `height`.** The one hero per page gets
-  `fetchpriority="high"` and `decoding="sync"` and must never be lazy;
-  everything below the fold gets `loading="lazy" decoding="async"`. Alt text
-  describes what is in the photo. In `EventCarousel.astro`, `alt` and `caption`
-  are separate fields: `caption` is visible on the page, `alt` is not.
+- **Photos go in `src/assets/images/` and render through `<Image>`** from
+  `astro:assets`, imported at the top of the file. That is what produces the
+  resized WebP variants and the `srcset`. A raw `<img src="/images/...">`
+  pointing into `public/` ships the original file at full size to every device,
+  so don't add one. `public/images/` now holds only `og-card.jpg`, which needs
+  a stable absolute URL for social scrapers.
+- **Every `<Image>` needs `alt`, `widths`, `sizes`, and a `quality`.**
+  - `widths` must never exceed the file's real pixel width, or Astro upscales
+    and the "optimised" variant comes out bigger than the original. Check the
+    source dimensions first.
+  - Include a step near 828px for anything full-bleed: a 390px phone at 2x
+    needs 780px, and without that step it pulls the 1024 variant.
+  - `quality`: 45-50 for heroes (they sit under a 60-80% canopy overlay, so
+    detail below that is invisible), 65 for photos shown plainly, 55 for the
+    carousel. The default of 80 is wasteful on noisy outdoor photos.
+  - Pass explicit `width`/`height` when nothing in CSS constrains the box.
+    Astro otherwise stamps the source's natural size onto the tag.
+- The one hero per page gets `loading="eager"`, `fetchpriority="high"` and
+  `decoding="sync"`; everything below the fold gets `loading="lazy"
+  decoding="async"`. An image inside a container that is `display:none` at a
+  breakpoint should be lazy, so phones never download it.
+- Alt text describes what is in the photo. In `EventCarousel.astro`, `alt` and
+  `caption` are separate fields: `caption` is visible on the page, `alt` is not.
 - **New pages** are picked up by the sitemap automatically. To keep one out,
   add its URL to `excludedFromSitemap` in `astro.config.mjs`.
 - `public/robots.txt`, `public/_redirects`, and `public/_headers` are served
@@ -131,10 +169,10 @@ directly; pass props instead.
 
 - **Every page** imports and wraps its content in `Layout.astro`, passing a
   `title` and (ideally) a `description` prop for SEO.
-- **Images**: there are no real photos yet. Use the `<Placeholder>` component
-  wherever an image will go, with a descriptive `label`. When real images arrive,
-  replace `<Placeholder>` with a standard `<img>` (or Astro's `<Image>`) pointing
-  at a file in `/public`. Don't invent image paths that don't exist.
+- **Images**: the real photos are in `src/assets/images/`. Use `<Placeholder>`
+  only where a photo is genuinely still missing, and replace it with an
+  `<Image>` (see the SEO section above for the rules) once one exists. Don't
+  invent image paths that don't exist.
 - **Special characters**: inside an Astro `.astro` template's plain text, use
   HTML entities (`&rarr;`, `&ldquo;`). Inside JavaScript strings in the
   frontmatter (between the `---` fences), use the real character or a unicode

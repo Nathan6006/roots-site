@@ -1,4 +1,5 @@
 ---
+import { Font } from "astro:assets";
 import "../styles/global.css";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
@@ -15,6 +16,11 @@ const {
   // Utility pages (the form's thank-you page, the 404) should not be indexed.
   // A noindex page gets no canonical: the two are contradictory signals.
   noindex = false,
+  // Page-specific structured data (an FAQPage, an AboutPage). The NGO and
+  // WebSite nodes below stay on the home page only, because site-wide
+  // Organization markup is noise to Google. A node that describes *this* page
+  // is a different thing, so a page may pass its own and it renders here.
+  jsonLd = null,
 } = Astro.props;
 
 // Absolute URLs for link previews. Scrapers ignore relative og: values.
@@ -51,7 +57,23 @@ const structuredData = {
       email: stats.email,
       sameAs: [stats.instagram, stats.linkedin],
       nonprofitStatus: "https://schema.org/Nonprofit501c3",
-      foundingLocation: { "@type": "Place", name: "Northeast Ohio" },
+      foundingDate: stats.founded,
+      foundingLocation: { "@type": "Place", name: stats.region },
+      // No street address is published anywhere on the site, so the region is
+      // as specific as this can honestly get. A made-up address would be worse
+      // than none: it is the kind of detail a grant reviewer checks.
+      address: {
+        "@type": "PostalAddress",
+        addressRegion: stats.state,
+        addressCountry: "US",
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "General enquiries",
+        email: stats.email,
+        areaServed: "US",
+        availableLanguage: "English",
+      },
       sponsor: {
         "@type": "Organization",
         name: "The Hack Foundation",
@@ -93,14 +115,12 @@ const structuredData = {
     {!noindex && <link rel="canonical" href={canonical} />}
     <meta name="theme-color" content="#1f3d2b" />
 
-    <!-- The font CSS is a third-party request, so warm both origins up front
-         rather than waiting for the stylesheet to be parsed to discover it. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
-    />
+    <!-- Self-hosted woff2, emitted from the fonts block in astro.config.mjs.
+         Each Font component writes its own font-face rules plus a preload
+         link, so the files start downloading with the HTML instead of being
+         discovered only after a third-party stylesheet is fetched and parsed. -->
+    <Font cssVariable="--font-fraunces" preload />
+    <Font cssVariable="--font-inter" preload />
 
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:locale" content="en_US" />
@@ -126,6 +146,9 @@ const structuredData = {
 
     {isHome && (
       <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}
     <!-- Runs during parse so the reveal styles only hide content when JS is on. -->
     <script is:inline>document.documentElement.classList.add("js");</script>

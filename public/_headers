@@ -1,6 +1,21 @@
 # Cache headers for Cloudflare Pages and Netlify. HTML is deliberately not
 # listed: pages must stay revalidated so an edit shows up immediately.
 
+# Sent on every response. None of these change how the site renders; they are
+# the baseline a donor, a school, or a grant reviewer's security scanner will
+# look for, and a site asking for money should pass that check.
+#
+# Deliberately not set here: a Content-Security-Policy. The contact form posts
+# to formsubmit.co and the pages carry one inline script, so a policy has to be
+# written against those and then verified on a real deploy. An untested CSP
+# silently breaks the form, which is worse than not having one.
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+
 # Astro fingerprints these filenames, so a changed file gets a new URL and an
 # old URL can safely be cached forever.
 /_astro/*

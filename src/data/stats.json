@@ -3,6 +3,9 @@
   "co2AbsorbedYearly": "240 Tons",
   "volunteerHours": "1,000+",
   "counties": ["Geauga", "Lorain", "Cuyahoga", "Ashtabula"],
+  "founded": "2024-08",
+  "state": "OH",
+  "region": "Northeast Ohio",
   "chapters": [
     { "city": "Cleveland", "state": "Ohio", "lat": 41.4993, "lon": -81.6944 },
     { "city": "Exeter", "state": "New Hampshire", "lat": 42.9814, "lon": -70.9478 },
