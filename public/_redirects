@@ -6,6 +6,12 @@
 # Format: [source] [destination] [code]. The default code is 302, so a
 # permanent redirect has to say 301. Sources are matched literally, hence both
 # slash variants.
+#
+# www is NOT handled here. Cloudflare Pages only matches a source path, never a
+# hostname (its docs list domain-level redirects as unsupported), so a rule like
+# "https://www.rootsoftomorrow.org/* ..." is silently ignored. The www to apex
+# 301 is a Cloudflare Redirect Rule instead; see "Canonical hostname" in
+# README.md for the exact rule. Don't try to re-add it to this file.
 
 # /chapters is the plural people type for the chapter page. Permanent.
 /chapters      /chapter/   301
