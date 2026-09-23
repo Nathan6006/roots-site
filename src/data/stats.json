@@ -13,7 +13,8 @@
     { "city": "Midland", "state": "Texas", "lat": 31.9973, "lon": -102.0779 },
     { "city": "Grand Rapids", "state": "Michigan", "lat": 42.9634, "lon": -85.6681 },
     { "city": "Cincinnati", "state": "Ohio", "lat": 39.1031, "lon": -84.512 },
-    { "city": "Port Washington", "state": "New York", "lat": 40.8257, "lon": -73.6982 }
+    { "city": "Port Washington", "state": "New York", "lat": 40.8257, "lon": -73.6982 },
+    { "city": "Midland", "state": "Michigan", "lat": 43.6156, "lon": -84.2472 }
   ],
   "ein": "81-2908499",
   "email": "contact@rootsoftomorrow.org",
