@@ -33,7 +33,6 @@ before considering a task done.
     src/
       pages/           one file = one page/route
         index.astro          home
-        about.astro          what the org is, how it is set up, who backs it
         faq.astro            questions + FAQPage structured data
         get-involved.astro
         past-events.astro
@@ -126,14 +125,16 @@ directly; pass props instead.
   matches `trailingSlash: 'always'` in the config, the canonical, `og:url`, and
   the sitemap.
 - **Structured data.** The schema.org NGO + WebSite graph renders on the home
-  page only, from `stats.json`. A page that needs schema describing *itself*
-  (`about.astro` passes an `AboutPage`, `faq.astro` an `FAQPage`) passes a
-  `jsonLd` prop to `Layout`, which renders it in addition. On `faq.astro` the
-  visible accordion and the `FAQPage` markup are generated from the same
-  `faqs` array, because Google requires the marked-up answer to be the answer
-  actually shown; keep it that way rather than maintaining two copies. Google does not want it on every page. Every
-  value must be backed by something visible on the site. Note the EIN is the
-  Hack Foundation's, so it is the sponsor's `taxID`, never ours.
+  page only, from `stats.json`, because Google does not want site-wide
+  Organization markup on every page. A page that needs schema describing
+  *itself* (`faq.astro` passes an `FAQPage`, the guides an `Article` and a
+  `CollectionPage`) passes a `jsonLd` prop to `Layout`, which renders it in
+  addition. On `faq.astro` the visible accordion and the `FAQPage` markup are
+  generated from the same `faqs` array, because Google requires the marked-up
+  answer to be the answer actually shown; keep it that way rather than
+  maintaining two copies. Every value must be backed by something visible on
+  the site. Note the EIN is the Hack Foundation's, so it is the sponsor's
+  `taxID`, never ours.
 - **Photos go in `src/assets/images/` and render through `<Image>`** from
   `astro:assets`, imported at the top of the file. That is what produces the
   resized WebP variants and the `srcset`. A raw `<img src="/images/...">`

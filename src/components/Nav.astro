@@ -4,7 +4,6 @@ import logo from "../assets/rootslogo-128.png";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/about/", label: "About" },
   { href: "/get-involved/", label: "Get Involved" },
   { href: "/chapter/", label: "Start a Chapter" },
   { href: "/contact/", label: "Contact" },
@@ -23,7 +22,7 @@ const path = withSlash(Astro.url.pathname);
       Roots of Tomorrow
     </a>
 
-    <div class="hidden items-center gap-6 md:flex lg:gap-8">
+    <div class="hidden items-center gap-8 md:flex">
       {links.map((l) => (
         <a
           href={l.href}
