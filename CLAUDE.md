@@ -91,13 +91,13 @@ Palette (forest/soil, warm and green — not the generic AI cream-and-terracotta
 - `cream` #f6f4ec — borders, soft section backgrounds
 - `paper` #fbfaf5 — page background
 
-Type: **Fraunces** (display, via `font-display`) for headings; **Inter** (body,
+Type: **Newsreader** (display, via `font-display`) for headings; **Libre Franklin** (body,
 via `font-body`) for everything else. Both are **self-hosted**: they are declared
 in the `fonts` block of `astro.config.mjs`, downloaded at build time, and
 rendered by the two `<Font>` components in `Layout.astro`, which emit the
 `@font-face` rules and the `<link rel=preload>`. Nothing is fetched from
 fonts.googleapis.com. The `--font-display` / `--font-body` tokens in
-`global.css` point at the `--font-fraunces` / `--font-inter` variables the
+`global.css` point at the `--font-newsreader` / `--font-franklin` variables the
 config generates, each of which already carries its fallback stack. Headings are typically `font-display font-600 text-canopy`.
 
 When adding UI, reuse these tokens and the existing patterns rather than
