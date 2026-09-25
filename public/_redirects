@@ -13,6 +13,11 @@
 # 301 is a Cloudflare Redirect Rule instead; see "Canonical hostname" in
 # README.md for the exact rule. Don't try to re-add it to this file.
 
+# /about was published and then pulled. Temporary on purpose, same reasoning as
+# the parked routes below.
+/about         /           302
+/about/        /           302
+
 # /chapters is the plural people type for the chapter page. Permanent.
 /chapters      /chapter/   301
 /chapters/     /chapter/   301
