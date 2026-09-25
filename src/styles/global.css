@@ -1,7 +1,7 @@
-/* Fraunces and Inter are self-hosted. They are declared in the `fonts` block
+/* Newsreader and Libre Franklin are self-hosted. They are declared in the `fonts` block
    of astro.config.mjs and rendered by the two <Font> components in
    src/layouts/Layout.astro, which emit the @font-face rules and the preload
-   links. The --font-fraunces and --font-inter variables below come from there,
+   links. The --font-newsreader and --font-franklin variables below come from there,
    and each already carries its configured fallback stack. */
 @import "tailwindcss";
 
@@ -15,8 +15,8 @@
   --color-cream: #f6f4ec;
   --color-paper: #fbfaf5;
 
-  --font-display: var(--font-fraunces);
-  --font-body: var(--font-inter);
+  --font-display: var(--font-newsreader);
+  --font-body: var(--font-franklin);
 }
 
 html {
@@ -34,7 +34,7 @@ body {
   font-feature-settings: "kern", "liga", "calt";
 }
 
-/* Fraunces shines with optical sizing on large display type. */
+/* Newsreader shines with optical sizing on large display type. */
 .font-display {
   font-optical-sizing: auto;
   letter-spacing: -0.018em;

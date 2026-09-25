@@ -34,7 +34,7 @@ export default defineConfig({
   redirects: {
     '/chapters': '/chapter/',
   },
-  // Fraunces and Inter are downloaded at build time and served from our own
+  // Newsreader and Libre Franklin are downloaded at build time and served from our own
   // origin as woff2. Previously they came from fonts.googleapis.com, which put
   // a render-blocking stylesheet on a third-party origin in front of first
   // paint: two extra DNS lookups and TLS handshakes before any text could be
@@ -43,8 +43,8 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.google(),
-      name: 'Fraunces',
-      cssVariable: '--font-fraunces',
+      name: 'Newsreader',
+      cssVariable: '--font-newsreader',
       // Variable font: one file covers the whole 400-700 range the site uses.
       weights: ['400 700'],
       styles: ['normal'],
@@ -53,8 +53,8 @@ export default defineConfig({
     },
     {
       provider: fontProviders.google(),
-      name: 'Inter',
-      cssVariable: '--font-inter',
+      name: 'Libre Franklin',
+      cssVariable: '--font-franklin',
       weights: ['400 700'],
       styles: ['normal'],
       subsets: ['latin'],
