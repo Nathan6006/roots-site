@@ -29,3 +29,29 @@
 /past-events/  /           302
 /log           /           302
 /log/          /           302
+/past-events/* /           302
+/past          /           302
+/past/         /           302
+
+# URLs from the old Framer site. Google indexed these and outside articles
+# link to some of them, so each goes to its closest page here with a 301,
+# which passes the old URL's standing on to the new one. The event detail
+# pages fall under the parked /past-events/* rule above.
+/home                      /               301
+/home/                     /               301
+/contact-us                /contact/       301
+/contact-us/               /contact/       301
+/mailing-list              /get-involved/  301
+/mailing-list/             /get-involved/  301
+/signup                    /get-involved/  301
+/signup/                   /get-involved/  301
+/upcoming-events           /get-involved/  301
+/upcoming-events/          /get-involved/  301
+/get-involved/2026         /get-involved/  301
+/get-involved/2026/        /get-involved/  301
+/get-involved/mgg-partner  /get-involved/  301
+/get-involved/mgg-partner/ /get-involved/  301
+/get-involved/social       /get-involved/  301
+/get-involved/social/      /get-involved/  301
+/why-trees                 /               301
+/why-trees/                /               301
