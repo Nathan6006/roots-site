@@ -33,9 +33,19 @@ html {
     navigation: auto;
   }
 }
-::view-transition-old(root),
+/* The old page fades out, then the new one fades in while rising a few
+   pixels, so the change reads as a transition rather than a flicker. */
+::view-transition-old(root) {
+  animation: 0.18s ease-in both vt-fade-out;
+}
 ::view-transition-new(root) {
-  animation-duration: 0.25s;
+  animation: 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.12s both vt-rise-in;
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-rise-in {
+  from { opacity: 0; transform: translateY(12px); }
 }
 
 /* The header is identical on every page, so it holds still while the
