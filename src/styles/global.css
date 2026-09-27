@@ -24,6 +24,26 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Page-to-page cross-fade, done by the browser with no JavaScript. Every
+   click is still a normal page load, so the scripts in Layout.astro run as
+   usual. Browsers without support just load the page. Skipped entirely for
+   visitors who ask for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.25s;
+}
+
+/* The header is identical on every page, so it holds still while the
+   content underneath fades. */
+.site-header {
+  view-transition-name: site-header;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-paper);
