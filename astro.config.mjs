@@ -27,6 +27,14 @@ export default defineConfig({
   // links, canonicals, og:url and the sitemap all use the trailing-slash form.
   // Stating it here keeps the dev server honest about it too.
   trailingSlash: 'always',
+  // Fetch a page in the background as soon as a link is hovered or focused
+  // (or touched, on phones), so the click that follows opens it from cache.
+  // Astro ships a tiny script for this and skips it on Save-Data and slow
+  // connections.
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
   // The chapter page gets shared as a spoken/printed link, so catch the plural
   // people will inevitably type. public/_redirects turns this into a real 301
   // on Cloudflare Pages and Netlify; this entry is the fallback for hosts that
