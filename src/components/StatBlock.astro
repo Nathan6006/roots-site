@@ -2,15 +2,25 @@
 import stats from "../data/stats.json";
 const items = [
   { value: stats.treesPlanted, label: "Trees Planted" },
-  { value: stats.co2AbsorbedYearly, label: "Projected CO\u2082 Absorbed Yearly*" },
+  { value: stats.co2AbsorbedYearly, label: "Projected CO₂ Absorbed Yearly*" },
   { value: stats.volunteerHours, label: "Volunteer Hours Contributed" },
+  { value: stats.kidsTaught, label: "Kids Taught" },
+];
+
+// Dividers for a grid that is one column on phones, two on tablets, and four
+// on desktop. Each cell draws the line above or to the left of itself.
+const dividers = [
+  "",
+  "border-t sm:border-t-0 sm:border-l",
+  "border-t lg:border-t-0 lg:border-l",
+  "border-t sm:border-l lg:border-t-0",
 ];
 ---
 <div class="overflow-hidden rounded-2xl bg-canopy shadow-2xl ring-1 ring-canopy/20">
-  <div class="grid divide-y divide-leaf/30 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-    {items.map((s) => (
-      <div class="px-8 py-9 text-center transition-colors duration-300 hover:bg-leaf/15">
-        <div class="font-display text-5xl font-600 tabular-nums text-paper sm:text-6xl" data-count={s.value}>{s.value}</div>
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4">
+    {items.map((s, i) => (
+      <div class:list={["border-leaf/30 px-8 py-9 text-center lg:px-5 transition-colors duration-300 hover:bg-leaf/15", dividers[i]]}>
+        <div class="font-display text-5xl font-600 whitespace-nowrap tabular-nums text-paper sm:text-6xl lg:text-[2.75rem] xl:text-5xl" data-count={s.value}>{s.value}</div>
         <div class="mt-2.5 text-sm font-500 uppercase tracking-wider text-sprout">{s.label}</div>
       </div>
     ))}
