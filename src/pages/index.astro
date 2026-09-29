@@ -9,6 +9,7 @@ import { chapterCount, stateCount, spell } from "../lib/chapters";
 import stats from "../data/stats.json";
 import { Image } from "astro:assets";
 import homeHeroPoster from "../assets/images/video/home-hero.jpg";
+import homeHeroPortrait from "../assets/images/video/home-hero-portrait.jpg";
 import emissionsPoster from "../assets/images/video/band-emissions.jpg";
 import loggingPoster from "../assets/images/video/story-logging.jpg";
 import canopyPoster from "../assets/images/video/band-canopy.jpg";
@@ -23,7 +24,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   description={`Student-led 501(c)(3) planting native trees across ${counties} counties in Northeast Ohio. ${stats.treesPlanted} in the ground so far.`}
 >
   <!-- Hero -->
-  <section class="relative flex h-[67vh] items-center overflow-hidden">
+  <section class="relative flex min-h-[67vh] items-center overflow-hidden">
     <!-- Parallax background -->
     <!-- Stock footage, not our sites: a sapling close-up, then forest shots
          crossfading in one 30-second loop. -->
@@ -36,6 +37,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
       sizes="100vw"
       quality={60}
       sources={[1280, 1920]}
+      portrait={homeHeroPortrait}
       av1
       hero
       class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full"

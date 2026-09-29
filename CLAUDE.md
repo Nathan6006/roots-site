@@ -165,7 +165,9 @@ directly; pass props instead.
   (`intro_video/docs/footage-catalog.md` has what each shows and its license).
   `scripts/encode-videos.mjs` cuts them into seamless loops at a few widths
   (`public/videos/<name>-<width>.mp4`, plus an AV1 copy of the hero) and a
-  first-frame poster in `src/assets/images/video/`; to change a clip, edit its
+  first-frame poster in `src/assets/images/video/`. The hero also has a 9:16
+  `portrait` cut for upright phones, cropped per shot around each segment's
+  `focus`, with its own poster passed as the component's `portrait` prop; to change a clip, edit its
   entry there and run `node scripts/encode-videos.mjs <name>`. The component's
   `sources` prop must list the same widths. It renders the poster as a normal
   `<Image>`, only loads the video after page load and when on screen, never
