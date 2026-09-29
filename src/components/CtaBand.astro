@@ -53,16 +53,17 @@ const {
           quality={45}
           class="absolute inset-0"
         />
-        <div class="pointer-events-none absolute inset-0 bg-canopy/70"></div>
+        <!-- 80% plus full-strength text keeps the brightest frames at WCAG AA. -->
+        <div class="pointer-events-none absolute inset-0 bg-canopy/80"></div>
       </>
     )}
 
     <div class="relative">
-      <p class="text-xs font-600 uppercase tracking-[0.3em] text-sprout">{eyebrow}</p>
+      <p class:list={["text-xs font-600 uppercase tracking-[0.3em]", video ? "text-paper/90" : "text-sprout"]}>{eyebrow}</p>
       <h2 class="mx-auto mt-4 max-w-2xl font-display text-3xl font-600 leading-tight text-paper sm:text-5xl">
         {heading}
       </h2>
-      <p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-paper/75">{body}</p>
+      <p class:list={["mx-auto mt-5 max-w-xl text-lg leading-relaxed", video ? "text-paper/90" : "text-paper/75"]}>{body}</p>
       <div class="mt-9 flex flex-wrap justify-center gap-4">
         <a
           href={primary.href}

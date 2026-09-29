@@ -42,17 +42,20 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
       style="will-change: transform;"
     />
     <!-- Overlay: even on phones, where the text spans the width; on wider
-         screens darkest behind the text and lighter on the right. -->
-    <div class="pointer-events-none absolute inset-0 bg-canopy/65 md:bg-transparent md:bg-gradient-to-r md:from-canopy/80 md:via-canopy/50 md:to-canopy/20"></div>
+         screens darkest behind the text and lighter on the right. These
+         strengths, with the eyebrow and subtitle in full paper, keep every
+         frame of the loop at WCAG AA (4.5:1) behind the text. Recheck if the
+         clips or the overlay change. -->
+    <div class="pointer-events-none absolute inset-0 bg-canopy/72 md:bg-transparent md:bg-gradient-to-r md:from-canopy/80 md:via-canopy/62 md:to-canopy/20"></div>
     <!-- Soft fade into the page below -->
     <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24" style="background: linear-gradient(to bottom, rgba(251,250,245,0) 0%, rgba(251,250,245,0.02) 45%, rgba(251,250,245,0.08) 65%, rgba(251,250,245,0.2) 80%, rgba(251,250,245,0.45) 90%, rgba(251,250,245,0.75) 96%, rgba(251,250,245,1) 100%);"></div>
     <!-- Content -->
     <div class="rise-in relative mx-auto w-full max-w-6xl px-8 pb-16 pt-24">
-      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-sprout">Native tree planting in Northeast Ohio</p>
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-paper">Native tree planting in Northeast Ohio</p>
       <h1 class="max-w-4xl font-display text-5xl font-600 leading-[1.04] text-paper drop-shadow-lg sm:text-7xl md:text-8xl">
         Roots of<br />Tomorrow
       </h1>
-      <p class="mt-7 max-w-xl text-xl leading-relaxed text-paper/80">
+      <p class="mt-7 max-w-xl text-xl leading-relaxed text-paper">
         A youth-led nonprofit planting native trees and bringing forests back
         in Northeast Ohio.
       </p>
@@ -170,7 +173,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           poster={loggingPoster}
           alt="Aerial view of a logging yard, with a loader carrying cut logs across bare red earth"
           widths={[480, 768, 1050]}
-          sizes="(min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 1152px) 540px, (min-width: 768px) 50vw, 100vw"
           quality={65}
           sources={[640, 960]}
           class="absolute inset-0"
@@ -212,7 +215,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         </p>
       </div>
       <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10 md:order-1">
-        <Image src={homeImage2} alt="Two students marking planting spots with flags in an open field at the edge of the woods" widths={[480, 768, 1152]} sizes="(min-width: 768px) 50vw, 100vw" quality={65} loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+        <Image src={homeImage2} alt="Two students marking planting spots with flags in an open field at the edge of the woods" widths={[480, 768, 1152]} sizes="(min-width: 1152px) 540px, (min-width: 768px) 50vw, 100vw" quality={65} loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
       </div>
     </div>
   </section>
@@ -238,7 +241,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           poster={emissionsPoster}
           alt="Industrial smokestacks in silhouette with clouds of smoke and steam rolling into a hazy sky"
           widths={[480, 768, 1120]}
-          sizes="(min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 1152px) 540px, (min-width: 768px) 50vw, 100vw"
           quality={65}
           control={false}
           class="absolute inset-0"
@@ -251,7 +254,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           poster={canopyPoster}
           alt="Top-down view of a dense forest canopy split by a narrow road"
           widths={[480, 768, 1120]}
-          sizes="(min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 1152px) 540px, (min-width: 768px) 50vw, 100vw"
           quality={65}
           class="absolute inset-0"
         />

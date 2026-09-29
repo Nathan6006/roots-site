@@ -84,7 +84,7 @@ Palette (forest/soil, warm and green — not the generic AI cream-and-terracotta
 
 - `canopy` #1f3d2b — darkest green, headings, primary buttons, footer
 - `leaf` #3f6b3f — mid green, hover states, links
-- `moss` #6b8e5a — muted green, eyebrows/labels
+- `moss` #557846 — muted green, eyebrows/labels on light backgrounds (darkened from #6b8e5a to pass WCAG AA; on dark green use `sprout`)
 - `sprout` #a8c686 — light green, footer text accents
 - `bark` #8c5a3c — brown accent (use sparingly)
 - `soil` #2c2620 — near-black body text
