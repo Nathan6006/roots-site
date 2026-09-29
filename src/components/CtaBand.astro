@@ -1,12 +1,17 @@
 ---
 // A warm closing section so pages end with an invitation instead of dropping
 // straight into the dark footer. Copy and links are overridable per page.
+// Pass `video` ({ name, poster, alt }) to put a stock clip behind the card in
+// place of the contour lines.
+import BackgroundVideo from "./BackgroundVideo.astro";
+
 const {
   eyebrow = "Join in",
   heading = "Want to help?",
   body = "Come out to a planting day, or chip in for seedlings.",
   primary = { href: "/get-involved/", label: "Get Involved" },
   secondary = { href: "/donate/", label: "Donate" },
+  video,
 } = Astro.props;
 ---
 
@@ -36,6 +41,21 @@ const {
       <path d="M 263 420 C 263 534.6 172.9 626 60 626 C -50.1 626 -148 534.6 -148 420 C -148 313.7 -50.1 226 60 226 C 172.9 226 263 313.7 263 420 Z" />
       <path d="M 337 420 C 337 561.9 216.4 676 60 676 C -93.7 676 -223 561.9 -223 420 C -223 270.5 -93.7 152 60 152 C 216.4 152 337 270.5 337 420 Z" />
     </svg>
+
+    {video && (
+      <>
+        <BackgroundVideo
+          name={video.name}
+          poster={video.poster}
+          alt={video.alt}
+          widths={[640, 828, 1280]}
+          sizes="(min-width: 1152px) 1104px, 100vw"
+          quality={45}
+          class="absolute inset-0"
+        />
+        <div class="pointer-events-none absolute inset-0 bg-canopy/70"></div>
+      </>
+    )}
 
     <div class="relative">
       <p class="text-xs font-600 uppercase tracking-[0.3em] text-sprout">{eyebrow}</p>

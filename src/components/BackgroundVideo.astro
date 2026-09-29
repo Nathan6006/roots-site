@@ -1,0 +1,233 @@
+---
+// A muted, looping stock clip laid over its own poster image. The poster is a
+// normal <Image> (so it is the LCP element, resized and in WebP), and the
+// video is an extra on top of it:
+//
+// - Nothing is downloaded until the page has finished loading and the clip is
+//   near the viewport, and it plays only while on screen and the tab is
+//   visible.
+// - It never loads with prefers-reduced-motion, Save-Data, or a 2G
+//   connection; those visitors get the poster, which is the clip's first
+//   frame.
+// - It picks the smallest encode (`sources`, which must match the widths in
+//   scripts/encode-videos.mjs) that covers the box the clip fills, cropping
+//   included. Phones count at 1x to save data. With `av1`, devices that
+//   decode AV1 in hardware get the AV1 copy, about half the size; everyone
+//   else gets H.264, which every device decodes in hardware.
+// - A pause button (WCAG 2.2.2) sits in the bottom-right corner. Pausing one
+//   clip pauses every clip, and the choice is remembered across pages.
+//
+// The clips are made by scripts/encode-videos.mjs. They are stock footage, so
+// never caption one as our own planting, site, or people.
+//
+// Position it with `class` (usually `absolute inset-0`). The wrapper takes
+// `id` so a page's parallax script can move it, and the pause button is a
+// sibling, outside the wrapper, so it doesn't drift with the parallax.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  name: string;
+  poster: ImageMetadata;
+  alt: string;
+  widths: number[];
+  sizes: string;
+  quality: number;
+  sources?: number[];
+  av1?: boolean;
+  hero?: boolean;
+  control?: boolean;
+  id?: string;
+  class?: string;
+  style?: string;
+}
+
+const {
+  name,
+  poster,
+  alt,
+  widths,
+  sizes,
+  quality,
+  sources = [720, 1280],
+  av1 = false,
+  hero = false,
+  control = true,
+  id,
+  class: className,
+  style,
+} = Astro.props;
+---
+
+<div id={id} class:list={["overflow-hidden", className]} style={style} data-bg-video>
+  <Image
+    src={poster}
+    alt={alt}
+    widths={widths}
+    sizes={sizes}
+    quality={quality}
+    loading={hero ? "eager" : "lazy"}
+    fetchpriority={hero ? "high" : undefined}
+    decoding={hero ? "sync" : "async"}
+    class="absolute inset-0 h-full w-full object-cover"
+  />
+  <video
+    class="bg-video absolute inset-0 h-full w-full object-cover"
+    data-name={name}
+    data-sources={sources.join(",")}
+    data-av1={av1 ? "" : undefined}
+    muted
+    loop
+    playsinline
+    preload="none"
+    disablepictureinpicture
+    disableremoteplayback
+    aria-hidden="true"
+    tabindex="-1"
+  ></video>
+</div>
+{control && (
+  <button
+    type="button"
+    class="bg-video-toggle absolute bottom-6 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-canopy/70 text-paper ring-1 ring-paper/30 backdrop-blur-sm transition-colors hover:bg-canopy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sprout sm:right-6"
+    aria-label="Pause background video"
+    hidden
+  >
+    <svg data-icon="pause" viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor" aria-hidden="true">
+      <rect x="6" y="5" width="4" height="14" rx="1" />
+      <rect x="14" y="5" width="4" height="14" rx="1" />
+    </svg>
+    <svg data-icon="play" viewBox="0 0 24 24" class="hidden h-4 w-4" fill="currentColor" aria-hidden="true">
+      <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" />
+    </svg>
+  </button>
+)}
+
+<style>
+  .bg-video {
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .bg-video[data-on] {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  const KEY = "rot-bg-video";
+  const roots = document.querySelectorAll<HTMLElement>("[data-bg-video]");
+
+  const connection = (navigator as Navigator & {
+    connection?: { saveData?: boolean; effectiveType?: string };
+  }).connection;
+  const skip =
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    connection?.saveData === true ||
+    /2g/.test(connection?.effectiveType ?? "");
+
+  let paused = false;
+  try {
+    paused = localStorage.getItem(KEY) === "paused";
+  } catch {}
+
+  type Clip = { video: HTMLVideoElement; root: HTMLElement; visible: boolean; started: boolean };
+  const clips: Clip[] = [];
+  const toggles: HTMLButtonElement[] = [];
+
+  // Hardware AV1 decoding only: software decoding could stutter on a slow
+  // phone, and H.264 never does.
+  const smoothAv1 = async (width: number) => {
+    try {
+      const info = await navigator.mediaCapabilities.decodingInfo({
+        type: "file",
+        video: {
+          contentType: 'video/mp4; codecs="av01.0.08M.08"',
+          width,
+          height: Math.round((width * 9) / 16),
+          bitrate: 2_000_000,
+          framerate: 24,
+        },
+      });
+      return info.supported && info.powerEfficient;
+    } catch {
+      return false;
+    }
+  };
+
+  // The src is set the first time a clip should play, so a clip that is
+  // never scrolled to (or is paused) never downloads.
+  const load = async (clip: Clip) => {
+    clip.started = true;
+    const { video, root } = clip;
+    const { name, sources = "", av1 } = video.dataset;
+    const widths = sources.split(",").map(Number);
+    // object-cover crops a 16:9 clip, so a tall box shows it wider than the box.
+    const cover = Math.max(root.clientWidth, (root.clientHeight * 16) / 9);
+    const density = window.innerWidth < 768 ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+    const width = widths.find((w) => w >= cover * density * 0.9) ?? widths[widths.length - 1];
+    const useAv1 = av1 !== undefined && (await smoothAv1(width));
+    video.src = `/videos/${name}-${width}${useAv1 ? ".av1" : ""}.mp4`;
+    video.addEventListener("playing", () => video.setAttribute("data-on", ""), { once: true });
+    update();
+  };
+
+  const update = () => {
+    for (const clip of clips) {
+      if (clip.visible && !paused && !document.hidden) {
+        if (!clip.started) load(clip);
+        else if (clip.video.src) clip.video.play().catch(() => {}); // e.g. iOS Low Power Mode: the poster stays
+      } else if (clip.started) {
+        clip.video.pause();
+      }
+    }
+    for (const button of toggles) {
+      button.setAttribute("aria-label", paused ? "Play background video" : "Pause background video");
+      button.querySelector("[data-icon=pause]")?.classList.toggle("hidden", paused);
+      button.querySelector("[data-icon=play]")?.classList.toggle("hidden", !paused);
+    }
+  };
+
+  if (!skip && roots.length && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const clip = clips.find((c) => c.root === entry.target);
+          if (clip) clip.visible = entry.isIntersecting;
+        }
+        update();
+      },
+      { rootMargin: "200px 0px" }
+    );
+
+    const begin = () => {
+      roots.forEach((root) => {
+        const video = root.querySelector("video");
+        if (!video) return;
+        clips.push({ video, root, visible: false, started: false });
+        observer.observe(root);
+        const button = root.nextElementSibling;
+        if (button instanceof HTMLButtonElement && button.classList.contains("bg-video-toggle")) {
+          button.hidden = false;
+          toggles.push(button);
+        }
+      });
+      update();
+    };
+
+    // Wait for the page (fonts, the poster, everything above the fold) so the
+    // video never competes with first paint.
+    if (document.readyState === "complete") begin();
+    else window.addEventListener("load", begin, { once: true });
+
+    for (const button of document.querySelectorAll<HTMLButtonElement>(".bg-video-toggle")) {
+      button.addEventListener("click", () => {
+        paused = !paused;
+        try {
+          localStorage.setItem(KEY, paused ? "paused" : "playing");
+        } catch {}
+        update();
+      });
+    }
+    document.addEventListener("visibilitychange", update);
+  }
+</script>

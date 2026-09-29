@@ -24,3 +24,9 @@
 # Images keep stable names, so cache them for a week rather than forever.
 /images/*
   Cache-Control: public, max-age=604800
+
+# Background clips (made by scripts/encode-videos.mjs). Stable names, so a
+# week, like images. Re-encoding a clip under the same name takes up to a
+# week to reach returning visitors; rename it if that matters.
+/videos/*
+  Cache-Control: public, max-age=604800

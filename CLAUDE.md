@@ -46,6 +46,7 @@ before considering a task done.
         Footer.astro
         StatBlock.astro      pulls numbers from data/stats.json
         Placeholder.astro    labeled placeholder for images not yet added
+        BackgroundVideo.astro  muted looping stock clip over its poster image
       layouts/
         Layout.astro         shared shell: nav + footer + <head>. Every page wraps in this.
       assets/
@@ -158,6 +159,22 @@ directly; pass props instead.
   breakpoint should be lazy, so phones never download it.
 - Alt text describes what is in the photo. In `EventCarousel.astro`, `alt` and
   `caption` are separate fields: `caption` is visible on the page, `alt` is not.
+- **Background video** goes through `BackgroundVideo.astro`, never a bare
+  `<video>`, and only on the home page (the other page heroes are stills on
+  purpose). The clips are stock footage from the intro video project
+  (`intro_video/docs/footage-catalog.md` has what each shows and its license).
+  `scripts/encode-videos.mjs` cuts them into seamless loops at a few widths
+  (`public/videos/<name>-<width>.mp4`, plus an AV1 copy of the hero) and a
+  first-frame poster in `src/assets/images/video/`; to change a clip, edit its
+  entry there and run `node scripts/encode-videos.mjs <name>`. The component's
+  `sources` prop must list the same widths. It renders the poster as a normal
+  `<Image>`, only loads the video after page load and when on screen, never
+  with reduced motion, Save-Data, or 2G, and uses AV1 only where the device
+  decodes it in hardware. It adds a pause button, which WCAG requires for
+  autoplaying motion; pass `control={false}` only when another clip in the
+  same section already has one. Stock clips set the scene only: never caption
+  one, or place it next to our numbers, so that it reads as our own planting,
+  site, or people.
 - **New pages** are picked up by the sitemap automatically. To keep one out,
   add its URL to `excludedFromSitemap` in `astro.config.mjs`.
 - `public/robots.txt`, `public/_redirects`, and `public/_headers` are served

@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import CtaBand from "../components/CtaBand.astro";
 import stats from "../data/stats.json";
 import { Image } from "astro:assets";
-import canopyBanner from "../assets/images/canopyBanner.jpg";
+import homeHero from "../assets/images/homeHero.jpg";
 
 const givingDetails = [
   {
@@ -25,9 +25,9 @@ const givingDetails = [
   <section class="relative flex min-h-[60vh] items-center overflow-hidden">
     <Image
       id="hero-bg"
-      src={canopyBanner}
-      alt="Sunlight coming through the canopy of a mature hardwood forest with ferns below"
-      widths={[640, 828, 1200]}
+      src={homeHero}
+      alt="Hands settling a young native seedling into dark soil"
+      widths={[640, 1024, 1600]}
       sizes="100vw"
       quality={45}
       loading="eager"
