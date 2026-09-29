@@ -31,9 +31,16 @@ const FPS = 24;
 // The hero also gets an AV1 copy (`av1` is its crf), which is about half the
 // size at the same sharpness. The page only uses it on devices that decode
 // AV1 in hardware, so it never costs smoothness.
+//
+// A `portrait` size is for phones: each segment is cropped to 9:16 around
+// its `focus` (0 = left edge, 1 = right edge, default 0.5) at the source's
+// full 1080px height, so the subject stays centered on a tall screen instead
+// of falling off the side of a center crop. It gets its own poster,
+// <name>-portrait.jpg.
 const HERO = [
   { width: 1280, crf: 26, maxrate: "1600k", av1: 38 },
   { width: 1920, crf: 25, maxrate: "2800k", av1: 36 },
+  { portrait: true, width: 608, crf: 26, maxrate: "1000k", av1: 35 },
 ];
 const CARD = [
   { width: 720, crf: 25, maxrate: "1400k" },
@@ -50,11 +57,11 @@ const videos = [
     sizes: HERO,
     segments: [
       // Flipped so the sapling sits on the right, away from the heading.
-      { id: "pexels-32746150", start: 0, length: 7.1, flip: true }, // sapling close-up
+      { id: "pexels-32746150", start: 0, length: 7.1, flip: true, focus: 0.71 }, // sapling close-up
       { id: "pexels-28498901", start: 0, length: 6.2 }, // mist over broadleaf canopy
-      { id: "mixkit-51447", start: 2, length: 7.5 }, // river through forest
-      { id: "mixkit-34371", start: 0, length: 7.0 }, // sun through leaves, close-up
-      { id: "pexels-8525755", start: 52, length: 8.5 }, // wooded valley at sunset
+      { id: "mixkit-51447", start: 2, length: 7.5, focus: 0.45 }, // river through forest
+      { id: "mixkit-34371", start: 0, length: 7.0, focus: 0.58 }, // sun through leaves, close-up
+      { id: "pexels-8525755", start: 52, length: 8.5, focus: 0.38 }, // wooded valley at sunset
     ],
   },
   { name: "story-logging", sizes: SMALL, segments: [{ id: "pexels-2711297", start: 0, length: 11 }] },
@@ -69,6 +76,10 @@ const only = process.argv.slice(2);
 mkdirSync("public/videos", { recursive: true });
 mkdirSync("src/assets/images/video", { recursive: true });
 
+// 9:16 crop at full height, centered on the segment's focus.
+const portraitCrop = (s) =>
+  `crop=w=trunc(ih*9/32)*2:h=ih:x='max(0,min(iw-ow,iw*${s.focus ?? 0.5}-ow/2))'`;
+
 const ffmpeg = (args) => execFileSync("ffmpeg", ["-loglevel", "error", "-y", ...args], { stdio: "inherit" });
 
 for (const video of videos) {
@@ -76,13 +87,18 @@ for (const video of videos) {
   const { segments } = video;
   const total = segments.reduce((sum, s) => sum + s.length, 0) - (segments.length - 1) * FADE;
 
-  for (const { width, crf, maxrate, av1 } of video.sizes) {
+  for (const { width, crf, maxrate, av1, portrait } of video.sizes) {
     const inputs = segments.flatMap((s) => ["-i", join(SOURCE, `${s.id}.mp4`)]);
+    const frame = (s) =>
+      portrait
+        ? `${portraitCrop(s)},scale=${width}:${Math.round((width * 16) / 9 / 2) * 2}:flags=lanczos`
+        : `scale=${width}:-2:flags=lanczos`;
     const filters = segments.map(
       (s, i) =>
         `[${i}:v]trim=start=${s.start}:duration=${s.length},setpts=PTS-STARTPTS,` +
-        `${s.flip ? "hflip," : ""}scale=${width}:-2:flags=lanczos,fps=${FPS},setsar=1,format=yuv420p,settb=AVTB[s${i}]`
+        `${s.flip ? "hflip," : ""}${frame(s)},fps=${FPS},setsar=1,format=yuv420p,settb=AVTB[s${i}]`
     );
+    const file = `public/videos/${video.name}-${portrait ? "portrait" : width}`;
 
     // Chain the segments with crossfades.
     let chain = "s0";
@@ -111,24 +127,30 @@ for (const video of videos) {
       "-c:v", "libx264", "-preset", "slow", "-profile:v", "high",
       "-crf", String(crf), "-tune", "film", "-maxrate", maxrate, "-bufsize", maxrate.replace("k", "") * 2 + "k",
       ...common,
-      `public/videos/${video.name}-${width}.mp4`,
+      `${file}.mp4`,
       ...(av1
         ? ["-map", "[out2]", "-c:v", "libsvtav1", "-preset", "5", "-crf", String(av1), ...common,
-           `public/videos/${video.name}-${width}.av1.mp4`]
+           `${file}.av1.mp4`]
         : []),
     ]);
   }
 
   // Poster: the output's first frame is the first segment at FADE seconds.
   const first = segments[0];
-  ffmpeg([
-    "-ss", String(first.start + FADE),
-    "-i", join(SOURCE, `${first.id}.mp4`),
-    "-frames:v", "1",
-    ...(first.flip ? ["-vf", "hflip"] : []),
-    "-q:v", "3",
-    `src/assets/images/video/${video.name}.jpg`,
-  ]);
+  const posters = [["", first.flip ? "hflip" : ""]];
+  if (video.sizes.some((size) => size.portrait)) {
+    posters.push(["-portrait", [first.flip ? "hflip" : "", portraitCrop(first)].filter(Boolean).join(",")]);
+  }
+  for (const [suffix, vf] of posters) {
+    ffmpeg([
+      "-ss", String(first.start + FADE),
+      "-i", join(SOURCE, `${first.id}.mp4`),
+      "-frames:v", "1",
+      ...(vf ? ["-vf", vf] : []),
+      "-q:v", "3",
+      `src/assets/images/video/${video.name}${suffix}.jpg`,
+    ]);
+  }
 
   console.log(`${video.name}: ${(total - FADE).toFixed(1)} s`);
 }

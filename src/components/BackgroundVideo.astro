@@ -14,6 +14,9 @@
 //   included. Phones count at 1x to save data. With `av1`, devices that
 //   decode AV1 in hardware get the AV1 copy, about half the size; everyone
 //   else gets H.264, which every device decodes in hardware.
+// - With `portrait` (the poster from a `portrait` size in the encode script),
+//   phones held upright get a 9:16 cut framed on each shot's subject, and a
+//   matching poster, instead of a center crop of the wide clip.
 // - A pause button (WCAG 2.2.2) sits in the bottom-right corner. Pausing one
 //   clip pauses every clip, and the choice is remembered across pages.
 //
@@ -23,7 +26,7 @@
 // Position it with `class` (usually `absolute inset-0`). The wrapper takes
 // `id` so a page's parallax script can move it, and the pause button is a
 // sibling, outside the wrapper, so it doesn't drift with the parallax.
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 interface Props {
@@ -34,6 +37,7 @@ interface Props {
   sizes: string;
   quality: number;
   sources?: number[];
+  portrait?: ImageMetadata;
   av1?: boolean;
   hero?: boolean;
   control?: boolean;
@@ -50,6 +54,7 @@ const {
   sizes,
   quality,
   sources = [720, 1280],
+  portrait,
   av1 = false,
   hero = false,
   control = true,
@@ -57,25 +62,37 @@ const {
   class: className,
   style,
 } = Astro.props;
+
+// Must match PORTRAIT in the script below.
+const PORTRAIT_MEDIA = "(max-width: 767px) and (max-aspect-ratio: 4/5)";
+const portraitPoster = portrait
+  ? await getImage({ src: portrait, widths: [480, portrait.width], quality, format: "webp" })
+  : undefined;
 ---
 
 <div id={id} class:list={["overflow-hidden", className]} style={style} data-bg-video>
-  <Image
-    src={poster}
-    alt={alt}
-    widths={widths}
-    sizes={sizes}
-    quality={quality}
-    loading={hero ? "eager" : "lazy"}
-    fetchpriority={hero ? "high" : undefined}
-    decoding={hero ? "sync" : "async"}
-    class="absolute inset-0 h-full w-full object-cover"
-  />
+  <picture>
+    {portraitPoster && (
+      <source media={PORTRAIT_MEDIA} srcset={portraitPoster.srcSet.attribute} sizes="100vw" type="image/webp" />
+    )}
+    <Image
+      src={poster}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      quality={quality}
+      loading={hero ? "eager" : "lazy"}
+      fetchpriority={hero ? "high" : undefined}
+      decoding={hero ? "sync" : "async"}
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+  </picture>
   <video
     class="bg-video absolute inset-0 h-full w-full object-cover"
     data-name={name}
     data-sources={sources.join(",")}
     data-av1={av1 ? "" : undefined}
+    data-portrait={portrait ? "" : undefined}
     muted
     loop
     playsinline
@@ -115,6 +132,7 @@ const {
 
 <script>
   const KEY = "rot-bg-video";
+  const PORTRAIT = "(max-width: 767px) and (max-aspect-ratio: 4/5)";
   const roots = document.querySelectorAll<HTMLElement>("[data-bg-video]");
 
   const connection = (navigator as Navigator & {
@@ -159,14 +177,22 @@ const {
   const load = async (clip: Clip) => {
     clip.started = true;
     const { video, root } = clip;
-    const { name, sources = "", av1 } = video.dataset;
-    const widths = sources.split(",").map(Number);
-    // object-cover crops a 16:9 clip, so a tall box shows it wider than the box.
-    const cover = Math.max(root.clientWidth, (root.clientHeight * 16) / 9);
-    const density = window.innerWidth < 768 ? 1 : Math.min(window.devicePixelRatio || 1, 2);
-    const width = widths.find((w) => w >= cover * density * 0.9) ?? widths[widths.length - 1];
+    const { name, sources = "", av1, portrait } = video.dataset;
+    let file: string;
+    let width: number;
+    if (portrait !== undefined && window.matchMedia(PORTRAIT).matches) {
+      file = "portrait";
+      width = 608;
+    } else {
+      const widths = sources.split(",").map(Number);
+      // object-cover crops a 16:9 clip, so a tall box shows it wider than the box.
+      const cover = Math.max(root.clientWidth, (root.clientHeight * 16) / 9);
+      const density = window.innerWidth < 768 ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+      width = widths.find((w) => w >= cover * density * 0.9) ?? widths[widths.length - 1];
+      file = String(width);
+    }
     const useAv1 = av1 !== undefined && (await smoothAv1(width));
-    video.src = `/videos/${name}-${width}${useAv1 ? ".av1" : ""}.mp4`;
+    video.src = `/videos/${name}-${file}${useAv1 ? ".av1" : ""}.mp4`;
     video.addEventListener("playing", () => video.setAttribute("data-on", ""), { once: true });
     update();
   };
