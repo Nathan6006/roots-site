@@ -3,12 +3,16 @@ import Layout from "../layouts/Layout.astro";
 import StatBlock from "../components/StatBlock.astro";
 import EventCarousel from "../components/EventCarousel.astro";
 import CtaBand from "../components/CtaBand.astro";
+import BackgroundVideo from "../components/BackgroundVideo.astro";
 import ChapterMap from "../components/ChapterMap.astro";
 import { chapterCount, stateCount, spell } from "../lib/chapters";
 import stats from "../data/stats.json";
 import { Image } from "astro:assets";
-import homeHero from "../assets/images/homeHero.jpg";
-import homeImage1 from "../assets/images/homeImage1.jpg";
+import homeHeroPoster from "../assets/images/video/home-hero.jpg";
+import emissionsPoster from "../assets/images/video/band-emissions.jpg";
+import loggingPoster from "../assets/images/video/story-logging.jpg";
+import canopyPoster from "../assets/images/video/band-canopy.jpg";
+import ctaPoster from "../assets/images/video/cta-forest.jpg";
 import homeImage2 from "../assets/images/homeImage2.jpg";
 
 const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
@@ -21,21 +25,25 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   <!-- Hero -->
   <section class="relative flex h-[67vh] items-center overflow-hidden">
     <!-- Parallax background -->
-    <Image
+    <!-- Stock footage, not our sites: a sapling close-up, then forest shots
+         crossfading in one 30-second loop. -->
+    <BackgroundVideo
       id="hero-bg"
-      src={homeHero}
-      alt="Hands settling a young native seedling into dark soil"
-      widths={[640, 1024, 1600]}
+      name="home-hero"
+      poster={homeHeroPoster}
+      alt="A young sapling with pale new leaves against a soft green forest background"
+      widths={[640, 828, 1280, 1600, 1920]}
       sizes="100vw"
-      quality={50}
-      loading="eager"
-      fetchpriority="high"
-      decoding="sync"
-      class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover"
+      quality={60}
+      sources={[1280, 1920]}
+      av1
+      hero
+      class="absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full"
       style="will-change: transform;"
     />
-    <!-- Dark gradient overlay -->
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/70 via-canopy/60 to-canopy/80"></div>
+    <!-- Overlay: even on phones, where the text spans the width; on wider
+         screens darkest behind the text and lighter on the right. -->
+    <div class="pointer-events-none absolute inset-0 bg-canopy/65 md:bg-transparent md:bg-gradient-to-r md:from-canopy/80 md:via-canopy/50 md:to-canopy/20"></div>
     <!-- Soft fade into the page below -->
     <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24" style="background: linear-gradient(to bottom, rgba(251,250,245,0) 0%, rgba(251,250,245,0.02) 45%, rgba(251,250,245,0.08) 65%, rgba(251,250,245,0.2) 80%, rgba(251,250,245,0.45) 90%, rgba(251,250,245,0.75) 96%, rgba(251,250,245,1) 100%);"></div>
     <!-- Content -->
@@ -155,8 +163,18 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   <!-- Story: the why, made specific -->
   <section class="mx-auto mt-24 max-w-6xl px-6">
     <div class="grid items-center gap-12 md:grid-cols-2" data-reveal>
-      <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
-        <Image src={homeImage1} alt="A cleared woodlot left as bare stumps and fallen branches, with standing trees behind it" widths={[480, 768, 1050]} sizes="(min-width: 768px) 50vw, 100vw" quality={65} loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+      <!-- Stock footage of logging in general, not a place we work. -->
+      <div class="tilt-3d relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
+        <BackgroundVideo
+          name="story-logging"
+          poster={loggingPoster}
+          alt="Aerial view of a logging yard, with a loader carrying cut logs across bare red earth"
+          widths={[480, 768, 1050]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          quality={65}
+          sources={[640, 960]}
+          class="absolute inset-0"
+        />
       </div>
       <div>
         <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Why we plant</p>
@@ -195,6 +213,49 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
       </div>
       <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10 md:order-1">
         <Image src={homeImage2} alt="Two students marking planting spots with flags in an open field at the edge of the woods" widths={[480, 768, 1152]} sizes="(min-width: 768px) 50vw, 100vw" quality={65} loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Why trees: two stock clips side by side, emissions and a closed
+       canopy. Neither is one of our sites; keep the labels generic. -->
+  <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
+    <div class="max-w-2xl">
+      <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Why trees</p>
+      <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
+        Trees take carbon back out of the air.
+      </h2>
+      <p class="mt-5 leading-relaxed text-soil/75">
+        Burning fuel puts carbon dioxide into the atmosphere, where it traps
+        heat and warms the climate. A growing tree pulls that carbon back out
+        and stores it in its wood for as long as it stands.
+      </p>
+    </div>
+    <div class="mt-10 grid gap-6 md:grid-cols-2">
+      <div class="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
+        <BackgroundVideo
+          name="band-emissions"
+          poster={emissionsPoster}
+          alt="Industrial smokestacks in silhouette with clouds of smoke and steam rolling into a hazy sky"
+          widths={[480, 768, 1120]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          quality={65}
+          control={false}
+          class="absolute inset-0"
+        />
+        <p class="absolute bottom-4 left-4 rounded-full bg-paper/90 px-4 py-1.5 text-xs font-600 uppercase tracking-[0.18em] text-canopy">Emissions</p>
+      </div>
+      <div class="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
+        <BackgroundVideo
+          name="band-canopy"
+          poster={canopyPoster}
+          alt="Top-down view of a dense forest canopy split by a narrow road"
+          widths={[480, 768, 1120]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          quality={65}
+          class="absolute inset-0"
+        />
+        <p class="absolute bottom-4 left-4 rounded-full bg-paper/90 px-4 py-1.5 text-xs font-600 uppercase tracking-[0.18em] text-canopy">Canopy</p>
       </div>
     </div>
   </section>
@@ -306,6 +367,12 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   </section>
 
   <!-- Closing invitation -->
-  <CtaBand />
+  <CtaBand
+    video={{
+      name: "cta-forest",
+      poster: ctaPoster,
+      alt: "Tall trunks in a dark old forest, with moss hanging from the branches",
+    }}
+  />
 
 </Layout>

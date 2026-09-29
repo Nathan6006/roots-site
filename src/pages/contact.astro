@@ -7,18 +7,21 @@ import contactImage from "../assets/images/contactImage.jpg";
 const contactLinks = [
   {
     label: "Email",
+    icon: "email",
     value: stats.email,
     href: `mailto:${stats.email}`,
     body: "Best for landowner questions, partnerships, and volunteering.",
   },
   {
     label: "Instagram",
+    icon: "instagram",
     value: stats.instagramHandle,
     href: stats.instagram,
     body: "Photos and updates from our planting days.",
   },
   {
     label: "LinkedIn",
+    icon: "linkedin",
     value: "Roots of Tomorrow",
     href: stats.linkedin,
     body: "News about new chapters and partnerships.",
@@ -31,71 +34,22 @@ const topics = ["Volunteer days", "Land partnerships", "School or business proje
 const thankYouUrl = new URL("/thank-you/", Astro.site).href;
 ---
 
-<Layout title="Contact | Roots of Tomorrow" description="Send a message or email Roots of Tomorrow directly. Landowner questions and volunteer sign-ups reach the same inbox, and we read every one." seamlessFooter={true}>
-  <section class="grid lg:grid-cols-2 lg:items-stretch">
-    <!-- Left: contactImage.jpg with the heading + contact info overlaid.
-         Hidden on small screens, where we show just the form. -->
-    <div class="relative hidden items-center overflow-hidden lg:flex">
-      <Image
-        src={contactImage}
-        alt="A footpath running through green summer woods"
-        widths={[480, 624]}
-        quality={50}
-        sizes="(min-width: 1024px) 50vw, 1px"
-        loading="lazy"
-        decoding="async"
-        class="absolute inset-0 h-full w-full object-cover"
-      />
-      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/80 via-canopy/70 to-canopy/85"></div>
-
-      <div class="relative w-full px-6 py-16 sm:px-10 lg:px-14 lg:py-24">
-        <p class="text-sm font-600 uppercase tracking-[0.2em] text-sprout">Contact</p>
-        <h1 class="mt-3 font-display text-5xl font-600 leading-tight text-paper drop-shadow-lg sm:text-6xl">
-          Let's talk trees.
-        </h1>
-        <p class="mt-6 max-w-xl text-lg leading-relaxed text-paper/80">
-          Questions, ideas, land to plant, or just want to help? We read every message.
-        </p>
-
-        <div class="mt-10 grid gap-4">
-          {contactLinks.map((link) => (
-            <a href={link.href} class="group rounded-3xl border border-paper/25 bg-paper/10 p-6 backdrop-blur-sm transition duration-200 hover:bg-paper/20">
-              <div class="flex items-start justify-between gap-6">
-                <div>
-                  <p class="text-xs font-600 uppercase tracking-[0.2em] text-sprout">{link.label}</p>
-                  <h2 class="mt-2 break-words font-display text-2xl font-600 text-paper">{link.value}</h2>
-                </div>
-                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-paper/15 text-paper transition-all duration-200 group-hover:translate-x-0.5 group-hover:bg-paper group-hover:text-canopy">
-                  &rarr;
-                </span>
-              </div>
-              <p class="mt-4 max-w-2xl leading-relaxed text-paper/70">{link.body}</p>
-            </a>
-          ))}
-        </div>
-
-        <div class="mt-6">
-          <p class="text-xs font-600 uppercase tracking-[0.2em] text-sprout">Reach out about...</p>
-          <div class="mt-4 flex flex-wrap gap-3">
-            {topics.map((topic) => (
-              <span class="rounded-full border border-paper/25 bg-paper/10 px-4 py-2 text-sm font-500 text-paper/80">
-                {topic}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+<Layout title="Contact | Roots of Tomorrow" description="Send a message or email Roots of Tomorrow directly. Landowner questions and volunteer sign-ups reach the same inbox, and we read every one.">
+  <section class="mx-auto max-w-6xl px-6 pt-16 sm:pt-20">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Contact</p>
+      <h1 class="mt-3 font-display text-5xl font-600 leading-tight text-canopy sm:text-6xl">
+        Let's talk trees.
+      </h1>
+      <p class="mt-5 text-lg leading-relaxed text-soil/75">
+        Questions, ideas, land to plant, or just want to help? We read every message.
+      </p>
     </div>
 
-    <!-- Right: contact form (forwarded to stats.email via FormSubmit) -->
-    <div class="bg-cream/40 px-6 py-16 sm:px-10 lg:px-14 lg:py-24">
-      <div class="mx-auto max-w-xl">
-        <!-- Ghost eyebrow: mirrors the "Contact" label on the left so this
-             heading lines up with "Let's talk." on large screens. -->
-        <p class="invisible hidden text-sm font-600 uppercase tracking-[0.2em] lg:block" aria-hidden="true">Contact</p>
-        <h2 class="font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl lg:mt-3">
-          Send us a message
-        </h2>
+    <div class="mt-12 grid gap-8 lg:grid-cols-12" data-reveal>
+      <!-- Contact form (forwarded to stats.email via FormSubmit) -->
+      <div class="rounded-3xl border border-canopy/10 bg-paper p-7 shadow-sm sm:p-10 lg:col-span-7">
+        <h2 class="font-display text-3xl font-600 leading-tight text-canopy">Send us a message</h2>
         <p class="mt-3 leading-relaxed text-soil/70">
           This goes straight to our inbox, and we'll reply as soon as we can.
         </p>
@@ -108,30 +62,32 @@ const thankYouUrl = new URL("/thank-you/", Astro.site).href;
           <!-- Honeypot field to catch spam bots; real visitors leave it empty -->
           <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-          <div>
-            <label for="name" class="block text-sm font-600 text-canopy">Name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              autocomplete="name"
-              class="mt-2 w-full rounded-2xl border border-canopy/15 bg-paper px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:outline-none focus:ring-2 focus:ring-leaf/30"
-              placeholder="Your name"
-            />
-          </div>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="name" class="block text-sm font-600 text-canopy">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                autocomplete="name"
+                class="mt-2 w-full rounded-2xl border border-canopy/15 bg-cream/40 px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:bg-paper focus:outline-none focus:ring-2 focus:ring-leaf/30"
+                placeholder="Your name"
+              />
+            </div>
 
-          <div>
-            <label for="email" class="block text-sm font-600 text-canopy">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autocomplete="email"
-              class="mt-2 w-full rounded-2xl border border-canopy/15 bg-paper px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:outline-none focus:ring-2 focus:ring-leaf/30"
-              placeholder="you@example.com"
-            />
+            <div>
+              <label for="email" class="block text-sm font-600 text-canopy">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                class="mt-2 w-full rounded-2xl border border-canopy/15 bg-cream/40 px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:bg-paper focus:outline-none focus:ring-2 focus:ring-leaf/30"
+                placeholder="you@example.com"
+              />
+            </div>
           </div>
 
           <div>
@@ -141,7 +97,7 @@ const thankYouUrl = new URL("/thank-you/", Astro.site).href;
               name="message"
               rows="6"
               required
-              class="mt-2 w-full rounded-2xl border border-canopy/15 bg-paper px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:outline-none focus:ring-2 focus:ring-leaf/30"
+              class="mt-2 w-full rounded-2xl border border-canopy/15 bg-cream/40 px-4 py-3 text-soil transition-colors placeholder:text-soil/40 focus:border-leaf focus:bg-paper focus:outline-none focus:ring-2 focus:ring-leaf/30"
               placeholder="Tell us what's on your mind."
             ></textarea>
           </div>
@@ -154,6 +110,67 @@ const thankYouUrl = new URL("/thank-you/", Astro.site).href;
           </button>
         </form>
       </div>
+
+      <!-- Direct contact details -->
+      <aside class="overflow-hidden rounded-3xl bg-canopy text-paper shadow-xl ring-1 ring-canopy/20 lg:col-span-5">
+        <div class="relative h-36 sm:h-44">
+          <Image
+            src={contactImage}
+            alt="A footpath running through green summer woods"
+            widths={[480, 624]}
+            quality={60}
+            sizes="(min-width: 1024px) 440px, 100vw"
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/10 to-canopy"></div>
+        </div>
+
+        <div class="px-7 pb-8 sm:px-9">
+          <p class="text-xs font-600 uppercase tracking-[0.2em] text-sprout">Reach us directly</p>
+          <ul class="mt-3 divide-y divide-paper/15">
+            {contactLinks.map((link) => (
+              <li>
+                <a href={link.href} class="group flex items-start gap-4 py-5">
+                  <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-paper/10 text-sprout transition-colors duration-200 group-hover:bg-paper group-hover:text-canopy">
+                    {link.icon === "email" && (
+                      <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="5" width="18" height="14" rx="2" />
+                        <path d="m3 7 9 6 9-6" />
+                      </svg>
+                    )}
+                    {link.icon === "instagram" && (
+                      <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="5" />
+                        <circle cx="12" cy="12" r="4" />
+                        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                      </svg>
+                    )}
+                    {link.icon === "linkedin" && (
+                      <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="currentColor" aria-hidden="true">
+                        <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3v-11zm6.5 0h3.8v1.5h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1v5.45h-4v-4.83c0-1.15-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.91h-4v-11z" />
+                      </svg>
+                    )}
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block text-xs font-600 uppercase tracking-[0.2em] text-sprout">{link.label}</span>
+                    <span class="mt-1 block break-words font-display text-lg font-600 sm:text-xl text-paper underline decoration-transparent decoration-2 underline-offset-4 transition-colors group-hover:decoration-sprout">{link.value}</span>
+                    <span class="mt-1 block text-sm leading-relaxed text-paper/70">{link.body}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <p class="mt-4 text-xs font-600 uppercase tracking-[0.2em] text-sprout">Reach out about</p>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {topics.map((topic) => (
+              <li class="rounded-full bg-paper/10 px-3.5 py-1.5 text-sm text-paper/80">{topic}</li>
+            ))}
+          </ul>
+        </div>
+      </aside>
     </div>
   </section>
 </Layout>

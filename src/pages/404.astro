@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import leaves from "../assets/images/notFoundLeaves.jpg";
 ---
 
 <Layout
@@ -7,27 +9,41 @@ import Layout from "../layouts/Layout.astro";
   description="That page doesn't exist. The trees are fine, though."
   noindex={true}
 >
-  <section class="mx-auto flex min-h-[72vh] max-w-6xl flex-col items-start justify-center px-6 py-16">
-    <p class="font-display text-[7rem] font-600 leading-none tracking-tight text-sprout/60 sm:text-[11rem]">404</p>
-    <h1 class="mt-4 max-w-3xl font-display text-5xl font-600 leading-tight text-canopy sm:text-7xl">
-      This page got cleared.
-    </h1>
-    <p class="mt-7 max-w-xl text-xl leading-relaxed text-soil/75">
-      Unlike our forests, it isn't growing back. Try one of these instead.
-    </p>
-    <div class="mt-9 flex flex-wrap gap-4">
-      <a
-        href="/"
-        class="rounded-full bg-canopy px-8 py-3.5 text-base font-600 text-paper shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-lg"
-      >
-        Back to home
-      </a>
-      <a
-        href="/get-involved/"
-        class="rounded-full border border-canopy/25 px-8 py-3.5 text-base font-600 text-canopy transition-all duration-200 hover:-translate-y-0.5 hover:bg-canopy/5"
-      >
-        Get Involved
-      </a>
+  <section class="relative flex min-h-[72vh] items-center overflow-hidden">
+    <Image
+      src={leaves}
+      alt="Leaves in silhouette against a hazy rising sun"
+      widths={[640, 828, 1280, 1600]}
+      sizes="100vw"
+      quality={45}
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-canopy/70 via-canopy/65 to-canopy/85"></div>
+    <div class="relative mx-auto w-full max-w-6xl px-6 py-16">
+      <p class="font-display text-[7rem] font-600 leading-none tracking-tight text-sprout/70 sm:text-[11rem]">404</p>
+      <h1 class="mt-4 max-w-3xl font-display text-5xl font-600 leading-tight text-paper drop-shadow-lg sm:text-7xl">
+        This page got cleared.
+      </h1>
+      <p class="mt-7 max-w-xl text-xl leading-relaxed text-paper/80">
+        Unlike our forests, it isn't growing back. Try one of these instead.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-4">
+        <a
+          href="/"
+          class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg"
+        >
+          Back to home
+        </a>
+        <a
+          href="/get-involved/"
+          class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-paper/15"
+        >
+          Get Involved
+        </a>
+      </div>
     </div>
   </section>
 </Layout>
