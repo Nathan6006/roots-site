@@ -47,6 +47,7 @@ before considering a task done.
         StatBlock.astro      pulls numbers from data/stats.json
         Placeholder.astro    labeled placeholder for images not yet added
         BackgroundVideo.astro  muted looping stock clip over its poster image
+        YouTubeFilm.astro    click-to-play YouTube embed (the home page film)
       layouts/
         Layout.astro         shared shell: nav + footer + <head>. Every page wraps in this.
       assets/
@@ -177,6 +178,12 @@ directly; pass props instead.
   same section already has one. Stock clips set the scene only: never caption
   one, or place it next to our numbers, so that it reads as our own planting,
   site, or people.
+- **The film** on the home page is our intro film on YouTube, shown through
+  `YouTubeFilm.astro`: a poster frame saved from the film
+  (`src/assets/images/video/roots-film.jpg`) that swaps in a
+  youtube-nocookie player only when pressed, so nothing from YouTube loads
+  before that. Its music is CC BY, so keep the credit line under it, and
+  keep the YouTube note in the privacy policy while the embed exists.
 - **New pages** are picked up by the sitemap automatically. To keep one out,
   add its URL to `excludedFromSitemap` in `astro.config.mjs`.
 - `public/robots.txt`, `public/_redirects`, and `public/_headers` are served
