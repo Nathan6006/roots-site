@@ -14,10 +14,10 @@ import emissionsPoster from "../assets/images/video/band-emissions.jpg";
 import loggingPoster from "../assets/images/video/story-logging.jpg";
 import canopyPoster from "../assets/images/video/band-canopy.jpg";
 import ctaPoster from "../assets/images/video/cta-forest.jpg";
-import filmPoster from "../assets/images/video/roots-film.jpg";
 import YouTubeFilm from "../components/YouTubeFilm.astro";
 import homeImage2 from "../assets/images/homeImage2.jpg";
 
+const filmId = "n6i_r8BI4jc"; // our intro film on YouTube
 const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
 ---
 
@@ -167,25 +167,27 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
     </div>
   </section>
 
-  <!-- Our film. The poster is a frame saved from the film; YouTube only
-       loads once someone presses play. The track is CC BY, so the credit
+  <!-- Our film: a plain YouTube embed, with a link to the video on YouTube
+       above it for anyone the player fails for. The track is CC BY, so the credit
        has to stay. -->
   <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
     <h2 class="max-w-2xl font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
       Meet Roots of Tomorrow.
     </h2>
+    <a
+      href={`https://www.youtube.com/watch?v=${filmId}`}
+      target="_blank"
+      rel="noopener"
+      class="mt-4 inline-block text-sm font-600 text-leaf underline decoration-sprout decoration-2 underline-offset-4 transition-colors hover:text-canopy"
+    >Watch on YouTube&thinsp;&nearr;</a>
     <YouTubeFilm
-      videoId="n6i_r8BI4jc"
+      videoId={filmId}
       title="Meet Roots of Tomorrow, a short film"
-      poster={filmPoster}
-      alt="Title card reading Meet Roots of Tomorrow over sunlit woods, under the Roots of Tomorrow logo"
-      duration="1:17"
       class="mt-10"
-    />
-    <p class="mt-4 text-xs text-soil/70">
+    >
       Music: &ldquo;VHS Heroes&rdquo; by Punch Deck,
       <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener" class="underline decoration-sprout underline-offset-2 hover:text-leaf">CC BY 3.0</a>.
-    </p>
+    </YouTubeFilm>
   </section>
 
   <!-- Story: the why, made specific -->
