@@ -15,7 +15,7 @@ const { videoId, title, class: className } = Astro.props;
 ---
 
 <div class={className}>
-  <div class="relative aspect-video overflow-hidden rounded-3xl bg-canopy shadow-xl ring-1 ring-canopy/10">
+  <div class="relative aspect-video overflow-hidden rounded-3xl bg-canopy ring-1 ring-canopy/10">
     <iframe
       src={`https://www.youtube.com/embed/${videoId}?rel=0`}
       title={title}
