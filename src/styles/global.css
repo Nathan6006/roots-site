@@ -80,15 +80,6 @@ a {
   scroll-margin-top: 5rem;
 }
 
-/* Scroll-linked 3D tilt for content imagery (angle driven by a small script
-   in the page). Sits flat when centered in the viewport. */
-.tilt-3d {
-  transform: perspective(900px) rotateX(0deg);
-  transform-origin: center;
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
 /* Sections marked data-reveal rise gently into view as they're scrolled to
    (driven by an IntersectionObserver in Layout.astro). The html.js gate keeps
    everything visible for visitors without JavaScript. */

@@ -16,7 +16,7 @@ const {
 ---
 
 <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
-  <div class="relative overflow-hidden rounded-3xl bg-canopy px-8 py-14 text-center shadow-2xl ring-1 ring-canopy/20 sm:px-14 sm:py-16">
+  <div class="relative overflow-hidden rounded-3xl bg-canopy px-8 py-14 text-center shadow-sm ring-1 ring-canopy/20 sm:px-14 sm:py-16">
     <!-- Topographic contour lines, like the corner of a USGS map. Two nests of
          rings sit where the old glow blobs were: top right and bottom left. -->
     <svg
@@ -59,7 +59,7 @@ const {
     )}
 
     <div class="relative">
-      <p class:list={["text-xs font-600 uppercase tracking-[0.3em]", video ? "text-paper/90" : "text-sprout"]}>{eyebrow}</p>
+      <p class:list={["text-xs font-600 uppercase tracking-[0.14em]", video ? "text-paper/90" : "text-sprout"]}>{eyebrow}</p>
       <h2 class="mx-auto mt-4 max-w-2xl font-display text-3xl font-600 leading-tight text-paper sm:text-5xl">
         {heading}
       </h2>
@@ -67,14 +67,14 @@ const {
       <div class="mt-9 flex flex-wrap justify-center gap-4">
         <a
           href={primary.href}
-          class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg"
+          class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-colors duration-200 hover:bg-sprout"
         >
           {primary.label}
         </a>
         {secondary && (
           <a
             href={secondary.href}
-            class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-paper/15"
+            class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper transition-colors duration-200 hover:bg-paper/15"
           >
             {secondary.label}
           </a>

@@ -55,8 +55,8 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
     <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24" style="background: linear-gradient(to bottom, rgba(251,250,245,0) 0%, rgba(251,250,245,0.02) 45%, rgba(251,250,245,0.08) 65%, rgba(251,250,245,0.2) 80%, rgba(251,250,245,0.45) 90%, rgba(251,250,245,0.75) 96%, rgba(251,250,245,1) 100%);"></div>
     <!-- Content -->
     <div class="rise-in relative mx-auto w-full max-w-6xl px-8 pb-16 pt-24">
-      <p class="mb-5 text-xs font-600 uppercase tracking-[0.3em] text-paper">Native tree planting in Northeast Ohio</p>
-      <h1 class="max-w-4xl font-display text-5xl font-600 leading-[1.04] text-paper drop-shadow-lg sm:text-7xl md:text-8xl">
+      <p class="mb-5 text-xs font-600 uppercase tracking-[0.14em] text-paper">Native tree planting in Northeast Ohio</p>
+      <h1 class="max-w-4xl font-display text-5xl font-600 leading-[1.04] text-paper sm:text-7xl md:text-8xl">
         Roots of<br />Tomorrow
       </h1>
       <p class="mt-7 max-w-xl text-xl leading-relaxed text-paper">
@@ -64,10 +64,10 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         in Northeast Ohio.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="/get-involved/" class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-sprout hover:shadow-lg">
+        <a href="/get-involved/" class="rounded-full bg-paper px-8 py-3.5 text-base font-600 text-canopy shadow-md transition-colors duration-200 hover:bg-sprout">
           Get Involved
         </a>
-        <a href="/donate/" class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-paper/15">
+        <a href="/donate/" class="rounded-full border border-paper/60 px-8 py-3.5 text-base font-600 text-paper backdrop-blur-sm transition-colors duration-200 hover:bg-paper/15">
           Donate
         </a>
       </div>
@@ -83,33 +83,6 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
     }
   </script>
 
-  <!-- Scroll-linked 3D tilt for the content images (not the hero). -->
-  <script>
-    const tilts = document.querySelectorAll<HTMLElement>('.tilt-3d');
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (tilts.length && !reduce) {
-      let ticking = false;
-      const update = () => {
-        const mid = window.innerHeight / 2;
-        tilts.forEach((el) => {
-          const r = el.getBoundingClientRect();
-          if (r.height === 0) return; // skip hidden (e.g. desktop carousel on mobile)
-          const max = parseFloat(el.dataset.tilt || '16'); // degrees
-          let p = (r.top + r.height / 2 - mid) / mid; // -1 above .. +1 below center
-          p = Math.max(-1, Math.min(1, p));
-          el.style.transform = `perspective(900px) rotateX(${(-p * max).toFixed(2)}deg)`;
-        });
-        ticking = false;
-      };
-      const onScroll = () => {
-        if (!ticking) { ticking = true; requestAnimationFrame(update); }
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      update();
-    }
-  </script>
-
   <!-- Stats -->
   <section class="mx-auto max-w-6xl mt-8 px-6" data-reveal>
     <StatBlock />
@@ -120,19 +93,19 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   <section class="mx-auto mt-14 max-w-6xl px-6" data-reveal>
     <div class="flex flex-col items-center gap-10 text-center sm:flex-row sm:flex-wrap sm:items-start sm:justify-center sm:gap-x-12 sm:gap-y-8">
       <div>
-        <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">In partnership with</p>
+        <p class="text-[11px] font-600 uppercase tracking-[0.14em] text-moss">In partnership with</p>
         <p class="mt-2 font-display text-xl font-600 text-canopy">Holden Forests &amp; Gardens</p>
       </div>
       <div>
-        <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">With guidance from</p>
+        <p class="text-[11px] font-600 uppercase tracking-[0.14em] text-moss">With guidance from</p>
         <p class="mt-2 font-display text-xl font-600 text-canopy">ODNR Service Foresters</p>
       </div>
       <div>
-        <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">Fiscally sponsored by</p>
+        <p class="text-[11px] font-600 uppercase tracking-[0.14em] text-moss">Fiscally sponsored by</p>
         <p class="mt-2 font-display text-xl font-600 text-canopy">The Hack Foundation</p>
       </div>
       <div>
-        <p class="text-[11px] font-600 uppercase tracking-[0.2em] text-moss">Covered by</p>
+        <p class="text-[11px] font-600 uppercase tracking-[0.14em] text-moss">Covered by</p>
         <a
           href="https://www.geaugamapleleaf.com/news/roots-of-tomorrow-takes-burton-farm-back-to-nature/"
           target="_blank"
@@ -194,7 +167,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   <section class="mx-auto mt-24 max-w-6xl px-6">
     <div class="grid items-center gap-12 md:grid-cols-2" data-reveal>
       <!-- Stock footage of logging in general, not a place we work. -->
-      <div class="tilt-3d relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
+      <div class="relative aspect-[4/3] overflow-hidden rounded-3xl ring-1 ring-canopy/10">
         <BackgroundVideo
           name="story-logging"
           poster={loggingPoster}
@@ -207,7 +180,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         />
       </div>
       <div>
-        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Why we plant</p>
+        <p class="text-sm font-600 uppercase tracking-[0.14em] text-moss">Why we plant</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
           The forests near home are thinning out.
         </h2>
@@ -226,7 +199,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
 
     <div class="mt-20 grid items-center gap-12 md:grid-cols-2" data-reveal>
       <div class="md:order-2">
-        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">What we do</p>
+        <p class="text-sm font-600 uppercase tracking-[0.14em] text-moss">What we do</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
           Native trees, in the ground, by students.
         </h2>
@@ -241,8 +214,8 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           animals that left start coming back.
         </p>
       </div>
-      <div class="tilt-3d overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10 md:order-1">
-        <Image src={homeImage2} alt="Two students marking planting spots with flags in an open field at the edge of the woods" widths={[480, 768, 1152]} sizes="(min-width: 1152px) 540px, (min-width: 768px) 50vw, 100vw" quality={65} loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+      <div class="overflow-hidden rounded-3xl ring-1 ring-canopy/10 md:order-1">
+        <Image src={homeImage2} alt="Two students marking planting spots with flags in an open field at the edge of the woods" widths={[480, 768, 1152]} sizes="(min-width: 1152px) 540px, (min-width: 768px) 50vw, 100vw" quality={65} loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" />
       </div>
     </div>
   </section>
@@ -251,7 +224,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
        canopy. Neither is one of our sites; keep the labels generic. -->
   <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
     <div class="max-w-2xl">
-      <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Why trees</p>
+      <p class="text-sm font-600 uppercase tracking-[0.14em] text-moss">Why trees</p>
       <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
         Trees take carbon back out of the air.
       </h2>
@@ -262,7 +235,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
       </p>
     </div>
     <div class="mt-10 grid gap-6 md:grid-cols-2">
-      <div class="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
+      <div class="relative aspect-[4/3] overflow-hidden rounded-3xl ring-1 ring-canopy/10">
         <BackgroundVideo
           name="band-emissions"
           poster={emissionsPoster}
@@ -273,9 +246,9 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           control={false}
           class="absolute inset-0"
         />
-        <p class="absolute bottom-4 left-4 rounded-full bg-paper/90 px-4 py-1.5 text-xs font-600 uppercase tracking-[0.18em] text-canopy">Emissions</p>
+        <p class="absolute bottom-4 left-4 rounded-full bg-paper/90 px-4 py-1.5 text-xs font-600 uppercase tracking-[0.14em] text-canopy">Emissions</p>
       </div>
-      <div class="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-canopy/10">
+      <div class="relative aspect-[4/3] overflow-hidden rounded-3xl ring-1 ring-canopy/10">
         <BackgroundVideo
           name="band-canopy"
           poster={canopyPoster}
@@ -285,7 +258,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           quality={65}
           class="absolute inset-0"
         />
-        <p class="absolute bottom-4 left-4 rounded-full bg-paper/90 px-4 py-1.5 text-xs font-600 uppercase tracking-[0.18em] text-canopy">Canopy</p>
+        <p class="absolute bottom-4 left-4 rounded-full bg-paper/90 px-4 py-1.5 text-xs font-600 uppercase tracking-[0.14em] text-canopy">Canopy</p>
       </div>
     </div>
   </section>
@@ -300,7 +273,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
        text, and never use a quote that names a student inside the quote. -->
   <section class="mx-auto mt-24 max-w-6xl px-6" data-reveal>
     <div class="max-w-2xl">
-      <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">From the landowners</p>
+      <p class="text-sm font-600 uppercase tracking-[0.14em] text-moss">From the landowners</p>
       <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
         In their words.
       </h2>
@@ -316,7 +289,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
         remarkable due to the poor summer weather conditions and the fact that
         they did the job correctly.
       </blockquote>
-      <figcaption class="mt-8 text-xs font-600 uppercase tracking-[0.18em] text-moss">
+      <figcaption class="mt-8 text-xs font-600 uppercase tracking-[0.14em] text-moss">
         Chris Rea &amp; Dr. Renee Lambert &middot; Chestnut Ridge Farm, Burton Township
       </figcaption>
     </figure>
@@ -328,7 +301,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           the forester worked with them before. Once they get going, they
           go!&rdquo;
         </blockquote>
-        <figcaption class="mt-5 text-xs font-600 uppercase tracking-[0.18em] text-moss">
+        <figcaption class="mt-5 text-xs font-600 uppercase tracking-[0.14em] text-moss">
           Chris Rea
           <span class="mt-1 block">
             <a
@@ -346,7 +319,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
           &ldquo;I reached out and, without hesitation, the needed volunteers
           were mobilized to help us keep our planting on track.&rdquo;
         </blockquote>
-        <figcaption class="mt-5 text-xs font-600 uppercase tracking-[0.18em] text-moss">
+        <figcaption class="mt-5 text-xs font-600 uppercase tracking-[0.14em] text-moss">
           Jennifer Villwock
           <span class="mt-1 block text-soil/50">Happy Suns Farm, Vermillion</span>
         </figcaption>
@@ -360,7 +333,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
   <section class="mt-24 bg-cream/60 px-6 py-20">
     <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2" data-reveal>
       <div>
-        <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Beyond Northeast Ohio</p>
+        <p class="text-sm font-600 uppercase tracking-[0.14em] text-moss">Beyond Northeast Ohio</p>
         <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
           It started here. Now it's in {spell(stateCount)} states.
         </h2>
@@ -383,7 +356,7 @@ const counties = stats.counties.join(", ").replace(/, ([^,]*)$/, ", and $1");
 
         <a
           href="/chapter/"
-          class="group mt-9 inline-flex items-center gap-2 rounded-full bg-canopy px-7 py-3.5 text-base font-600 text-paper shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-leaf hover:shadow-md"
+          class="group mt-9 inline-flex items-center gap-2 rounded-full bg-canopy px-7 py-3.5 text-base font-600 text-paper shadow-sm transition-colors duration-200 hover:bg-leaf"
         >
           Start a chapter
           <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>

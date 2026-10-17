@@ -39,7 +39,7 @@ const track = [...photos, ...photos];
 ---
 
 <section class="mx-auto max-w-6xl px-6 pt-24" data-reveal>
-  <p class="text-sm font-600 uppercase tracking-[0.2em] text-moss">Past Events</p>
+  <p class="text-sm font-600 uppercase tracking-[0.14em] text-moss">Past Events</p>
   <h2 class="mt-3 font-display text-3xl font-600 leading-tight text-canopy sm:text-4xl">
     Planting days across Northeast Ohio.
   </h2>
@@ -82,12 +82,12 @@ const track = [...photos, ...photos];
   </div>
 
   <!-- Desktop: auto-scrolling, infinitely looping marquee. -->
-  <div class="carousel tilt-3d mt-8 hidden overflow-hidden sm:block" data-tilt="7">
+  <div class="carousel mt-8 hidden overflow-hidden sm:block">
     <div class="track flex w-max">
       {track.map((p, i) => (
         <figure
           aria-hidden={i >= photos.length ? "true" : undefined}
-          class="relative mr-6 h-80 w-80 flex-none overflow-hidden rounded-2xl shadow-md ring-1 ring-canopy/10 transition-all duration-500 ease-out hover:scale-[1.03] hover:shadow-xl"
+          class="relative mr-6 h-80 w-80 flex-none overflow-hidden rounded-2xl ring-1 ring-canopy/10"
         >
           <Image
             src={p.src}
