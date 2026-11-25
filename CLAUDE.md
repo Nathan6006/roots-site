@@ -214,7 +214,10 @@ directly; pass props instead.
   `stats.json`. The map pin (placed by projecting lat/lon in
   `ChapterMap.astro`), the filled-in state, and every chapter/state count on
   the home and chapter pages update from that. Lower 48 only; Alaska and
-  Hawaii would need the inset math added.
+  Hawaii would need the inset math added. A chapter outside the US goes in
+  `internationalChapters` as `{ city, country, lat, lon }`, never in
+  `chapters`. The chapter outreach script reads both lists from the raw file
+  on GitHub, so keep those key names.
 - Keep components small and reusable. If the same markup appears on two pages,
   pull it into `src/components/`.
 
